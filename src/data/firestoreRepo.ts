@@ -59,13 +59,13 @@ export function createFirestoreRepo(): Repo {
       );
       return onSnapshot(
         q,
-        { includeMetadataChanges: false },
+        { includeMetadataChanges: true },
         (snap) => {
           const days: Record<DateKey, DayDoc> = {};
           snap.forEach((d) => {
             days[d.id] = toDayDoc(d.data());
           });
-          cb(days);
+          cb(days, { fromCache: snap.metadata.fromCache });
         },
         (e) => onError?.(e),
       );

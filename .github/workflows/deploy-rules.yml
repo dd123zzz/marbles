@@ -1,11 +1,7 @@
 name: Deploy Firestore rules
 
+# Manual only. Pushes to main deploy rules from the deploy-rules job in ci.yml, after checks pass.
 on:
-  push:
-    branches: [main]
-    paths:
-      - firestore.rules
-      - firebase.json
   workflow_dispatch:
 
 jobs:

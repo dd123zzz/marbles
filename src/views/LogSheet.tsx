@@ -24,30 +24,58 @@ interface LogSheetProps {
   mode: SheetMode;
   now: Date;
   settings: Settings;
+  settingsLoading: boolean;
   onClose: () => void;
 }
 
 const CATEGORIES: Category[] = ['g', 'b', 'r'];
 const START_OPTIONS = startOptions();
 const DURATION_OPTIONS = durationOptions();
+/** After this long with only cached data we assume we are offline and let the user log. */
+const CACHE_GRACE_MS = 4000;
+
+function useOffline(): boolean {
+  const [offline, setOffline] = useState(() => !navigator.onLine);
+  useEffect(() => {
+    const update = () => setOffline(!navigator.onLine);
+    window.addEventListener('online', update);
+    window.addEventListener('offline', update);
+    return () => {
+      window.removeEventListener('online', update);
+      window.removeEventListener('offline', update);
+    };
+  }, []);
+  return offline;
+}
 
 function reportWriteError(e: unknown) {
   const msg = e instanceof Error ? e.message : String(e);
   window.alert(`Could not save your changes: ${msg}`);
 }
 
-export default function LogSheet({ uid, mode, now, settings, onClose }: LogSheetProps) {
+export default function LogSheet({
+  uid,
+  mode,
+  now,
+  settings,
+  settingsLoading,
+  onClose,
+}: LogSheetProps) {
   const repo = useRepo();
   const original = mode.kind === 'edit' ? mode.entry : undefined;
   const anchor = mode.kind === 'edit' ? mode.entry.date : mode.date;
   const [form, setForm] = useState<FormState>(() =>
-    mode.kind === 'edit' ? editForm(mode.entry) : createForm(mode),
+    mode.kind === 'edit' ? editForm(mode.entry) : createForm(mode, now),
   );
   const [error, setError] = useState<string | null>(null);
   const firstRef = useRef<HTMLInputElement>(null);
+  const offline = useOffline();
+  const [graceElapsed, setGraceElapsed] = useState(false);
 
   useEffect(() => {
     firstRef.current?.focus();
+    const t = setTimeout(() => setGraceElapsed(true), CACHE_GRACE_MS);
+    return () => clearTimeout(t);
   }, []);
 
   // Day docs the entry can touch: the original's day pair, plus the form date's pair when it differs.
@@ -58,7 +86,10 @@ export default function LogSheet({ uid, mode, now, settings, onClose }: LogSheet
   const b = useDays(sameDate ? undefined : uid, form2.start, form2.end);
   const loading = a.loading || (!sameDate && b.loading);
   const loadError = a.error ?? (sameDate ? null : b.error);
+  const fromCache = a.fromCache || (!sameDate && b.fromCache);
   const days: Record<DateKey, DayDoc> = { ...a.days, ...(sameDate ? {} : b.days) };
+  // A partial cache can lack docs that exist on the server; writing from it could wipe them.
+  const daysReady = !loading && (!fromCache || offline || graceElapsed);
 
   const patch = (p: Partial<FormState>) => {
     setForm((f) => ({ ...f, ...p }));
@@ -103,7 +134,8 @@ export default function LogSheet({ uid, mode, now, settings, onClose }: LogSheet
     if (Object.keys(changed).length > 0) repo.writeDays(uid, changed).catch(reportWriteError);
   };
 
-  const blocked = loading || loadError !== null;
+  const blocked = !daysReady || settingsLoading || loadError !== null;
+  const syncing = loadError === null && (!daysReady || settingsLoading);
   const isEdit = mode.kind === 'edit';
 
   return (
@@ -184,6 +216,11 @@ export default function LogSheet({ uid, mode, now, settings, onClose }: LogSheet
           </p>
         )}
 
+        {syncing && (
+          <p className="muted" role="status">
+            Syncing…
+          </p>
+        )}
         {!isEdit && <p className="muted">Tap a category to save</p>}
         <div className="categories">
           {CATEGORIES.map((c) => (

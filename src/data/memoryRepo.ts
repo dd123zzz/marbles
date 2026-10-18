@@ -61,7 +61,7 @@ export function createMemoryRepo(): Repo {
         for (const [date, day] of Object.entries(user(uid).days)) {
           if (date >= start && date <= end) out[date] = structuredClone(day);
         }
-        cb(out);
+        cb(out, { fromCache: false });
       });
     },
 

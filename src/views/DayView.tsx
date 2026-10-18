@@ -24,7 +24,7 @@ function Day({ param }: { param: string | undefined }) {
   const now = useNow();
   const today = toDateKey(now);
   const date = param ?? today;
-  const { settings } = useSettings(uid);
+  const { settings, loading: settingsLoading } = useSettings(uid);
   const { days, loading, error } = useDays(uid, date, date);
   const [sheet, setSheet] = useState<{ mode: SheetMode; id: number } | null>(null);
 
@@ -94,7 +94,12 @@ function Day({ param }: { param: string | undefined }) {
         </>
       )}
 
-      <button type="button" className="primary big" disabled={isFuture || !uid} onClick={logTime}>
+      <button
+        type="button"
+        className="primary big"
+        disabled={isFuture || !uid || settingsLoading}
+        onClick={logTime}
+      >
         Log time
       </button>
 
@@ -121,6 +126,7 @@ function Day({ param }: { param: string | undefined }) {
           mode={sheet.mode}
           now={now}
           settings={settings}
+          settingsLoading={settingsLoading}
           onClose={() => setSheet(null)}
         />
       )}

@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { act, cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { AuthProvider } from '../auth/AuthProvider.tsx';
@@ -21,23 +21,44 @@ const auth: AuthBackend = {
   signOut: async () => {},
 };
 
-function fakeRepo(initial: Record<string, DayDoc> = {}) {
+function fakeRepo(
+  initial: Record<string, DayDoc> = {},
+  opts: { cacheOnly?: boolean; holdSettings?: boolean } = {},
+) {
+  const dayListeners = new Set<() => void>();
+  let fromCache = opts.cacheOnly ?? false;
+  let settingsCb: ((s: typeof DEFAULT_SETTINGS) => void) | null = null;
   const writeDays = vi.fn<Repo['writeDays']>(async () => {});
   const repo: Repo = {
     subscribeSettings(_uid, cb) {
-      queueMicrotask(() => cb(DEFAULT_SETTINGS));
+      if (opts.holdSettings) settingsCb = cb;
+      else queueMicrotask(() => cb(DEFAULT_SETTINGS));
       return () => {};
     },
     saveSettings: async () => {},
     subscribeDays(_uid, start, end, cb) {
-      queueMicrotask(() =>
-        cb(Object.fromEntries(Object.entries(initial).filter(([k]) => k >= start && k <= end))),
-      );
-      return () => {};
+      const emit = () =>
+        cb(Object.fromEntries(Object.entries(initial).filter(([k]) => k >= start && k <= end)), {
+          fromCache,
+        });
+      dayListeners.add(emit);
+      queueMicrotask(emit);
+      return () => {
+        dayListeners.delete(emit);
+      };
     },
     writeDays,
   };
-  return { repo, writeDays };
+  return {
+    repo,
+    writeDays,
+    serverArrives: () => {
+      fromCache = false;
+      dayListeners.forEach((f) => f());
+    },
+    loadSettings: () => settingsCb?.(DEFAULT_SETTINGS),
+    settingsRequested: () => settingsCb !== null,
+  };
 }
 
 function renderDay(repo: Repo, path = '/') {
@@ -55,6 +76,12 @@ function renderDay(repo: Repo, path = '/') {
   );
 }
 
+async function openLogSheet() {
+  const btn = (await screen.findByRole('button', { name: 'Log time' })) as HTMLButtonElement;
+  await vi.waitFor(() => expect(btn.disabled).toBe(false));
+  fireEvent.click(btn);
+}
+
 beforeEach(() => {
   vi.useFakeTimers({ toFake: ['Date'] });
   vi.setSystemTime(new Date(2026, 9, 14, 14, 20));
@@ -68,7 +95,7 @@ describe('DayView', () => {
   it('logs the previous hour as Wanted in two taps', async () => {
     const { repo, writeDays } = fakeRepo();
     renderDay(repo);
-    fireEvent.click(await screen.findByRole('button', { name: 'Log time' }));
+    await openLogSheet();
     const wanted = await screen.findByRole('button', { name: 'Wanted' });
     await vi.waitFor(() => expect((wanted as HTMLButtonElement).disabled).toBe(false));
     fireEvent.click(wanted);
@@ -100,6 +127,53 @@ describe('DayView', () => {
     await vi.waitFor(() => expect((del as HTMLButtonElement).disabled).toBe(false));
     fireEvent.click(del);
     expect(writeDays.mock.calls[0][1]['2026-10-14'].slots).toBe('.'.repeat(48));
+  });
+
+  it('does not save from a cache-only snapshot until the server answers', async () => {
+    const { repo, writeDays, serverArrives } = fakeRepo({}, { cacheOnly: true });
+    renderDay(repo);
+    await openLogSheet();
+    const wanted = (await screen.findByRole('button', { name: 'Wanted' })) as HTMLButtonElement;
+    expect(await screen.findByText('Syncing…')).toBeTruthy();
+    expect(wanted.disabled).toBe(true);
+    serverArrives();
+    await vi.waitFor(() => expect(wanted.disabled).toBe(false));
+    expect(screen.queryByText('Syncing…')).toBeNull();
+    fireEvent.click(wanted);
+    expect(writeDays).toHaveBeenCalledTimes(1);
+  });
+
+  it('allows saving from the cache when offline', async () => {
+    const online = vi.spyOn(navigator, 'onLine', 'get').mockReturnValue(false);
+    const { repo, writeDays } = fakeRepo({}, { cacheOnly: true });
+    renderDay(repo);
+    await openLogSheet();
+    const wanted = (await screen.findByRole('button', { name: 'Wanted' })) as HTMLButtonElement;
+    await vi.waitFor(() => expect(wanted.disabled).toBe(false));
+    fireEvent.click(wanted);
+    expect(writeDays).toHaveBeenCalledTimes(1);
+    online.mockRestore();
+  });
+
+  it('allows saving from the cache after the grace period', async () => {
+    const { repo, writeDays } = fakeRepo({}, { cacheOnly: true });
+    renderDay(repo);
+    await openLogSheet();
+    const wanted = (await screen.findByRole('button', { name: 'Wanted' })) as HTMLButtonElement;
+    expect(wanted.disabled).toBe(true);
+    await vi.waitFor(() => expect(wanted.disabled).toBe(false), { timeout: 6000 });
+    fireEvent.click(wanted);
+    expect(writeDays).toHaveBeenCalledTimes(1);
+  }, 10000);
+
+  it('disables Log time until settings have loaded', async () => {
+    const { repo, loadSettings, settingsRequested } = fakeRepo({}, { holdSettings: true });
+    renderDay(repo);
+    const btn = (await screen.findByRole('button', { name: 'Log time' })) as HTMLButtonElement;
+    expect(btn.disabled).toBe(true);
+    await vi.waitFor(() => expect(settingsRequested()).toBe(true));
+    act(() => loadSettings());
+    await vi.waitFor(() => expect(btn.disabled).toBe(false));
   });
 
   it('disables logging for a future day', async () => {

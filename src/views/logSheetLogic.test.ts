@@ -6,9 +6,11 @@ import {
   createForm,
   defaultStartFor,
   describeRange,
+  defaultLengthFor,
   durationOptions,
   editForm,
   formatDuration,
+  maxLengthFor,
   planSave,
   startOptions,
 } from './logSheetLogic';
@@ -60,9 +62,34 @@ describe('options and formatting', () => {
   });
 });
 
+describe('defaultLengthFor', () => {
+  const D = '2026-10-14';
+  it('allows 1h when the second half-hour has started', () => {
+    expect(defaultLengthFor('2026-10-14', 46, at(2026, 10, 14, 23, 31))).toBe(2);
+  });
+  it('clamps to the current slot when only the first half-hour has started', () => {
+    expect(defaultLengthFor('2026-10-14', 46, at(2026, 10, 14, 23, 10))).toBe(1);
+    expect(defaultLengthFor(D, 28, at(2026, 10, 14, 14, 20))).toBe(1);
+  });
+  it('allows 1h for an earlier hour today', () => {
+    expect(defaultLengthFor(D, 26, at(2026, 10, 14, 14, 20))).toBe(2);
+  });
+  it('never goes below 1', () => {
+    expect(defaultLengthFor(D, 30, at(2026, 10, 14, 14, 20))).toBe(1);
+    expect(defaultLengthFor('2026-10-15', 0, at(2026, 10, 14, 14, 20))).toBe(1);
+  });
+  it('does not clamp past days', () => {
+    expect(defaultLengthFor('2026-10-10', 46, at(2026, 10, 14, 0, 5))).toBe(2);
+    expect(maxLengthFor('2026-10-10', 46, at(2026, 10, 14, 0, 5))).toBe(48);
+  });
+  it('counts slots up to and including the current one', () => {
+    expect(maxLengthFor(D, 20, at(2026, 10, 14, 14, 20))).toBe(9);
+  });
+});
+
 describe('forms', () => {
   it('creates a 1h form without a category', () => {
-    expect(createForm({ date: '2026-10-14', startSlot: 26 })).toEqual({
+    expect(createForm({ date: '2026-10-14', startSlot: 26 }, at(2026, 10, 14, 14, 20))).toEqual({
       date: '2026-10-14',
       startSlot: 26,
       length: 2,
@@ -71,7 +98,10 @@ describe('forms', () => {
     });
   });
   it('builds entries, trimming blank notes', () => {
-    const f = { ...createForm({ date: '2026-10-14', startSlot: 26 }), note: '  ' };
+    const f = {
+      ...createForm({ date: '2026-10-14', startSlot: 26 }, at(2026, 10, 14, 14, 20)),
+      note: '  ',
+    };
     expect(buildEntry(f, 'g')).toEqual({
       date: '2026-10-14',
       startSlot: 26,

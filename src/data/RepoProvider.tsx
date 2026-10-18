@@ -58,6 +58,7 @@ export function useSettings(uid: string | undefined): { settings: Settings; load
 interface DaysState {
   key: string;
   days: Record<DateKey, DayDoc>;
+  fromCache: boolean;
   error: Error | null;
 }
 const NO_DAYS: Record<DateKey, DayDoc> = {};
@@ -66,7 +67,7 @@ export function useDays(
   uid: string | undefined,
   start: DateKey,
   end: DateKey,
-): { days: Record<DateKey, DayDoc>; loading: boolean; error: Error | null } {
+): { days: Record<DateKey, DayDoc>; loading: boolean; fromCache: boolean; error: Error | null } {
   const repo = useRepo();
   const [state, setState] = useState<DaysState | null>(null);
   const key = `${uid}|${start}|${end}`;
@@ -77,8 +78,8 @@ export function useDays(
       uid,
       start,
       end,
-      (days) => setState({ key, days, error: null }),
-      (error) => setState({ key, days: NO_DAYS, error }),
+      (days, meta) => setState({ key, days, fromCache: meta.fromCache, error: null }),
+      (error) => setState({ key, days: NO_DAYS, fromCache: false, error }),
     );
   }, [repo, uid, start, end, key]);
 
@@ -86,6 +87,7 @@ export function useDays(
   return {
     days: ready ? state.days : NO_DAYS,
     loading: !ready,
+    fromCache: ready ? state.fromCache : false,
     error: ready ? state.error : null,
   };
 }

@@ -48,6 +48,16 @@ describe('memoryRepo', () => {
     expect(seen.at(-1)).toEqual(['2026-03-01', '2026-03-31']);
   });
 
+  it('never reports fromCache', async () => {
+    const repo = createMemoryRepo();
+    const metas: boolean[] = [];
+    repo.subscribeDays('u', '2026-03-01', '2026-03-31', (_d, m) => metas.push(m.fromCache));
+    await repo.writeDays('u', { '2026-03-02': day() });
+    await tick();
+    expect(metas.length).toBeGreaterThan(0);
+    expect(metas.every((m) => m === false)).toBe(true);
+  });
+
   it('does not notify after unsubscribe', async () => {
     const repo = createMemoryRepo();
     const cb = vi.fn();

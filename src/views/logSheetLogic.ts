@@ -1,7 +1,7 @@
 import type { Category, DateKey, DayDoc, Entry, SleepWindow } from '../types';
 import { SLOTS_PER_DAY } from '../types';
 import { applyEntry, findConflicts, validateEntry } from '../lib/entries';
-import { addDays, defaultStart, slotToHHmm, toDateKey } from '../lib/time';
+import { addDays, currentSlotInfo, defaultStart, slotToHHmm, toDateKey } from '../lib/time';
 
 export interface FormState {
   date: DateKey;
@@ -20,8 +20,29 @@ export function defaultStartFor(
   return viewDate === toDateKey(now) ? defaultStart(now) : { date: viewDate, startSlot: 18 };
 }
 
-export function createForm(start: { date: DateKey; startSlot: number }): FormState {
-  return { ...start, length: 2, note: '', category: null };
+/**
+ * Longest entry that has already started. Today it ends at the slot containing now;
+ * a future date allows only 1 slot (the sheet then reports it as a future entry).
+ */
+export function maxLengthFor(date: DateKey, startSlot: number, now: Date): number {
+  const today = toDateKey(now);
+  if (date < today) return SLOTS_PER_DAY;
+  if (date > today) return 1;
+  return Math.max(1, currentSlotInfo(now).slot - startSlot + 1);
+}
+
+/** 1 hour, shortened so it does not run past the current slot. */
+export function defaultLengthFor(date: DateKey, startSlot: number, now: Date): number {
+  return Math.max(1, Math.min(2, maxLengthFor(date, startSlot, now)));
+}
+
+export function createForm(start: { date: DateKey; startSlot: number }, now: Date): FormState {
+  return {
+    ...start,
+    length: defaultLengthFor(start.date, start.startSlot, now),
+    note: '',
+    category: null,
+  };
 }
 
 export function editForm(entry: Entry): FormState {

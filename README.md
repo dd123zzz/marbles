@@ -25,7 +25,7 @@ npm run dev        # http://localhost:5173/marbles/
 
 ## CI / deployment
 
-`.github/workflows/ci.yml` runs lint, format, typecheck, tests and build, the rules tests, and on `main` deploys `dist/` to GitHub Pages. `deploy-rules.yml` deploys `firestore.rules` when it changes (or manually).
+`.github/workflows/ci.yml` runs lint, format, typecheck, tests and build, the rules tests, and on `main` deploys `dist/` to GitHub Pages. On `main`, its `deploy-rules` job deploys `firestore.rules` only after the checks and rules tests pass and only when `firestore.rules` or `firebase.json` changed. `deploy-rules.yml` is a manual (`workflow_dispatch`) fallback.
 
 Repository **variables** (Settings → Secrets and variables → Actions → Variables):
 `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_STORAGE_BUCKET`, `VITE_FIREBASE_MESSAGING_SENDER_ID`, `VITE_FIREBASE_APP_ID`.
