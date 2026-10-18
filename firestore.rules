@@ -1,0 +1,56 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isOwner(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+
+    function validTime(t) {
+      return t is string && t.matches('^([01]\\d|2[0-3]):(00|30)$');
+    }
+
+    function validClock(t) {
+      return t is string && t.matches('^([01]\\d|2[0-3]):[0-5]\\d$');
+    }
+
+    // Fields are optional individually so a partial merge on a fresh doc is accepted
+    // (the client falls back to defaults); anything that is present must be valid.
+    function validSettings(d) {
+      return d.keys().hasOnly(['sleepStart', 'sleepEnd', 'weekStart', 'theme', 'v'])
+        && d.v == 1
+        && (!('sleepStart' in d) || validTime(d.sleepStart))
+        && (!('sleepEnd' in d) || validTime(d.sleepEnd))
+        && (!('weekStart' in d) || d.weekStart in ['mon', 'sun'])
+        && (!('theme' in d) || d.theme in ['system', 'light', 'dark']);
+    }
+
+    function validDay(id, d) {
+      return id.matches('^\\d{4}-\\d{2}-\\d{2}$')
+        && d.keys().hasOnly(['slots', 'notes', 'sleep', 'tz', 'reflection', 'updatedAt', 'v'])
+        && d.keys().hasAll(['slots', 'notes', 'sleep', 'tz', 'v'])
+        && d.slots is string && d.slots.matches('^[gbr.]{48}$')
+        && d.notes is map && d.notes.size() <= 48
+        && d.sleep is map
+        && d.sleep.keys().hasOnly(['start', 'end'])
+        && d.sleep.keys().hasAll(['start', 'end'])
+        && validClock(d.sleep.start)
+        && validClock(d.sleep.end)
+        && d.tz is string && d.tz.size() <= 64
+        && (!('reflection' in d) || (d.reflection is string && d.reflection.size() <= 1000))
+        && d.updatedAt == request.time
+        && d.v == 1;
+    }
+
+    match /users/{uid} {
+      allow read, delete: if isOwner(uid);
+      allow create, update: if isOwner(uid) && validSettings(request.resource.data);
+
+      match /days/{d} {
+        allow read, delete: if isOwner(uid);
+        allow create, update: if isOwner(uid) && validDay(d, request.resource.data);
+      }
+    }
+  }
+}
