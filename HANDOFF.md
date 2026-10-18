@@ -5,6 +5,7 @@ Running log, updated roughly every 100 AI credits spent (see [model_rate.md](./m
 ## Decisions (beyond SPEC/PLAN)
 - Sleep color: indigo `#4f46e5`. Sleep is excluded from "awake %" stats.
 - No Java on the dev machine, so the Firestore emulator can't run locally. Rules tests are written and will run in CI (which has Java).
+- `@firebase/rules-unit-testing@^6` (v5 needs firebase 12). Settings rule fields are optional but validated, and `v==1` is required.
 - No Firebase project yet. `.env.local` holds placeholders. **Demo mode** (`VITE_DEMO=true`) swaps in fake auth and an in-memory repo so the UI can be exercised locally.
 - Future slots render as empty, even inside the sleep window (precedence: logged > future → empty > sleep > unlogged gray).
 - A slot is loggable once it has started (slot start ≤ now).
@@ -15,3 +16,4 @@ Running log, updated roughly every 100 AI credits spent (see [model_rate.md](./m
 | # | Update | Est. credits (cumulative) |
 |---|---|--:|
 | 0 | Plan + rate table, kickoff | 6 |
+| 1 | Stage 0 local parts done: scaffold (Vite 8, React 19, RR 7, firebase 13, Vitest 5); `src/lib` time/jar/entries (152 tests); auth (Firebase popup + demo), repo (Firestore + in-memory demo), `firestore.rules` + rules tests (not run locally, no Java), CI and deploy workflows (not pushed). Next: Stage 1 UI (1.5–1.9). | ~98 |
