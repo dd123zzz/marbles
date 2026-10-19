@@ -4,10 +4,12 @@ import { useAuth } from '../auth/AuthProvider.tsx';
 import { useDays, useSettings } from '../data/RepoProvider.tsx';
 import { useNow } from '../hooks/useNow';
 import { fullDate, monthDay, monthTitle } from '../lib/dateLabels';
-import { CATEGORY_LABEL, MARBLE_COLORS } from '../lib/jar';
+import SegmentedControl from '../components/SegmentedControl.tsx';
+import { CATEGORY_LABEL } from '../lib/jar';
 import { computeStats, roundPct } from '../lib/stats';
 import { addDays, isValidDateKey, monthRange, parseDateKey, weekRange } from '../lib/time';
 import type { DateKey, MarbleColor, WeekStart } from '../types';
+import './stats.css';
 
 type Period = 'day' | 'week' | 'month';
 type Basis = 'awake' | 'day';
@@ -93,54 +95,54 @@ function Stats({ period, date }: { period: Period; date: DateKey }) {
       : stats.dayPct[k as keyof typeof stats.dayPct];
   const label = (k: RowKey): string => (k === 'notYet' ? 'Not yet' : CATEGORY_LABEL[ROW_COLOR[k]]);
 
+  const hasData = stats.hours.g + stats.hours.b + stats.hours.r > 0;
+
   return (
-    <div className="stats">
-      <nav className="tabs" aria-label="Stats period">
+    <div className="stack">
+      <nav className="segmented" aria-label="Stats period">
         {PERIODS.map((p) => (
           <Link
             key={p}
             to={`/stats/${p}/${date}`}
             aria-current={p === period ? 'page' : undefined}
-            className={p === period ? 'active' : ''}
+            className="segment"
           >
             {PERIOD_LABEL[p]}
           </Link>
         ))}
       </nav>
-      <div className="datebar">
-        <Link
-          to={`/stats/${period}/${shiftAnchor(period, date, -1)}`}
-          aria-label={`Previous ${period}`}
-        >
-          ‹ Prev
-        </Link>
-        <h1>{title(period, keys)}</h1>
-        <Link to={`/stats/${period}/${shiftAnchor(period, date, 1)}`} aria-label={`Next ${period}`}>
-          Next ›
-        </Link>
-      </div>
+      <header className="card date-card">
+        <div className="date-nav">
+          <Link
+            className="icon-btn"
+            to={`/stats/${period}/${shiftAnchor(period, date, -1)}`}
+            aria-label={`Previous ${period}`}
+          >
+            ‹
+          </Link>
+          <div className="date-title">
+            <h1>{title(period, keys)}</h1>
+          </div>
+          <Link
+            className="icon-btn"
+            to={`/stats/${period}/${shiftAnchor(period, date, 1)}`}
+            aria-label={`Next ${period}`}
+          >
+            ›
+          </Link>
+        </div>
+      </header>
 
-      <fieldset className="basis-toggle">
-        <legend>Percentages</legend>
-        <label className="inline">
-          <input
-            type="radio"
-            name="basis"
-            checked={basis === 'awake'}
-            onChange={() => setBasis('awake')}
-          />
-          Of awake time
-        </label>
-        <label className="inline">
-          <input
-            type="radio"
-            name="basis"
-            checked={basis === 'day'}
-            onChange={() => setBasis('day')}
-          />
-          Of 24 hours
-        </label>
-      </fieldset>
+      <SegmentedControl
+        legend="Percentages"
+        name="basis"
+        value={basis}
+        options={[
+          { value: 'awake', label: 'Of awake time' },
+          { value: 'day', label: 'Of 24 hours' },
+        ]}
+        onChange={setBasis}
+      />
 
       {error && (
         <p role="alert" className="error">
@@ -148,57 +150,65 @@ function Stats({ period, date }: { period: Period; date: DateKey }) {
         </p>
       )}
       {loading ? (
-        <p>Loading…</p>
+        <p className="loading">Loading…</p>
+      ) : !hasData ? (
+        <section className="card empty-card">
+          <h2>No data yet</h2>
+          <p className="muted">
+            Nothing is logged for this {period}. Log some time on the Day tab and the totals will
+            show up here.
+          </p>
+        </section>
       ) : (
         <>
-          <table className="stats-table">
-            <thead>
-              <tr>
-                <th scope="col">Category</th>
-                <th scope="col">Hours</th>
-                <th scope="col">%</th>
-              </tr>
-            </thead>
-            <tbody>
-              {ROWS[basis].map((k) => (
-                <tr key={k} className={`stats-row stats-${k}`}>
-                  <th scope="row">{label(k)}</th>
-                  <td>{fmtHours(stats.hours[k])}</td>
-                  <td>{roundPct(pctOf(k)).toFixed(1)}%</td>
+          <section className="card">
+            <h2>Time by category</h2>
+            <ul className="stats-bars">
+              {ROWS[basis].map((k) => {
+                const p = roundPct(pctOf(k));
+                return (
+                  <li key={k} className="stats-bar-row">
+                    <span className="stats-bar-label">
+                      <span className={`dot dot-${ROW_COLOR[k]}`} aria-hidden="true" />
+                      {label(k)} {p.toFixed(1)}%
+                    </span>
+                    <span className="stats-bar-track" aria-hidden="true">
+                      <span
+                        className={`stats-bar stats-bar-${ROW_COLOR[k]}`}
+                        style={{ width: `${pctOf(k)}%` }}
+                      />
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
+          <section className="card">
+            <table className="stats-table">
+              <thead>
+                <tr>
+                  <th scope="col">Category</th>
+                  <th scope="col">Hours</th>
+                  <th scope="col">%</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-          <ul className="stats-bars">
-            {ROWS[basis].map((k) => {
-              const p = roundPct(pctOf(k));
-              return (
-                <li key={k} className="stats-bar-row">
-                  <span className="stats-bar-label">
-                    {label(k)} {p.toFixed(1)}%
-                  </span>
-                  <span className="stats-bar-track" aria-hidden="true">
-                    <span
-                      className="stats-bar"
-                      style={{
-                        display: 'block',
-                        height: '0.75rem',
-                        width: `${pctOf(k)}%`,
-                        background: MARBLE_COLORS[ROW_COLOR[k]],
-                        border: k === 'notYet' ? '1px dashed #9ca3af' : undefined,
-                      }}
-                    />
-                  </span>
-                </li>
-              );
-            })}
-          </ul>
-          {stats.hours.na > 0 && (
-            <p className="muted">
-              {fmtHours(stats.hours.na)} skipped by daylight saving time is not counted.
-            </p>
-          )}
-          {basis === 'awake' && <p className="muted">Sleep time is excluded.</p>}
+              </thead>
+              <tbody>
+                {ROWS[basis].map((k) => (
+                  <tr key={k} className={`stats-row stats-${k}`}>
+                    <th scope="row">{label(k)}</th>
+                    <td>{fmtHours(stats.hours[k])}</td>
+                    <td>{roundPct(pctOf(k)).toFixed(1)}%</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {stats.hours.na > 0 && (
+              <p className="muted">
+                {fmtHours(stats.hours.na)} skipped by daylight saving time is not counted.
+              </p>
+            )}
+            {basis === 'awake' && <p className="muted">Sleep time is excluded.</p>}
+          </section>
         </>
       )}
     </div>

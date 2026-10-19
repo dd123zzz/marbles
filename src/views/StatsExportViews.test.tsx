@@ -4,6 +4,7 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { AuthProvider } from '../auth/AuthProvider.tsx';
 import type { AuthBackend } from '../auth/types.ts';
+import { ToastProvider } from '../components/Toast.tsx';
 import { RepoProvider } from '../data/RepoProvider.tsx';
 import type { Repo } from '../data/repo.ts';
 import { DEFAULT_SETTINGS, type DayDoc } from '../types';
@@ -59,11 +60,13 @@ function renderAt(repo: Repo, path: string) {
     <MemoryRouter initialEntries={[path]}>
       <AuthProvider backend={auth}>
         <RepoProvider repo={repo}>
-          <Routes>
-            <Route path="/stats/:period/:date" element={<StatsView />} />
-            <Route path="/export" element={<ExportView />} />
-            <Route path="/" element={<p>home</p>} />
-          </Routes>
+          <ToastProvider>
+            <Routes>
+              <Route path="/stats/:period/:date" element={<StatsView />} />
+              <Route path="/export" element={<ExportView />} />
+              <Route path="/" element={<p>home</p>} />
+            </Routes>
+          </ToastProvider>
         </RepoProvider>
       </AuthProvider>
     </MemoryRouter>,
@@ -89,6 +92,12 @@ describe('StatsView', () => {
     expect(screen.getByRole('row', { name: /Sleep/ }).textContent).toContain('8h');
   });
 
+  it('shows an empty state when nothing is logged', async () => {
+    renderAt(fakeRepo({}), '/stats/week/2020-06-10');
+    expect(await screen.findByText('No data yet')).toBeTruthy();
+    expect(screen.queryByRole('table')).toBeNull();
+  });
+
   it('redirects on invalid params', async () => {
     renderAt(fakeRepo({}), '/stats/year/2020-06-10');
     expect(await screen.findByText('home')).toBeTruthy();
@@ -96,6 +105,11 @@ describe('StatsView', () => {
 });
 
 describe('ExportView', () => {
+  it('shows an empty state before the first download', async () => {
+    renderAt(fakeRepo({}), '/export');
+    expect(await screen.findByText(/Nothing exported yet/)).toBeTruthy();
+  });
+
   it('downloads and reports counts', async () => {
     const create = vi.fn(() => 'blob:x');
     const revoke = vi.fn();
@@ -108,7 +122,7 @@ describe('ExportView', () => {
       ),
     );
     fireEvent.click(screen.getByRole('button', { name: 'Download' }));
-    expect(await screen.findByText('1 days, 1 entries exported')).toBeTruthy();
+    expect(await screen.findByText('1 day, 1 entry exported')).toBeTruthy();
     expect(click).toHaveBeenCalledTimes(1);
     expect(revoke).toHaveBeenCalledWith('blob:x');
   });

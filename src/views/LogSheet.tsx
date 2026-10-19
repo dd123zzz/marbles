@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import { CATEGORY_LABEL, MARBLE_COLORS } from '../lib/jar';
+import BottomSheet from '../components/BottomSheet.tsx';
+import { useToast } from '../components/Toast.tsx';
+import { CATEGORY_LABEL } from '../lib/jar';
 import { deleteEntry } from '../lib/entries';
 import { isValidDateKey, toDateKey } from '../lib/time';
 import { useDays, useRepo } from '../data/RepoProvider.tsx';
@@ -15,7 +17,7 @@ import {
   touchedRange,
   type FormState,
 } from './logSheetLogic';
-import { reportWriteError, useWriteGate } from './useWriteGate';
+import { useWriteGate, writeErrorMessage } from './useWriteGate';
 
 export type SheetMode =
   { kind: 'create'; date: DateKey; startSlot: number } | { kind: 'edit'; entry: Entry };
@@ -42,17 +44,21 @@ export default function LogSheet({
   onClose,
 }: LogSheetProps) {
   const repo = useRepo();
+  const toast = useToast();
   const original = mode.kind === 'edit' ? mode.entry : undefined;
   const anchor = mode.kind === 'edit' ? mode.entry.date : mode.date;
   const [form, setForm] = useState<FormState>(() =>
     mode.kind === 'edit' ? editForm(mode.entry) : createForm(mode, now),
   );
   const [error, setError] = useState<string | null>(null);
-  const firstRef = useRef<HTMLInputElement>(null);
+  const [confirm, setConfirm] = useState<
+    { kind: 'overwrite'; category: Category; conflicts: number } | { kind: 'delete' } | null
+  >(null);
+  const cancelRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    firstRef.current?.focus();
-  }, []);
+    if (confirm) cancelRef.current?.focus();
+  }, [confirm]);
 
   // Day docs the entry can touch: the original's day pair (it may start the day before the
   // view's date), plus the form date's pair when it differs.
@@ -77,7 +83,9 @@ export default function LogSheet({
   const today = toDateKey(now);
   const range = describeRange(form.startSlot, form.length);
 
-  const save = (category: Category) => {
+  const onWriteError = (e: unknown) => toast.error(writeErrorMessage(e));
+
+  const save = (category: Category, confirmed = false) => {
     const plan = planSave({
       days,
       entry: buildEntry(form, category),
@@ -90,52 +98,85 @@ export default function LogSheet({
       setError(plan.error);
       return;
     }
-    if (
-      plan.conflicts > 0 &&
-      !window.confirm(`This overwrites ${plan.conflicts} logged half-hours. Continue?`)
-    ) {
+    if (plan.conflicts > 0 && !confirmed) {
+      setConfirm({ kind: 'overwrite', category, conflicts: plan.conflicts });
       return;
     }
     onClose();
     // not awaited: the local cache updates immediately and the write syncs when online
     if (Object.keys(plan.changed).length > 0) {
-      repo.writeDays(uid, plan.changed).catch(reportWriteError);
+      repo.writeDays(uid, plan.changed).catch(onWriteError);
     }
   };
 
   const remove = () => {
-    if (!original || !window.confirm('Delete this entry?')) return;
+    if (!original) return;
     const changed = deleteEntry(days, original);
     onClose();
-    if (Object.keys(changed).length > 0) repo.writeDays(uid, changed).catch(reportWriteError);
+    if (Object.keys(changed).length > 0) repo.writeDays(uid, changed).catch(onWriteError);
   };
 
   const blocked = !daysReady || settingsLoading || loadError !== null;
   const syncing = loadError === null && (!daysReady || settingsLoading);
   const isEdit = mode.kind === 'edit';
 
-  return (
-    <div className="overlay">
-      <div
-        className="sheet"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="log-sheet-title"
-        onKeyDown={(e) => {
-          if (e.key === 'Escape') onClose();
-        }}
-      >
-        <div className="sheet-head">
-          <h2 id="log-sheet-title">{isEdit ? 'Edit entry' : 'Log time'}</h2>
-          <button type="button" onClick={onClose} aria-label="Close">
-            ×
-          </button>
-        </div>
+  const header = (
+    <div className="sheet-head">
+      <h2 id="log-sheet-title">{isEdit ? 'Edit entry' : 'Log time'}</h2>
+      <button type="button" className="icon-btn" onClick={onClose} aria-label="Close">
+        ×
+      </button>
+    </div>
+  );
 
+  if (confirm) {
+    const isDelete = confirm.kind === 'delete';
+    return (
+      <BottomSheet titleId="log-sheet-title" onClose={onClose}>
+        {header}
+        <div className="sheet-body">
+          <div className="confirm" role="group" aria-labelledby="confirm-text">
+            <p id="confirm-text">
+              {isDelete
+                ? 'Delete this entry?'
+                : `This overwrites ${confirm.conflicts} logged half-hour${confirm.conflicts === 1 ? '' : 's'}.`}
+            </p>
+          </div>
+        </div>
+        <div className="sheet-foot">
+          <div className="sheet-actions">
+            <button
+              ref={cancelRef}
+              type="button"
+              className="btn"
+              onClick={(e) => {
+                // the form comes back, so keep focus inside the dialog
+                e.currentTarget.closest<HTMLElement>('.sheet')?.focus();
+                setConfirm(null);
+              }}
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              className={`btn ${isDelete ? 'btn-danger' : 'btn-primary'}`}
+              onClick={() => (isDelete ? remove() : save(confirm.category, true))}
+            >
+              {isDelete ? 'Delete entry' : 'Overwrite'}
+            </button>
+          </div>
+        </div>
+      </BottomSheet>
+    );
+  }
+
+  return (
+    <BottomSheet titleId="log-sheet-title" onClose={onClose}>
+      {header}
+      <div className="sheet-body">
         <label className="field">
           Date
           <input
-            ref={firstRef}
             type="date"
             value={form.date}
             max={today}
@@ -191,45 +232,52 @@ export default function LogSheet({
             Could not load this day: {loadError.message}
           </p>
         )}
-
         {syncing && (
           <p className="muted" role="status">
             Syncing…
           </p>
         )}
+      </div>
+
+      <div className="sheet-foot">
         {!isEdit && <p className="muted">Tap a category to save</p>}
         <div className="categories">
           {CATEGORIES.map((c) => (
             <button
               key={c}
               type="button"
-              className={`category${form.category === c ? ' selected' : ''}`}
-              style={{ background: MARBLE_COLORS[c] }}
+              className={`category category-${c}${form.category === c ? ' selected' : ''}`}
               aria-pressed={isEdit ? form.category === c : undefined}
               disabled={blocked}
               onClick={() => (isEdit ? patch({ category: c }) : save(c))}
             >
+              <span className={`dot dot-${c}`} aria-hidden="true" />
               {CATEGORY_LABEL[c]}
             </button>
           ))}
         </div>
 
         {isEdit && (
-          <div className="row actions">
+          <div className="sheet-actions">
             <button
               type="button"
-              className="primary"
+              className="btn btn-primary"
               disabled={blocked || form.category === null}
               onClick={() => form.category && save(form.category)}
             >
               Save
             </button>
-            <button type="button" disabled={blocked} onClick={remove}>
+            <button
+              type="button"
+              className="btn btn-danger"
+              disabled={blocked}
+              onClick={() => setConfirm({ kind: 'delete' })}
+            >
               Delete
             </button>
           </div>
         )}
       </div>
-    </div>
+    </BottomSheet>
   );
 }

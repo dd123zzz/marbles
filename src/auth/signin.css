@@ -1,0 +1,50 @@
+.signin {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: calc(32px + env(safe-area-inset-top, 0px)) 16px 32px;
+  text-align: center;
+}
+
+.signin-brand {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.signin-brand .dot {
+  width: 26px;
+  height: 26px;
+}
+
+.signin .card {
+  margin-top: 20px;
+  text-align: left;
+}
+
+.signin-or {
+  text-align: center;
+  color: var(--text-muted);
+  margin: 12px 0 0;
+}
+
+.signin .btn-block {
+  margin-top: 4px;
+}
+
+.signin-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.signin-links .btn {
+  flex: 1;
+}
+
+.signin-links .btn {
+  padding: 0 10px;
+  font-size: 0.9rem;
+  text-align: center;
+}

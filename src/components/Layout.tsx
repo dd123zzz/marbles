@@ -1,12 +1,29 @@
+import type { ReactNode } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { useNow } from '../hooks/useNow';
 import { toDateKey } from '../lib/time';
+import ThemeSync from '../theme/ThemeSync.tsx';
+import { DayIcon, MonthIcon, SettingsIcon, StatsIcon, WeekIcon } from './icons.tsx';
+import './layout.css';
 
-function NavItem({ to, active, children }: { to: string; active: boolean; children: string }) {
+function Tab({
+  to,
+  active,
+  icon,
+  children,
+}: {
+  to: string;
+  active: boolean;
+  icon: ReactNode;
+  children: string;
+}) {
   return (
-    <Link to={to} aria-current={active ? 'page' : undefined} className={active ? 'active' : ''}>
-      {children}
-    </Link>
+    <li>
+      <Link to={to} aria-current={active ? 'page' : undefined}>
+        <span className="tab-icon">{icon}</span>
+        <span>{children}</span>
+      </Link>
+    </li>
   );
 }
 
@@ -18,26 +35,29 @@ export default function Layout() {
 
   return (
     <div className="app">
-      <nav className="topbar" aria-label="Main">
-        <NavItem to="/" active={pathname === '/' || is('/day')}>
-          Day
-        </NavItem>
-        <NavItem to={`/week/${today}`} active={is('/week')}>
-          Week
-        </NavItem>
-        <NavItem to={`/month/${today.slice(0, 7)}`} active={is('/month')}>
-          Month
-        </NavItem>
-        <NavItem to={`/stats/week/${today}`} active={is('/stats')}>
-          Stats
-        </NavItem>
-        <NavItem to="/settings" active={is('/settings')}>
-          Settings
-        </NavItem>
-      </nav>
+      <ThemeSync />
       <main>
         <Outlet />
       </main>
+      <nav className="tabbar" aria-label="Main">
+        <ul>
+          <Tab to="/" active={pathname === '/' || is('/day')} icon={<DayIcon />}>
+            Day
+          </Tab>
+          <Tab to={`/week/${today}`} active={is('/week')} icon={<WeekIcon />}>
+            Week
+          </Tab>
+          <Tab to={`/month/${today.slice(0, 7)}`} active={is('/month')} icon={<MonthIcon />}>
+            Month
+          </Tab>
+          <Tab to={`/stats/week/${today}`} active={is('/stats')} icon={<StatsIcon />}>
+            Stats
+          </Tab>
+          <Tab to="/settings" active={is('/settings') || is('/export')} icon={<SettingsIcon />}>
+            Settings
+          </Tab>
+        </ul>
+      </nav>
     </div>
   );
 }

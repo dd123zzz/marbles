@@ -2,7 +2,9 @@ import { useState } from 'react';
 import { useRepo } from '../data/RepoProvider.tsx';
 import { MAX_REFLECTION_LENGTH, withReflection } from '../lib/entries';
 import type { DateKey, DayDoc, Settings } from '../types';
-import { reportWriteError, useWriteGate } from './useWriteGate';
+import { useToast } from '../components/Toast.tsx';
+import { useWriteGate, writeErrorMessage } from './useWriteGate';
+import './reflection.css';
 
 interface ReflectionProps {
   uid: string;
@@ -27,6 +29,7 @@ export default function Reflection({
   settingsLoading,
 }: ReflectionProps) {
   const repo = useRepo();
+  const toast = useToast();
   const { writable } = useWriteGate({ loading, fromCache, settingsLoading });
   const [draft, setDraft] = useState<string | null>(null);
   // What we last saved, until the stored value changes under us.
@@ -44,33 +47,41 @@ export default function Reflection({
     });
     setSaved({ base: stored, value: next.reflection ?? '' });
     // not awaited: the local cache updates immediately and the write syncs when online
-    repo.writeDays(uid, { [date]: next }).catch(reportWriteError);
+    repo.writeDays(uid, { [date]: next }).catch((e: unknown) => toast.error(writeErrorMessage(e)));
   };
 
   return (
-    <section>
+    <section className="card">
       <h2 id="reflection-title">Reflection</h2>
       <textarea
+        className="text-input"
         aria-labelledby="reflection-title"
         aria-describedby="reflection-count"
         rows={4}
         maxLength={MAX_REFLECTION_LENGTH}
-        style={{ width: '100%', boxSizing: 'border-box' }}
+        placeholder="How did the day go?"
         value={text}
         disabled={loading}
         onChange={(e) => setDraft(e.target.value)}
       />
-      <p id="reflection-count" className="muted">
-        {text.length}/{MAX_REFLECTION_LENGTH}
-      </p>
+      <div className="reflection-foot">
+        <p id="reflection-count" className="muted">
+          {text.length}/{MAX_REFLECTION_LENGTH}
+        </p>
+        <button
+          type="button"
+          className="btn btn-primary"
+          disabled={!dirty || !writable}
+          onClick={save}
+        >
+          Save reflection
+        </button>
+      </div>
       {!loading && !writable && (
         <p className="muted" role="status">
           Waiting for sync before saving…
         </p>
       )}
-      <button type="button" disabled={!dirty || !writable} onClick={save}>
-        Save reflection
-      </button>
     </section>
   );
 }

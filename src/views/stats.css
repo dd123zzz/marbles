@@ -1,0 +1,123 @@
+/* Period tabs: links styled as a segmented control; the current one is bold, outlined and checked */
+nav.segmented .segment {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 40px;
+  border-radius: 999px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+nav.segmented .segment[aria-current='page'] {
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 700;
+  box-shadow: var(--shadow-1);
+  outline: 2px solid var(--text);
+  outline-offset: -2px;
+}
+
+nav.segmented .segment[aria-current='page']::before {
+  content: '';
+  width: 5px;
+  height: 10px;
+  margin-top: -3px;
+  border: solid currentColor;
+  border-width: 0 2.5px 2.5px 0;
+  transform: rotate(45deg);
+}
+
+.stats-bars {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.stats-bar-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.stats-bar-track {
+  display: block;
+  height: 12px;
+  border-radius: 6px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.stats-bar {
+  display: block;
+  height: 100%;
+  border-radius: 6px;
+  background: var(--base);
+}
+
+.stats-bar-g {
+  --base: var(--marble-g);
+}
+
+.stats-bar-b {
+  --base: var(--cat-b);
+  box-shadow: inset 0 0 0 1.5px var(--cat-b-ring);
+}
+
+.stats-bar-r {
+  --base: var(--marble-r);
+}
+
+.stats-bar-sleep {
+  --base: var(--marble-sleep);
+}
+
+.stats-bar-unlogged {
+  --base: var(--marble-unlogged);
+}
+
+.stats-bar-empty {
+  --base: transparent;
+  border: 1.5px dashed var(--marble-empty);
+}
+
+.stats-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.stats-table th,
+.stats-table td {
+  padding: 10px 6px;
+  text-align: right;
+  border-bottom: 1px solid var(--border);
+}
+
+.stats-table th:first-child {
+  text-align: left;
+}
+
+.stats-table thead th {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.stats-table tbody tr:last-child th,
+.stats-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.empty-card {
+  text-align: center;
+  padding: 28px 16px;
+}

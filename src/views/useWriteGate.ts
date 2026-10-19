@@ -17,9 +17,10 @@ function useOffline(): boolean {
   return offline;
 }
 
-export function reportWriteError(e: unknown) {
+/** Text for the error toast shown when a background write is rejected. */
+export function writeErrorMessage(e: unknown): string {
   const msg = e instanceof Error ? e.message : String(e);
-  window.alert(`Could not save your changes: ${msg}`);
+  return `Could not save your changes: ${msg}`;
 }
 
 /**

@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import { useAuth } from './AuthProvider.tsx';
+import './signin.css';
 
 export default function SignInView() {
   const auth = useAuth();
@@ -46,20 +47,32 @@ export default function SignInView() {
   }
 
   return (
-    <main>
+    <main className="signin">
+      <div className="signin-brand" aria-hidden="true">
+        <span className="dot dot-g" />
+        <span className="dot dot-sleep" />
+        <span className="dot dot-r" />
+      </div>
       <h1>Marbles</h1>
-      <h2>{mode === 'signin' ? 'Sign in' : 'Create account'}</h2>
+      <p className="muted">One marble for every hour of your day.</p>
 
-      <button type="button" disabled={busy} onClick={() => void run(auth.signInWithGoogle)}>
-        Continue with Google
-      </button>
+      <div className="card">
+        <h2>{mode === 'signin' ? 'Sign in' : 'Create account'}</h2>
 
-      <p>or</p>
+        <button
+          type="button"
+          className="btn btn-block"
+          disabled={busy}
+          onClick={() => void run(auth.signInWithGoogle)}
+        >
+          Continue with Google
+        </button>
 
-      <form onSubmit={onSubmit}>
-        <p>
-          <label>
-            Email{' '}
+        <p className="signin-or">or</p>
+
+        <form onSubmit={onSubmit}>
+          <label className="field">
+            Email
             <input
               type="email"
               autoComplete="email"
@@ -68,10 +81,8 @@ export default function SignInView() {
               onChange={(e) => setEmail(e.target.value)}
             />
           </label>
-        </p>
-        <p>
-          <label>
-            Password{' '}
+          <label className="field">
+            Password
             <input
               type="password"
               autoComplete={mode === 'signin' ? 'current-password' : 'new-password'}
@@ -81,35 +92,38 @@ export default function SignInView() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </label>
-        </p>
-        <button type="submit" disabled={busy}>
-          {mode === 'signin' ? 'Sign in' : 'Create account'}
-        </button>
-      </form>
+          <button type="submit" className="btn btn-primary btn-block" disabled={busy}>
+            {mode === 'signin' ? 'Sign in' : 'Create account'}
+          </button>
+        </form>
 
-      {error && <p role="alert">{error}</p>}
-      {info && <p role="status">{info}</p>}
-
-      <p>
-        {mode === 'signin' && (
-          <>
-            <button type="button" disabled={busy} onClick={onForgot}>
-              Forgot password?
-            </button>{' '}
-          </>
+        {error && (
+          <p role="alert" className="error">
+            {error}
+          </p>
         )}
-        <button
-          type="button"
-          disabled={busy}
-          onClick={() => {
-            setMode(mode === 'signin' ? 'signup' : 'signin');
-            setError(null);
-            setInfo(null);
-          }}
-        >
-          {mode === 'signin' ? 'Create account' : 'Have an account? Sign in'}
-        </button>
-      </p>
+        {info && <p role="status">{info}</p>}
+
+        <div className="signin-links">
+          {mode === 'signin' && (
+            <button type="button" className="btn" disabled={busy} onClick={onForgot}>
+              Forgot password?
+            </button>
+          )}
+          <button
+            type="button"
+            className="btn"
+            disabled={busy}
+            onClick={() => {
+              setMode(mode === 'signin' ? 'signup' : 'signin');
+              setError(null);
+              setInfo(null);
+            }}
+          >
+            {mode === 'signin' ? 'Create account' : 'Have an account? Sign in'}
+          </button>
+        </div>
+      </div>
     </main>
   );
 }

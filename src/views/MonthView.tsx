@@ -12,6 +12,7 @@ import {
 } from '../lib/dateLabels';
 import { computeMarbles } from '../lib/jar';
 import { monthGrid, monthRange, parseDateKey, toDateKey } from '../lib/time';
+import './calendar.css';
 
 export default function MonthView() {
   const { ym } = useParams();
@@ -32,62 +33,89 @@ function Month({ year, month0 }: { year: number; month0: number }) {
   const today = toDateKey(now);
 
   return (
-    <div>
-      <div className="datebar">
-        <Link to={`/month/${shiftMonth(year, month0, -1)}`} aria-label="Previous month">
-          ‹ Prev
-        </Link>
-        <h1>{monthTitle(year, month0)}</h1>
-        <Link to={`/month/${shiftMonth(year, month0, 1)}`} aria-label="Next month">
-          Next ›
-        </Link>
-      </div>
-      <p className="muted links">
-        <Link to={`/month/${today.slice(0, 7)}`}>This month</Link>
-        <Link to={`/week/${range.start}`}>Week</Link>
-      </p>
+    <div className="stack">
+      <header className="card date-card">
+        <div className="date-nav">
+          <Link
+            className="icon-btn"
+            to={`/month/${shiftMonth(year, month0, -1)}`}
+            aria-label="Previous month"
+          >
+            ‹
+          </Link>
+          <div className="date-title">
+            <h1>{monthTitle(year, month0)}</h1>
+          </div>
+          <Link
+            className="icon-btn"
+            to={`/month/${shiftMonth(year, month0, 1)}`}
+            aria-label="Next month"
+          >
+            ›
+          </Link>
+        </div>
+        <div className="date-tools">
+          <Link className="btn" to={`/month/${today.slice(0, 7)}`}>
+            This month
+          </Link>
+          <Link className="btn" to={`/week/${range.start}`}>
+            Week
+          </Link>
+        </div>
+      </header>
       {error && (
         <p role="alert" className="error">
           Could not load this month: {error.message}
         </p>
       )}
       {loading ? (
-        <p>Loading…</p>
+        <p className="loading">Loading…</p>
       ) : (
-        <table className="month-grid">
-          <thead>
-            <tr>
-              {headers.map((h) => (
-                <th key={h} scope="col">
-                  {h}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {grid.map((row, i) => (
-              <tr key={i}>
-                {row.map((k, j) => {
-                  if (!k) return <td key={j} />;
-                  const doc = days[k];
-                  const sleep = doc?.sleep ?? {
-                    start: settings.sleepStart,
-                    end: settings.sleepEnd,
-                  };
-                  const marbles = computeMarbles({ date: k, slots: doc?.slots, sleep, now });
-                  return (
-                    <td key={j}>
-                      <Link to={`/day/${k}`} className={k === today ? 'today' : undefined}>
-                        <MiniJar date={k} marbles={marbles} size={36} />
-                        <span>{parseDateKey(k).getDate()}</span>
-                      </Link>
-                    </td>
-                  );
-                })}
+        <div className="card month-card">
+          <table className="month-grid">
+            <thead>
+              <tr>
+                {headers.map((h) => (
+                  <th key={h} scope="col">
+                    {h}
+                  </th>
+                ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {grid.map((row, i) => (
+                <tr key={i}>
+                  {row.map((k, j) => {
+                    if (!k) return <td key={j} />;
+                    const doc = days[k];
+                    const sleep = doc?.sleep ?? {
+                      start: settings.sleepStart,
+                      end: settings.sleepEnd,
+                    };
+                    const marbles = computeMarbles({ date: k, slots: doc?.slots, sleep, now });
+                    const dow = parseDateKey(k).getDay();
+                    const cls = [
+                      'day-cell',
+                      k === today && 'today',
+                      (dow === 0 || dow === 6) && 'weekend',
+                    ]
+                      .filter(Boolean)
+                      .join(' ');
+                    return (
+                      <td key={j}>
+                        <Link to={`/day/${k}`} className={cls}>
+                          <MiniJar date={k} marbles={marbles} size={34} />
+                          <span>{parseDateKey(k).getDate()}</span>
+                          {k === today && <span className="sr-only">Today</span>}
+                        </Link>
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );

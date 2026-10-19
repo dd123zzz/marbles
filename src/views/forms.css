@@ -1,0 +1,12 @@
+.card form > .btn-block,
+form.card > .btn-block {
+  margin-top: 12px;
+}
+
+.card .segmented + .muted {
+  margin-top: 8px;
+}
+
+.stack > h1 {
+  padding: 0 4px;
+}

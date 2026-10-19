@@ -1,10 +1,15 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../auth/AuthProvider.tsx';
+import SegmentedControl from '../components/SegmentedControl.tsx';
+import { useToast } from '../components/Toast.tsx';
 import { useRepo } from '../data/RepoProvider.tsx';
 import { useNow } from '../hooks/useNow';
 import { exportCounts, exportFilename, toCsv, toJson, isoWithOffset } from '../lib/export';
 import { isValidDateKey, toDateKey } from '../lib/time';
+import './forms.css';
+
+const plural = (n: number, one: string, many = `${one}s`): string => `${n} ${n === 1 ? one : many}`;
 
 type Preset = 'all' | 'month' | 'custom';
 type Format = 'csv' | 'json';
@@ -12,6 +17,7 @@ type Format = 'csv' | 'json';
 export default function ExportView() {
   const { user } = useAuth();
   const repo = useRepo();
+  const toast = useToast();
   const now = useNow();
   const today = toDateKey(now);
   const [preset, setPreset] = useState<Preset>('all');
@@ -62,7 +68,9 @@ export default function ExportView() {
       a.remove();
       URL.revokeObjectURL(url);
       const counts = exportCounts(days, range);
-      setResult(`${counts.days} days, ${counts.entries} entries exported`);
+      const summary = `${plural(counts.days, 'day')}, ${plural(counts.entries, 'entry', 'entries')} exported`;
+      setResult(summary);
+      toast.success(summary);
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
     } finally {
@@ -71,87 +79,78 @@ export default function ExportView() {
   };
 
   return (
-    <div>
+    <div className="stack">
       <h1>Export data</h1>
       <p className="muted">
         <Link to="/settings">‹ Settings</Link>
       </p>
-      <fieldset>
-        <legend>Date range</legend>
-        {(
-          [
-            ['all', 'All data'],
-            ['month', 'This month'],
-            ['custom', 'Custom'],
-          ] as const
-        ).map(([value, text]) => (
-          <label key={value} className="inline">
-            <input
-              type="radio"
-              name="range"
-              checked={preset === value}
-              onChange={() => setPreset(value)}
-            />
-            {text}
-          </label>
-        ))}
-      </fieldset>
-      {preset === 'custom' && (
-        <div className="custom-range">
-          <label className="field">
-            Start date
-            <input
-              type="date"
-              value={customStart}
-              max={customEnd || undefined}
-              onChange={(e) => setCustomStart(e.target.value)}
-            />
-          </label>
-          <label className="field">
-            End date
-            <input
-              type="date"
-              value={customEnd}
-              min={customStart || undefined}
-              onChange={(e) => setCustomEnd(e.target.value)}
-            />
-          </label>
-        </div>
-      )}
-      <fieldset>
-        <legend>Format</legend>
-        {(
-          [
-            ['csv', 'CSV'],
-            ['json', 'JSON'],
-          ] as const
-        ).map(([value, text]) => (
-          <label key={value} className="inline">
-            <input
-              type="radio"
-              name="format"
-              checked={format === value}
-              onChange={() => setFormat(value)}
-            />
-            {text}
-          </label>
-        ))}
-      </fieldset>
-      {rangeError && <p className="muted">{rangeError}</p>}
-      <button
-        type="button"
-        className="primary"
-        disabled={busy || !user || rangeError !== ''}
-        onClick={() => void download()}
-      >
-        {busy ? 'Preparing…' : 'Download'}
-      </button>
-      {result && <p role="status">{result}</p>}
-      {error && (
-        <p role="alert" className="error">
-          Could not export: {error}
+      <section className="card">
+        <SegmentedControl
+          legend="Date range"
+          name="range"
+          value={preset}
+          options={[
+            { value: 'all', label: 'All data' },
+            { value: 'month', label: 'This month' },
+            { value: 'custom', label: 'Custom' },
+          ]}
+          onChange={setPreset}
+        />
+        {preset === 'custom' && (
+          <div className="row">
+            <label className="field">
+              Start date
+              <input
+                type="date"
+                value={customStart}
+                max={customEnd || undefined}
+                onChange={(e) => setCustomStart(e.target.value)}
+              />
+            </label>
+            <label className="field">
+              End date
+              <input
+                type="date"
+                value={customEnd}
+                min={customStart || undefined}
+                onChange={(e) => setCustomEnd(e.target.value)}
+              />
+            </label>
+          </div>
+        )}
+        <SegmentedControl
+          legend="Format"
+          name="format"
+          value={format}
+          options={[
+            { value: 'csv', label: 'CSV' },
+            { value: 'json', label: 'JSON' },
+          ]}
+          onChange={setFormat}
+        />
+        {rangeError && <p className="muted">{rangeError}</p>}
+        <button
+          type="button"
+          className="btn btn-primary btn-block"
+          disabled={busy || !user || rangeError !== ''}
+          onClick={() => void download()}
+        >
+          {busy ? 'Preparing…' : 'Download'}
+        </button>
+        {error && (
+          <p role="alert" className="error">
+            Could not export: {error}
+          </p>
+        )}
+      </section>
+      <section className="card">
+        <h2>Export status</h2>
+        <p className="muted">
+          {result
+            ? `Last export: ${result}.`
+            : 'Nothing exported yet. Choose a range and format, then tap Download. Your file is saved to this device.'}
         </p>
-      )}
+      </section>
     </div>
   );
 }

@@ -1,0 +1,126 @@
+/* Design tokens. The theme is chosen with data-theme on <html> (light is the default). */
+:root,
+:root[data-theme='light'] {
+  color-scheme: light;
+
+  --bg: #faf7f2;
+  --surface: #ffffff;
+  --surface-2: #f4efe7;
+  --border: #e6ddd0;
+  --text: #2b2620;
+  --text-muted: #675e53;
+  --accent: #b45309;
+  --accent-hover: #92400e;
+  --accent-contrast: #ffffff;
+  --accent-soft: #fdecd3;
+  --accent-soft-text: #7c3a06;
+  --focus: #1d4ed8;
+  --danger: #b91c1c;
+  --danger-soft: #fdeaea;
+  --shadow-1: 0 1px 2px rgba(60, 40, 20, 0.06), 0 2px 8px rgba(60, 40, 20, 0.06);
+  --shadow-2: 0 6px 24px rgba(60, 40, 20, 0.16);
+  --backdrop: rgba(43, 38, 32, 0.45);
+  --toast-bg: #2b2620;
+  --toast-text: #ffffff;
+  --toast-error-bg: #7f1d1d;
+
+  /* category buttons and bars (white text sits on these) */
+  --cat-g: #15803d;
+  --cat-b: #1f2937;
+  --cat-r: #b91c1c;
+  --cat-b-ring: transparent;
+
+  /* marbles: base color plus highlight and shade for the glossy gradient */
+  --marble-g: #16a34a;
+  --marble-g-hi: #bbf7d0;
+  --marble-g-lo: #14532d;
+  --marble-b: #1f2937;
+  --marble-b-hi: #9ca3af;
+  --marble-b-lo: #030712;
+  --marble-r: #dc2626;
+  --marble-r-hi: #fecaca;
+  --marble-r-lo: #7f1d1d;
+  --marble-sleep: #4f46e5;
+  --marble-sleep-hi: #c7d2fe;
+  --marble-sleep-lo: #312e81;
+  --marble-unlogged: #a8a29e;
+  --marble-unlogged-hi: #d6d3d1;
+  --marble-unlogged-lo: #78716c;
+  --marble-na: #e7e5e4;
+  --marble-na-text: #57534e;
+  --marble-empty: #b8ad9d;
+  --marble-b-ring: rgba(255, 255, 255, 0);
+  --marble-b-glow: transparent;
+  --marble-gloss: rgba(255, 255, 255, 0.75);
+
+  /* glass jar */
+  --glass-top: rgba(255, 255, 255, 0.85);
+  --glass-bottom: rgba(214, 232, 240, 0.55);
+  --glass-stroke: #a9b9c2;
+  --glass-shine: rgba(255, 255, 255, 0.9);
+  --glass-rim: rgba(255, 255, 255, 0.95);
+  --today-bg: #fff4e0;
+  --weekend-bg: #f7f1e8;
+
+  --radius-sm: 10px;
+  --radius: 16px;
+  --radius-lg: 24px;
+  --tap: 44px;
+  --tabbar-h: 64px;
+  --font:
+    system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    sans-serif;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --bg: #1c1a17;
+  --surface: #27241f;
+  --surface-2: #322e28;
+  --border: #433e36;
+  --text: #f3ede3;
+  --text-muted: #b8ad9d;
+  --accent: #f59e0b;
+  --accent-hover: #fbbf24;
+  --accent-contrast: #1c1410;
+  --accent-soft: #3d2f17;
+  --accent-soft-text: #fcd9a0;
+  --focus: #93c5fd;
+  --danger: #fca5a5;
+  --danger-soft: #3f1d1d;
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.25);
+  --shadow-2: 0 6px 24px rgba(0, 0, 0, 0.55);
+  --backdrop: rgba(0, 0, 0, 0.6);
+  --toast-bg: #f3ede3;
+  --toast-text: #1c1a17;
+  --toast-error-bg: #fecaca;
+
+  --cat-g: #15803d;
+  --cat-b: #111111;
+  --cat-r: #b91c1c;
+  --cat-b-ring: #e7e0d4;
+
+  --marble-g: #22c55e;
+  --marble-r: #ef4444;
+  --marble-b: #0b0b0c;
+  --marble-b-hi: #6b7280;
+  --marble-unlogged: #7c756b;
+  --marble-unlogged-hi: #a8a095;
+  --marble-unlogged-lo: #544f47;
+  --marble-na: #3a352e;
+  --marble-na-text: #d6cdbf;
+  --marble-empty: #6f675b;
+  /* Wasted marbles are near black, so they get a light ring and a soft glow */
+  --marble-b-ring: #ece5d8;
+  --marble-b-glow: rgba(236, 229, 216, 0.55);
+  --marble-gloss: rgba(255, 255, 255, 0.6);
+
+  --glass-top: rgba(255, 255, 255, 0.1);
+  --glass-bottom: rgba(150, 190, 215, 0.12);
+  --glass-stroke: #6f8591;
+  --glass-shine: rgba(255, 255, 255, 0.28);
+  --glass-rim: rgba(255, 255, 255, 0.22);
+  --today-bg: #3d2f17;
+  --weekend-bg: #2d2923;
+}

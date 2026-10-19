@@ -6,6 +6,7 @@ import { useNow } from '../hooks/useNow';
 import { monthDay, weekdayShort } from '../lib/dateLabels';
 import { computeMarbles } from '../lib/jar';
 import { addDays, isValidDateKey, parseDateKey, toDateKey, weekRange } from '../lib/time';
+import './calendar.css';
 
 export default function WeekView() {
   const { date } = useParams();
@@ -23,42 +24,55 @@ function Week({ date }: { date: string }) {
   const today = toDateKey(now);
 
   return (
-    <div>
-      <div className="datebar">
-        <Link to={`/week/${addDays(date, -7)}`} aria-label="Previous week">
-          ‹ Prev
-        </Link>
-        <h1>
-          {monthDay(keys[0])} – {monthDay(keys[6])}, {parseDateKey(keys[6]).getFullYear()}
-        </h1>
-        <Link to={`/week/${addDays(date, 7)}`} aria-label="Next week">
-          Next ›
-        </Link>
-      </div>
-      <p className="muted links">
-        <Link to={`/week/${today}`}>This week</Link>
-        <Link to={`/month/${date.slice(0, 7)}`}>Month</Link>
-      </p>
+    <div className="stack">
+      <header className="card date-card">
+        <div className="date-nav">
+          <Link className="icon-btn" to={`/week/${addDays(date, -7)}`} aria-label="Previous week">
+            ‹
+          </Link>
+          <div className="date-title">
+            <h1>
+              {monthDay(keys[0])} – {monthDay(keys[6])}
+            </h1>
+            <p className="muted">{parseDateKey(keys[6]).getFullYear()}</p>
+          </div>
+          <Link className="icon-btn" to={`/week/${addDays(date, 7)}`} aria-label="Next week">
+            ›
+          </Link>
+        </div>
+        <div className="date-tools">
+          <Link className="btn" to={`/week/${today}`}>
+            This week
+          </Link>
+          <Link className="btn" to={`/month/${date.slice(0, 7)}`}>
+            Month
+          </Link>
+        </div>
+      </header>
       {error && (
         <p role="alert" className="error">
           Could not load this week: {error.message}
         </p>
       )}
       {loading ? (
-        <p>Loading…</p>
+        <p className="loading">Loading…</p>
       ) : (
         <ul className="week-grid">
           {keys.map((k) => {
             const doc = days[k];
             const sleep = doc?.sleep ?? { start: settings.sleepStart, end: settings.sleepEnd };
             const marbles = computeMarbles({ date: k, slots: doc?.slots, sleep, now });
+            const dow = parseDateKey(k).getDay();
+            const cls = ['day-cell', k === today && 'today', (dow === 0 || dow === 6) && 'weekend']
+              .filter(Boolean)
+              .join(' ');
             return (
               <li key={k}>
-                <Link to={`/day/${k}`} className={k === today ? 'today' : undefined}>
+                <Link to={`/day/${k}`} className={cls}>
                   <MiniJar date={k} marbles={marbles} size={44} />
-                  <span>
-                    {weekdayShort(k)} {parseDateKey(k).getDate()}
-                  </span>
+                  <span className="day-name">{weekdayShort(k)}</span>
+                  <span>{parseDateKey(k).getDate()}</span>
+                  {k === today && <span className="today-badge">Today</span>}
                 </Link>
               </li>
             );

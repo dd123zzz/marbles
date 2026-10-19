@@ -1,0 +1,167 @@
+.sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: var(--backdrop);
+  animation: backdrop-in 0.2s ease-out;
+}
+
+.sheet {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 520px;
+  max-height: min(92vh, 92dvh);
+  background: var(--surface);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  box-shadow: var(--shadow-2);
+  animation: sheet-up 0.25s ease-out;
+}
+
+.sheet:focus {
+  outline: none;
+}
+
+.sheet-handle {
+  flex: none;
+  width: 44px;
+  height: 5px;
+  margin: 10px auto 2px;
+  border-radius: 3px;
+  background: var(--border);
+}
+
+.sheet-head {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px 0 18px;
+}
+
+.sheet-head h2 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.sheet-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0 18px;
+}
+
+.sheet-foot {
+  flex: none;
+  padding: 8px 18px calc(16px + env(safe-area-inset-bottom, 0px));
+}
+
+.sheet-foot .muted {
+  text-align: center;
+}
+
+.categories {
+  display: flex;
+  gap: 8px;
+}
+
+.category {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 76px;
+  padding: 8px 4px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff;
+  border: 3px solid var(--cat-b-ring, transparent);
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+.category-g {
+  background: var(--cat-g);
+  border-color: transparent;
+}
+
+.category-b {
+  background: var(--cat-b);
+  border-color: var(--cat-b-ring);
+}
+
+.category-r {
+  background: var(--cat-r);
+  border-color: transparent;
+}
+
+.category .dot {
+  width: 18px;
+  height: 18px;
+  box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.85);
+}
+
+.category.selected {
+  outline: 4px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.category.selected::after {
+  content: '';
+  width: 6px;
+  height: 12px;
+  border: solid #ffffff;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+  margin-top: -4px;
+}
+
+.category:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.sheet-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.sheet-actions .btn {
+  flex: 1;
+}
+
+.confirm {
+  padding: 8px 0 4px;
+}
+
+.confirm p {
+  font-size: 1.05rem;
+  margin: 8px 0 16px;
+}
+
+@keyframes sheet-up {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes backdrop-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet,
+  .sheet-backdrop,
+  .toast {
+    animation: none;
+  }
+}

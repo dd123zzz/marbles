@@ -13,7 +13,7 @@ import WeekView from './views/WeekView.tsx';
 
 function SignInRoute() {
   const { user, loading } = useAuth();
-  if (loading) return <p>Loading…</p>;
+  if (loading) return <p className="loading">Loading…</p>;
   return user ? <Navigate to="/" replace /> : <SignInView />;
 }
 

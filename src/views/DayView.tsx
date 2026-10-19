@@ -1,16 +1,19 @@
 import { useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../auth/AuthProvider.tsx';
+import { PlusIcon } from '../components/icons.tsx';
 import Jar from '../components/Jar.tsx';
+import SummaryChips from '../components/SummaryChips.tsx';
 import { useDays, useSettings } from '../data/RepoProvider.tsx';
 import { useNow } from '../hooks/useNow';
 import { weekdayMonthDay } from '../lib/dateLabels';
 import { logicalEntriesForDay, logicalEntryAt } from '../lib/entries';
-import { CATEGORY_LABEL, computeMarbles, formatSummary, summarize } from '../lib/jar';
-import { addDays, isFutureSlot, isValidDateKey, toDateKey } from '../lib/time';
+import { CATEGORY_LABEL, computeMarbles } from '../lib/jar';
+import { addDays, isFutureSlot, isValidDateKey, parseDateKey, toDateKey } from '../lib/time';
 import LogSheet, { type SheetMode } from './LogSheet.tsx';
 import Reflection from './Reflection.tsx';
 import { defaultStartFor, formatEntryRange } from './logSheetLogic';
+import './day.css';
 
 export default function DayView() {
   const { date: param } = useParams();
@@ -48,35 +51,49 @@ function Day({ param }: { param: string | undefined }) {
     }
   };
 
+  const emptyText = isFuture
+    ? 'This day is still ahead, so there is nothing to log yet.'
+    : date === today
+      ? 'No marbles yet — tap Log time to add your first hour.'
+      : 'Nothing logged for this day. Tap Log time to add an entry.';
+
   return (
-    <div>
-      <div className="datebar">
-        <Link to={`/day/${addDays(date, -1)}`} aria-label="Previous day">
-          ‹ Prev
-        </Link>
-        <input
-          type="date"
-          aria-label="Pick a date"
-          value={date}
-          max={today}
-          onChange={(e) => isValidDateKey(e.target.value) && navigate(`/day/${e.target.value}`)}
-        />
-        {date >= today ? (
-          <span className="disabled" aria-disabled="true">
-            Next ›
-          </span>
-        ) : (
-          <Link to={`/day/${addDays(date, 1)}`} aria-label="Next day">
-            Next ›
+    <div className="stack">
+      <header className="card date-card">
+        <div className="date-nav">
+          <Link className="icon-btn" to={`/day/${addDays(date, -1)}`} aria-label="Previous day">
+            ‹
           </Link>
-        )}
-      </div>
-      <h1>{weekdayMonthDay(date)}</h1>
-      <p className="muted links">
-        {date !== today && <Link to="/">Today</Link>}
-        <Link to={`/week/${date}`}>Week</Link>
-        <Link to={`/month/${date.slice(0, 7)}`}>Month</Link>
-      </p>
+          <div className="date-title">
+            <h1>{weekdayMonthDay(date)}</h1>
+            <p className="muted">{date === today ? 'Today' : parseDateKey(date).getFullYear()}</p>
+          </div>
+          {date >= today ? (
+            <span className="icon-btn" aria-disabled="true">
+              ›
+            </span>
+          ) : (
+            <Link className="icon-btn" to={`/day/${addDays(date, 1)}`} aria-label="Next day">
+              ›
+            </Link>
+          )}
+        </div>
+        <div className="date-tools">
+          <input
+            type="date"
+            className="text-input"
+            aria-label="Pick a date"
+            value={date}
+            max={today}
+            onChange={(e) => isValidDateKey(e.target.value) && navigate(`/day/${e.target.value}`)}
+          />
+          {date !== today && (
+            <Link className="btn" to="/">
+              Today
+            </Link>
+          )}
+        </div>
+      </header>
 
       {error && (
         <p role="alert" className="error">
@@ -84,42 +101,55 @@ function Day({ param }: { param: string | undefined }) {
         </p>
       )}
       {loading ? (
-        <p>Loading…</p>
+        <p className="loading">Loading…</p>
       ) : (
-        <>
+        <section className="card jar-card" aria-label="Jar">
+          <SummaryChips marbles={marbles} />
           <Jar
             marbles={marbles}
             label={`Jar for ${weekdayMonthDay(date)}`}
             onSelect={(slot, m) => selectSlot(slot, slot % 2 === 0 ? m.left : m.right)}
           />
-          <p className="summary">{formatSummary(summarize(marbles))}</p>
-        </>
+        </section>
       )}
 
       <button
         type="button"
-        className="primary big"
+        className="btn btn-primary fab"
         disabled={isFuture || !uid || settingsLoading}
         onClick={logTime}
       >
+        <PlusIcon />
         Log time
       </button>
 
-      <h2>Entries</h2>
-      {entries.length === 0 ? (
-        <p className="muted">Nothing logged yet.</p>
-      ) : (
-        <ul className="entries">
-          {entries.map((e) => (
-            <li key={`${e.date}#${e.startSlot}`}>
-              <button type="button" onClick={() => open({ kind: 'edit', entry: e })}>
-                {formatEntryRange(e, date)} · {CATEGORY_LABEL[e.category]}
-                {e.note ? ` · ${e.note}` : ''}
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
+      <section className="card">
+        <h2>Entries</h2>
+        {entries.length === 0 ? (
+          !loading && <p className="muted empty">{emptyText}</p>
+        ) : (
+          <ul className="entries">
+            {entries.map((e) => (
+              <li key={`${e.date}#${e.startSlot}`}>
+                <button
+                  type="button"
+                  className="entry"
+                  onClick={() => open({ kind: 'edit', entry: e })}
+                >
+                  <span className={`dot dot-${e.category}`} aria-hidden="true" />
+                  <span className="entry-text">
+                    {formatEntryRange(e, date)} · {CATEGORY_LABEL[e.category]}
+                    {e.note ? ` · ${e.note}` : ''}
+                  </span>
+                  <span className="entry-chevron" aria-hidden="true">
+                    ›
+                  </span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
 
       {!isFuture && uid && (
         <Reflection

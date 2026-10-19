@@ -58,8 +58,13 @@ export function AuthProvider({
     [backend, user, resolved],
   );
 
-  if (initError) return <p role="alert">Could not start sign-in: {initError.message}</p>;
-  if (!value) return <p>Loading…</p>;
+  if (initError)
+    return (
+      <p role="alert" className="error">
+        Could not start sign-in: {initError.message}
+      </p>
+    );
+  if (!value) return <p className="loading">Loading…</p>;
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 

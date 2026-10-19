@@ -1,44 +1,10 @@
-import { useEffect, type CSSProperties } from 'react';
+import { useEffect } from 'react';
 import { useRegisterSW } from 'virtual:pwa-register/react';
+import './updatePrompt.css';
 
 const READY_TOAST_MS = 4000;
 
-const bannerStyle: CSSProperties = {
-  position: 'fixed',
-  left: 12,
-  right: 12,
-  bottom: 'calc(12px + env(safe-area-inset-bottom, 0px))',
-  zIndex: 1000,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  gap: 12,
-  maxWidth: 480,
-  margin: '0 auto',
-  padding: '10px 14px',
-  borderRadius: 10,
-  background: '#111827',
-  color: '#ffffff',
-  fontSize: 14,
-  boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)',
-};
-
-const buttonStyle: CSSProperties = {
-  font: 'inherit',
-  padding: '6px 12px',
-  borderRadius: 8,
-  border: '1px solid #ffffff55',
-  background: 'transparent',
-  color: 'inherit',
-  cursor: 'pointer',
-};
-
-const primaryButtonStyle: CSSProperties = {
-  ...buttonStyle,
-  background: '#4f46e5',
-  borderColor: '#4f46e5',
-};
-
+/** Shown at the top of the screen so it never overlaps the toasts above the tab bar. */
 export default function UpdatePrompt() {
   const {
     needRefresh: [needRefresh, setNeedRefresh],
@@ -54,17 +20,17 @@ export default function UpdatePrompt() {
 
   if (needRefresh) {
     return (
-      <div role="status" aria-live="polite" style={bannerStyle}>
+      <div role="status" aria-live="polite" className="update-banner">
         <span>A new version is available</span>
-        <span style={{ display: 'flex', gap: 8 }}>
+        <span className="update-actions">
           <button
             type="button"
-            style={primaryButtonStyle}
+            className="btn btn-primary"
             onClick={() => updateServiceWorker(true)}
           >
             Reload
           </button>
-          <button type="button" style={buttonStyle} onClick={() => setNeedRefresh(false)}>
+          <button type="button" className="btn" onClick={() => setNeedRefresh(false)}>
             Later
           </button>
         </span>
@@ -74,7 +40,7 @@ export default function UpdatePrompt() {
 
   if (offlineReady) {
     return (
-      <div role="status" aria-live="polite" style={bannerStyle}>
+      <div role="status" aria-live="polite" className="update-banner">
         <span>Ready to work offline</span>
       </div>
     );

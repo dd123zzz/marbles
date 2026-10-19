@@ -4,6 +4,7 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { AuthProvider } from '../auth/AuthProvider.tsx';
 import type { AuthBackend } from '../auth/types.ts';
+import { ToastProvider } from '../components/Toast.tsx';
 import { RepoProvider } from '../data/RepoProvider.tsx';
 import type { Repo } from '../data/repo.ts';
 import { DEFAULT_SETTINGS, type DayDoc } from '../types';
@@ -67,10 +68,12 @@ function renderDay(repo: Repo, path = '/') {
     <MemoryRouter initialEntries={[path]}>
       <AuthProvider backend={auth}>
         <RepoProvider repo={repo}>
-          <Routes>
-            <Route path="/" element={<DayView />} />
-            <Route path="/day/:date" element={<DayView />} />
-          </Routes>
+          <ToastProvider>
+            <Routes>
+              <Route path="/" element={<DayView />} />
+              <Route path="/day/:date" element={<DayView />} />
+            </Routes>
+          </ToastProvider>
         </RepoProvider>
       </AuthProvider>
     </MemoryRouter>,
@@ -119,7 +122,6 @@ describe('DayView', () => {
       v: 1,
     };
     const { repo, writeDays } = fakeRepo({ '2026-10-14': doc });
-    vi.spyOn(window, 'confirm').mockReturnValue(true);
     renderDay(repo);
     fireEvent.click(await screen.findByLabelText('13:00–14:00 Wanted'));
     expect(await screen.findByRole('dialog')).toBeTruthy();
@@ -127,7 +129,89 @@ describe('DayView', () => {
     const del = screen.getByRole('button', { name: 'Delete' });
     await vi.waitFor(() => expect((del as HTMLButtonElement).disabled).toBe(false));
     fireEvent.click(del);
+    // the confirmation is a step inside the sheet, not window.confirm
+    expect(screen.getByText('Delete this entry?')).toBeTruthy();
+    expect(writeDays).not.toHaveBeenCalled();
+    fireEvent.click(screen.getByRole('button', { name: 'Cancel' }));
+    expect(screen.getByLabelText('Note (optional)')).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: 'Delete' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Delete entry' }));
     expect(writeDays.mock.calls[0][1]['2026-10-14'].slots).toBe('.'.repeat(48));
+    expect(screen.queryByRole('dialog')).toBeNull();
+  });
+
+  it('asks before overwriting logged time and then saves', async () => {
+    const slots = '.'.repeat(26) + 'bb' + '.'.repeat(20);
+    const doc: DayDoc = {
+      slots,
+      notes: {},
+      sleep: { start: '23:00', end: '07:00' },
+      tz: 'America/Los_Angeles',
+      v: 1,
+    };
+    const { repo, writeDays } = fakeRepo({ '2026-10-14': doc });
+    const confirm = vi.spyOn(window, 'confirm');
+    renderDay(repo);
+    await openLogSheet();
+    const wanted = await screen.findByRole('button', { name: 'Wanted' });
+    await vi.waitFor(() => expect((wanted as HTMLButtonElement).disabled).toBe(false));
+    fireEvent.click(wanted);
+
+    expect(screen.getByText('This overwrites 2 logged half-hours.')).toBeTruthy();
+    expect(writeDays).not.toHaveBeenCalled();
+    fireEvent.click(screen.getByRole('button', { name: 'Cancel' }));
+    expect(screen.getByRole('button', { name: 'Wanted' })).toBeTruthy();
+    expect(writeDays).not.toHaveBeenCalled();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Wanted' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Overwrite' }));
+    expect(writeDays).toHaveBeenCalledTimes(1);
+    expect(writeDays.mock.calls[0][1]['2026-10-14'].slots.slice(26, 28)).toBe('gg');
+    expect(screen.queryByRole('dialog')).toBeNull();
+    expect(confirm).not.toHaveBeenCalled();
+  });
+
+  it('closes the sheet with Escape or a backdrop tap and restores focus', async () => {
+    const { repo } = fakeRepo();
+    renderDay(repo);
+    const trigger = (await screen.findByRole('button', { name: 'Log time' })) as HTMLButtonElement;
+    await vi.waitFor(() => expect(trigger.disabled).toBe(false));
+    trigger.focus();
+    fireEvent.click(trigger);
+    const dialog = await screen.findByRole('dialog');
+    expect(document.activeElement).toBe(dialog);
+    fireEvent.keyDown(dialog, { key: 'Escape' });
+    expect(screen.queryByRole('dialog')).toBeNull();
+    expect(document.activeElement).toBe(trigger);
+
+    fireEvent.click(trigger);
+    await screen.findByRole('dialog');
+    fireEvent.click(document.querySelector('.sheet-backdrop')!);
+    expect(screen.queryByRole('dialog')).toBeNull();
+  });
+
+  it('shows a toast, not an alert, when a write is rejected', async () => {
+    const { repo, writeDays } = fakeRepo();
+    writeDays.mockRejectedValueOnce(new Error('permission-denied'));
+    const alert = vi.spyOn(window, 'alert').mockImplementation(() => {});
+    renderDay(repo);
+    await openLogSheet();
+    const wanted = await screen.findByRole('button', { name: 'Wanted' });
+    await vi.waitFor(() => expect((wanted as HTMLButtonElement).disabled).toBe(false));
+    fireEvent.click(wanted);
+    const toast = await screen.findByRole('alert');
+    expect(toast.textContent).toContain('Could not save your changes: permission-denied');
+    expect(alert).not.toHaveBeenCalled();
+    fireEvent.click(screen.getByRole('button', { name: 'Dismiss' }));
+    expect(screen.queryByRole('alert')).toBeNull();
+  });
+
+  it('shows an empty state when nothing is logged', async () => {
+    const { repo } = fakeRepo();
+    renderDay(repo);
+    expect(
+      await screen.findByText('No marbles yet — tap Log time to add your first hour.'),
+    ).toBeTruthy();
   });
 
   it('does not save from a cache-only snapshot until the server answers', async () => {
@@ -206,7 +290,6 @@ describe('DayView', () => {
 
     it('edits and deletes the whole entry from the later day', async () => {
       const { repo, writeDays } = fakeRepo(crossingDays());
-      vi.spyOn(window, 'confirm').mockReturnValue(true);
       renderDay(repo, '/day/2026-10-14');
       fireEvent.click(await screen.findByLabelText('00:00–01:00 Wasted'));
       expect(await screen.findByRole('dialog')).toBeTruthy();
@@ -215,6 +298,7 @@ describe('DayView', () => {
       const del = screen.getByRole('button', { name: 'Delete' });
       await vi.waitFor(() => expect((del as HTMLButtonElement).disabled).toBe(false));
       fireEvent.click(del);
+      fireEvent.click(screen.getByRole('button', { name: 'Delete entry' }));
       const docs = writeDays.mock.calls[0][1];
       expect(docs['2026-10-13']).toMatchObject({ slots: '.'.repeat(48), notes: {} });
       expect(docs['2026-10-14']).toMatchObject({ slots: '.'.repeat(48), notes: {} });

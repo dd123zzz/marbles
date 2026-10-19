@@ -1,0 +1,99 @@
+.week-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.week-grid li {
+  display: flex;
+}
+
+.week-grid .day-cell {
+  flex: 1;
+}
+
+.day-name {
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.day-cell.today .day-name {
+  color: inherit;
+}
+
+.day-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-height: var(--tap);
+  padding: 8px 2px 6px;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  font-size: 0.75rem;
+  box-shadow: var(--shadow-1);
+}
+
+.day-cell.weekend {
+  background: var(--weekend-bg);
+}
+
+/* Today: a thick outline and bold text, plus "Today" text for screen readers */
+.day-cell.today {
+  background: var(--today-bg);
+  outline: 3px solid var(--accent);
+  outline-offset: -1px;
+  font-weight: 800;
+}
+
+.today-badge {
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: var(--accent-soft-text);
+  text-transform: uppercase;
+}
+
+.month-card {
+  padding: 8px 4px;
+}
+
+.month-grid {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 2px;
+  table-layout: fixed;
+}
+
+.month-grid th {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  padding: 4px 0;
+}
+
+.month-grid td {
+  padding: 0;
+  vertical-align: top;
+}
+
+.month-grid .day-cell {
+  box-shadow: none;
+  border-color: transparent;
+  background: transparent;
+  padding: 4px 0;
+}
+
+.month-grid .day-cell.weekend {
+  background: var(--weekend-bg);
+}
+
+.month-grid .day-cell.today {
+  background: var(--today-bg);
+  border-color: transparent;
+}
