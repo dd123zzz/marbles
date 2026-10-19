@@ -2,9 +2,11 @@
 
 A native iPhone client for Marbles that makes the same data feel physical and fun: a real-physics jar, flick-to-log, haptics, sound, glass shaders, and rituals. It shares the web app's Firebase project, data model, rules, and features unchanged, and it costs $0 (free Xcode Personal Team sideload).
 
-**Status (2026-10-18): planning only. There is no iOS code yet. N1–N9 are answered. Coding starts once the user approves [ROADMAP.md](./ROADMAP.md) and the Mac is updated (macOS 26.7.1 + Xcode 27.1).**
+**Status (2026-10-18 23:58): plan approved. The host-testable Swift packages are built (MarblesCore, MarblesPhysics, MarblesData; 187 tests green). The app, Firebase, and device work wait for the Mac update (macOS 26.7.1 + Xcode 27.1). See [HANDOFF.md](./HANDOFF.md).**
 
 ## Reading order
+
+**Resuming work? Start with [HANDOFF.md](./HANDOFF.md)** (current state, known issues, next steps).
 
 | # | Doc | Owner | What it answers |
 |---|---|---|---|
