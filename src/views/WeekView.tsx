@@ -6,6 +6,8 @@ import { useNow } from '../hooks/useNow';
 import { monthDay, weekdayShort } from '../lib/dateLabels';
 import { computeMarbles } from '../lib/jar';
 import { addDays, isValidDateKey, parseDateKey, toDateKey, weekRange } from '../lib/time';
+import { weekTitle } from '../share/drawJar';
+import ShareButton from '../share/ShareButton.tsx';
 import './calendar.css';
 
 export default function WeekView() {
@@ -22,6 +24,11 @@ function Week({ date }: { date: string }) {
   const keys = weekRange(date, settings.weekStart);
   const { days, loading, error } = useDays(uid, keys[0], keys[6]);
   const today = toDateKey(now);
+  const weekDays = keys.map((k) => {
+    const doc = days[k];
+    const sleep = doc?.sleep ?? { start: settings.sleepStart, end: settings.sleepEnd };
+    return { date: k, marbles: computeMarbles({ date: k, slots: doc?.slots, sleep, now }) };
+  });
 
   return (
     <div className="stack">
@@ -47,6 +54,14 @@ function Week({ date }: { date: string }) {
           <Link className="btn" to={`/month/${date.slice(0, 7)}`}>
             Month
           </Link>
+          {!loading && (
+            <ShareButton
+              spec={{ kind: 'week', title: weekTitle(keys[0]), days: weekDays }}
+              label="Share week image"
+              title={`Marbles — ${weekTitle(keys[0])}`}
+              filename={`marbles-week-${keys[0]}`}
+            />
+          )}
         </div>
       </header>
       {error && (
@@ -58,10 +73,7 @@ function Week({ date }: { date: string }) {
         <p className="loading">Loading…</p>
       ) : (
         <ul className="week-grid">
-          {keys.map((k) => {
-            const doc = days[k];
-            const sleep = doc?.sleep ?? { start: settings.sleepStart, end: settings.sleepEnd };
-            const marbles = computeMarbles({ date: k, slots: doc?.slots, sleep, now });
+          {weekDays.map(({ date: k, marbles }) => {
             const dow = parseDateKey(k).getDay();
             const cls = ['day-cell', k === today && 'today', (dow === 0 || dow === 6) && 'weekend']
               .filter(Boolean)

@@ -85,3 +85,22 @@
   font-size: 0.95rem;
   margin: 0;
 }
+
+.chip-btn {
+  min-height: 36px;
+  padding: 3px 12px;
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.chip-btn:hover {
+  border-color: var(--text-muted);
+}
+
+.chip-edit {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}

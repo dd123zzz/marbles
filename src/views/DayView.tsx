@@ -6,12 +6,14 @@ import Jar from '../components/Jar.tsx';
 import SummaryChips from '../components/SummaryChips.tsx';
 import { useDays, useSettings } from '../data/RepoProvider.tsx';
 import { useNow } from '../hooks/useNow';
-import { weekdayMonthDay } from '../lib/dateLabels';
+import { fullDate, weekdayMonthDay } from '../lib/dateLabels';
 import { logicalEntriesForDay, logicalEntryAt } from '../lib/entries';
 import { CATEGORY_LABEL, computeMarbles } from '../lib/jar';
 import { addDays, isFutureSlot, isValidDateKey, parseDateKey, toDateKey } from '../lib/time';
+import ShareButton from '../share/ShareButton.tsx';
 import LogSheet, { type SheetMode } from './LogSheet.tsx';
 import Reflection from './Reflection.tsx';
+import SleepSheet from './SleepSheet.tsx';
 import { defaultStartFor, formatEntryRange } from './logSheetLogic';
 import './day.css';
 
@@ -32,6 +34,7 @@ function Day({ param }: { param: string | undefined }) {
   // Neighbouring days let an entry that crosses midnight resolve as one.
   const { days, loading, fromCache, error } = useDays(uid, addDays(date, -1), addDays(date, 1));
   const [sheet, setSheet] = useState<{ mode: SheetMode; id: number } | null>(null);
+  const [sleepOpen, setSleepOpen] = useState(false);
 
   const doc = days[date];
   const sleep = doc?.sleep ?? { start: settings.sleepStart, end: settings.sleepEnd };
@@ -92,6 +95,12 @@ function Day({ param }: { param: string | undefined }) {
               Today
             </Link>
           )}
+          <ShareButton
+            spec={{ kind: 'day', date, marbles }}
+            label="Share day image"
+            title={`Marbles — ${fullDate(date)}`}
+            filename={`marbles-${date}`}
+          />
         </div>
       </header>
 
@@ -104,7 +113,11 @@ function Day({ param }: { param: string | undefined }) {
         <p className="loading">Loading…</p>
       ) : (
         <section className="card jar-card" aria-label="Jar">
-          <SummaryChips marbles={marbles} />
+          <SummaryChips
+            marbles={marbles}
+            dateLabel={weekdayMonthDay(date)}
+            onEditSleep={uid ? () => setSleepOpen(true) : undefined}
+          />
           <Jar
             marbles={marbles}
             label={`Jar for ${weekdayMonthDay(date)}`}
@@ -161,6 +174,20 @@ function Day({ param }: { param: string | undefined }) {
           fromCache={fromCache}
           settings={settings}
           settingsLoading={settingsLoading}
+        />
+      )}
+
+      {sleepOpen && uid && (
+        <SleepSheet
+          uid={uid}
+          date={date}
+          doc={doc}
+          current={sleep}
+          fallback={{ start: settings.sleepStart, end: settings.sleepEnd }}
+          loading={loading}
+          fromCache={fromCache}
+          settingsLoading={settingsLoading}
+          onClose={() => setSleepOpen(false)}
         />
       )}
 

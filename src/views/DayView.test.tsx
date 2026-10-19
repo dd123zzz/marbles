@@ -87,11 +87,14 @@ async function openLogSheet() {
 }
 
 beforeEach(() => {
+  // jsdom has no canvas; the share button then just stays disabled
+  vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue(null);
   vi.useFakeTimers({ toFake: ['Date'] });
   vi.setSystemTime(new Date(2026, 9, 14, 14, 20));
 });
 afterEach(() => {
   cleanup();
+  vi.restoreAllMocks();
   vi.useRealTimers();
 });
 
@@ -391,5 +394,66 @@ describe('DayView', () => {
       await screen.findByRole('button', { name: 'Log time' });
       expect(screen.queryByLabelText('Reflection')).toBeNull();
     });
+  });
+});
+
+describe('DayView sleep and share', () => {
+  const chipName = /^Edit sleep for Wed Oct 14/;
+
+  it('edits the sleep of a day without a doc, creating it', async () => {
+    const { repo, writeDays } = fakeRepo();
+    renderDay(repo);
+    const chip = await screen.findByRole('button', { name: chipName });
+    chip.focus();
+    fireEvent.click(chip);
+    expect(await screen.findByRole('dialog', { name: 'Sleep' })).toBeTruthy();
+    fireEvent.change(screen.getByLabelText('Sleep end'), { target: { value: '08:00' } });
+    const save = screen.getByRole('button', { name: 'Save' }) as HTMLButtonElement;
+    await vi.waitFor(() => expect(save.disabled).toBe(false));
+    fireEvent.click(save);
+    const doc = writeDays.mock.calls[0][1]['2026-10-14'];
+    expect(doc.slots).toBe('.'.repeat(48));
+    expect(doc.sleep).toEqual({ start: '23:00', end: '08:00' });
+    expect(screen.queryByRole('dialog')).toBeNull();
+    expect(document.activeElement).toBe(chip);
+  });
+
+  it('shows the day doc sleep on the chip and keeps its own window', async () => {
+    const doc: DayDoc = {
+      slots: '.'.repeat(48),
+      notes: {},
+      sleep: { start: '01:00', end: '03:00' },
+      tz: 'America/Los_Angeles',
+      v: 1,
+    };
+    const { repo } = fakeRepo({ '2026-10-14': doc });
+    renderDay(repo);
+    const chip = await screen.findByRole('button', { name: chipName });
+    expect(chip.textContent).toContain('Sleep 2h');
+    fireEvent.click(chip);
+    expect((screen.getByLabelText('Sleep start') as HTMLSelectElement).value).toBe('01:00');
+  });
+
+  it('allows editing sleep on a future day', async () => {
+    const { repo, writeDays } = fakeRepo();
+    renderDay(repo, '/day/2026-10-20');
+    fireEvent.click(await screen.findByRole('button', { name: /^Edit sleep for Tue Oct 20/ }));
+    const save = await screen.findByRole('button', { name: 'Save' });
+    await vi.waitFor(() => expect((save as HTMLButtonElement).disabled).toBe(false));
+    fireEvent.click(save);
+    expect(Object.keys(writeDays.mock.calls[0][1])).toEqual(['2026-10-20']);
+  });
+
+  it('still opens the log sheet when a sleep marble is tapped', async () => {
+    const { repo } = fakeRepo();
+    renderDay(repo);
+    fireEvent.click(await screen.findByLabelText('00:00–01:00 Sleep'));
+    expect(await screen.findByRole('dialog', { name: 'Log time' })).toBeTruthy();
+  });
+
+  it('has a share button for the day', async () => {
+    const { repo } = fakeRepo();
+    renderDay(repo);
+    expect(await screen.findByRole('button', { name: 'Share day image' })).toBeTruthy();
   });
 });

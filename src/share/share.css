@@ -1,0 +1,11 @@
+.share-btn {
+  margin-left: auto;
+  flex: none;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+}
+
+.share-btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
