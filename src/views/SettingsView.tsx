@@ -5,8 +5,9 @@ import SegmentedControl from '../components/SegmentedControl.tsx';
 import { useToast } from '../components/Toast.tsx';
 import { useRepo, useSettings } from '../data/RepoProvider.tsx';
 import RemindersSection from '../reminders/RemindersSection.tsx';
+import { useJarStyle } from '../hooks/useJarStyle';
 import { applyTheme } from '../theme/theme';
-import type { Settings, ThemePref, WeekStart } from '../types';
+import type { JarStyle, Settings, ThemePref, WeekStart } from '../types';
 import { startOptions } from './logSheetLogic';
 import ResetDataSheet from './ResetDataSheet.tsx';
 import './forms.css';
@@ -18,6 +19,11 @@ const THEME_OPTIONS = [
   { value: 'light', label: 'Light' },
   { value: 'dark', label: 'Dark' },
 ] as const satisfies ReadonlyArray<{ value: ThemePref; label: string }>;
+
+const JAR_STYLE_OPTIONS = [
+  { value: 'grid', label: 'Grid' },
+  { value: 'loose', label: 'Loose' },
+] as const satisfies ReadonlyArray<{ value: JarStyle; label: string }>;
 
 const WEEK_OPTIONS = [
   { value: 'mon', label: 'Monday' },
@@ -63,6 +69,8 @@ function ThemeSection({ uid, theme }: { uid: string; theme: ThemePref }) {
   const [pending, setPending] = useState<{ base: ThemePref; value: ThemePref } | null>(null);
   const value = pending && pending.base === theme ? pending.value : theme;
 
+  const [jarStyle, setJarStyle] = useJarStyle();
+
   const choose = (next: ThemePref) => {
     setPending({ base: theme, value: next });
     applyTheme(next);
@@ -84,6 +92,16 @@ function ThemeSection({ uid, theme }: { uid: string; theme: ThemePref }) {
         onChange={choose}
       />
       <p className="muted">System follows your device&apos;s light or dark setting.</p>
+      <SegmentedControl
+        legend="Jar style"
+        name="jar-style"
+        value={jarStyle}
+        options={JAR_STYLE_OPTIONS}
+        onChange={setJarStyle}
+      />
+      <p className="muted">
+        Loose: marbles roll like real marbles. Hour numbers stay on each marble.
+      </p>
     </section>
   );
 }

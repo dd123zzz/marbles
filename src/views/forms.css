@@ -3,6 +3,10 @@ form.card > .btn-block {
   margin-top: 12px;
 }
 
+.card .muted + fieldset {
+  margin-top: 16px;
+}
+
 .card .segmented + .muted {
   margin-top: 8px;
 }

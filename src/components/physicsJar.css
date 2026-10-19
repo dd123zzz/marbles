@@ -1,0 +1,12 @@
+/* Marbles move, so the grid's square hit cells would overlap their neighbours: hit the circles. */
+.physics-jar .marble-target .hit {
+  display: none;
+}
+
+.physics-jar .marble {
+  pointer-events: all;
+}
+
+.physics-marble {
+  will-change: transform;
+}

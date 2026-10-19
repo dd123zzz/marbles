@@ -72,6 +72,17 @@ describe('SettingsView', () => {
     expect(dark.checked).toBe(true);
   });
 
+  it('has a per-device jar style control backed by localStorage', async () => {
+    const save = setup();
+    const grid = (await screen.findByLabelText('Grid')) as HTMLInputElement;
+    expect(grid.checked).toBe(true);
+    expect(screen.getByText(/Loose: marbles roll like real marbles/)).toBeTruthy();
+    fireEvent.click(screen.getByLabelText('Loose'));
+    expect((screen.getByLabelText('Loose') as HTMLInputElement).checked).toBe(true);
+    expect(localStorage.getItem('marbles-jar-style')).toBe('loose');
+    expect(save).not.toHaveBeenCalled();
+  });
+
   it('reverts and toasts when saving the theme fails', async () => {
     setup(async () => {
       throw new Error('denied');
