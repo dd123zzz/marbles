@@ -124,9 +124,10 @@ describe('users/{uid}/days/{date}', () => {
   it('lets the owner delete every day doc in a batch', async () => {
     await seed(['users', ALICE, 'days', DATE], day());
     await seed(['users', ALICE, 'days', '2026-03-15'], day());
-    const batch = writeBatch(alice());
-    batch.delete(ref(alice()));
-    batch.delete(ref(alice(), ALICE, '2026-03-15'));
+    const db = alice();
+    const batch = writeBatch(db);
+    batch.delete(ref(db));
+    batch.delete(ref(db, ALICE, '2026-03-15'));
     await assertSucceeds(batch.commit());
   });
 
