@@ -21,17 +21,7 @@ Running log, updated roughly every 100 AI credits spent (see [model_rate.md](./m
 | 0 | Plan + rate table, kickoff | 6 |
 | 1 | Stage 0 local parts done: scaffold (Vite 8, React 19, RR 7, firebase 13, Vitest 5); `src/lib` time/jar/entries (152 tests); auth (Firebase popup + demo), repo (Firestore + in-memory demo), `firestore.rules` + rules tests (not run locally, no Java), CI and deploy workflows (not pushed). Next: Stage 1 UI (1.5–1.9). | ~98 |
 | 2 | Stage 1 UI built (1.5–1.9): Day jar, 2-tap LogSheet, edit/delete, date nav, Week/Month, Settings. Code review found 3 issues, all fixed (cache-snapshot overwrite, sleep snapshot before settings load, ungated rules deploy). 186 tests; lint/typecheck/build green. Browser smoke test in demo mode passed: 2-tap log, midnight split, half marbles, notes, overwrite confirm, week/month nav, week-start toggle. | ~247 |
-| 3 | Deployed: repo `dd123zzz/marbles`, Firebase project `marbles-life`. First CI run green: check, rules (34/34 rules tests), Pages deploy, rules deploy. Live at https://dd123zzz.github.io/marbles/. Remaining: real-device checks. | ~255 |
+| 3 | Deployed: repo `dd123zzz/marbles`, Firebase project `marbles-life`. First CI run green: check, rules (34/34 rules tests), Pages deploy, rules deploy. Live at https://dd123zzz.github.io/marbles/. Real-device checks passed. Carryover moved to Stage 2; AGENTS.md added. | ~265 |
 
-## Stage 1 status: deployed. Real-device checks pending. Remaining items need you
-These can't be done without your accounts, devices, or Java:
-1. **Firebase (0.2–0.3):** create the project; enable Google and Email/Password auth and Firestore (production mode); add `<user>.github.io` to authorized domains; restrict the API key by HTTP referrer. Put the real config in `.env.local` with `VITE_DEMO=false` to test locally.
-2. **GitHub (0.1, 0.4–0.6):** create repo `marbles`, `git remote add origin … && git push -u origin main`. Set repo variables `VITE_FIREBASE_*`, secret `FIREBASE_SERVICE_ACCOUNT`, and Pages source = GitHub Actions.
-3. **Rules tests (1.10):** these have never run, because there's no Java here. The first CI run will execute them. Alternatively, `brew install openjdk` and run `npm run test:rules`.
-4. **Real devices (1.1, 1.10):** smoke test Google popup sign-in and the core loop on iPhone Safari and Android Chrome.
-
-## Known gaps / Stage 2 candidates
-- An entry crossing midnight is edited as two separate per-day pieces.
-- A half marble has one keyboard target. The entries list is the accessible path to the other half.
-- Write errors use `window.alert`, not a toast.
-- Plain styling only, per the Stage 1 brief.
+## Stage 1 status: complete
+Deployed and verified on real iPhone and Android devices (2026-10-18). Everything left over (README fix, SPEC questions, the midnight-edit / keyboard / toast gaps, and user checks for usage, API key and key file) moved to **PLAN.md Stage 2 → "Stage 1 carryover" (2.0a–2.0h)**. Dev rules are codified in [AGENTS.md](./AGENTS.md).

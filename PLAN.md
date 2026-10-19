@@ -111,6 +111,23 @@ Plain styling only: system fonts, basic layout, and SVG circles for marbles.
 
 ## Stage 2: Polish & Insights (about 3–4 days)
 
+**Stage 1 status:** shipped 2026-10-18 to https://dd123zzz.github.io/marbles/ (Firebase project `marbles-life`). Real-device checks passed on iPhone and Android.
+
+### Stage 1 carryover (do first)
+
+| # | Item | Owner | Notes |
+|---|---|---|---|
+| 2.0a | Fix README categories | Agent | The intro says "Wanted, Neutral or Regret". It should say Wanted, Wasted, Unwanted. |
+| 2.0b | Close resolved open questions in SPEC | Agent | Sleep is indigo `#4f46e5` and excluded from awake %. The repo is public `dd123zzz/marbles` at `/marbles/`. The custom-domain question stays open. |
+| 2.0c | Edit midnight-crossing entries as one | Agent | Today an entry crossing midnight is edited as two per-day pieces. Detect a run that touches slot 47 on day D and slot 0 on D+1 with the same category, and edit and delete it as one entry. Needs `lib/entries` tests. |
+| 2.0d | Keyboard access to both marble halves | Agent | A half marble exposes one focus target (the left half). Make each half its own focusable target with its own label. |
+| 2.0e | Replace `window.alert` with an in-app toast | Agent | Covers write errors. Fold into 2.1's bottom-sheet work. |
+| 2.0f | Check Firestore usage | User | After about a day of real use, Firebase console → Firestore → Usage should show tens of reads per day, not hundreds. |
+| 2.0g | Verify API key restriction | User | Websites restriction includes `https://dd123zzz.github.io/*`, `https://marbles-life.firebaseapp.com/*`, and `http://localhost:*`. |
+| 2.0h | Delete the local service-account key | User | Delete the downloaded JSON key file. It now lives only in the `FIREBASE_SERVICE_ACCOUNT` secret. |
+
+### Features
+
 | # | Feature | Notes |
 |---|---|---|
 | 2.1 | Visual design pass | Jar artwork, marble gradients, mobile layout, a bottom-sheet log form, empty states |
