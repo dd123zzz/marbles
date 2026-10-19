@@ -13,6 +13,8 @@ Running log, updated roughly every 100 AI credits spent (see [model_rate.md](./m
 - Future slots render as empty, even inside the sleep window (precedence: logged > future → empty > sleep > unlogged gray).
 - A slot is loggable once it has started (slot start ≤ now).
 - The sleep window applies within each calendar day, wrapping (23:00–07:00 means 00:00–07:00 and 23:00–24:00 on each day).
+- Stage 2 visual direction (user choice): soft and friendly (glass jar, glossy marbles, warm off-white) with a bottom tab bar.
+- Local `.env.local` is now real Firebase (`VITE_DEMO=false`). For agent smoke tests, run `VITE_DEMO=true npm run dev`.
 - GitHub setup is deferred until after Stage 1 (user request): the CI workflow is written but not pushed.
 
 ## Progress
@@ -23,6 +25,7 @@ Running log, updated roughly every 100 AI credits spent (see [model_rate.md](./m
 | 2 | Stage 1 UI built (1.5–1.9): Day jar, 2-tap LogSheet, edit/delete, date nav, Week/Month, Settings. Code review found 3 issues, all fixed (cache-snapshot overwrite, sleep snapshot before settings load, ungated rules deploy). 186 tests; lint/typecheck/build green. Browser smoke test in demo mode passed: 2-tap log, midnight split, half marbles, notes, overwrite confirm, week/month nav, week-start toggle. | ~247 |
 | 3 | Deployed: repo `dd123zzz/marbles`, Firebase project `marbles-life`. First CI run green: check, rules (34/34 rules tests), Pages deploy, rules deploy. Live at https://dd123zzz.github.io/marbles/. Real-device checks passed. Carryover moved to Stage 2; AGENTS.md added. | ~265 |
 | 4 | Stage 2 wave 1: docs fixes (2.0a/b); midnight-crossing entries edit as one + day reflection (2.0c, 2.4); stats view + CSV/JSON export with `Repo.getDays` (2.3, 2.5); PWA with update prompt + icons (2.6). 247 tests green. Next: wave 2 = design pass + dark mode + keyboard halves + toast (2.1, 2.2, 2.0d, 2.0e). | ~420 |
+| 5 | Stage 2 wave 2: soft visual design, bottom tab bar, bottom-sheet log form with in-sheet confirms, toasts (2.0e), keyboard targets per marble half (2.0d), dark mode with theme setting (2.2). 270 tests green. Browser smoke test passed in light and dark. Next: code review → fixes (incl. Log time button overlapping Entries on short screens, manifest colors). | ~544 |
 
 ## Stage 1 status: complete
 Deployed and verified on real iPhone and Android devices (2026-10-18). Everything left over (README fix, SPEC questions, the midnight-edit / keyboard / toast gaps, and user checks for usage, API key and key file) moved to **PLAN.md Stage 2 → "Stage 1 carryover" (2.0a–2.0h)**. Dev rules are codified in [AGENTS.md](./AGENTS.md).
