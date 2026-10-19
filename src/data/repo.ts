@@ -37,8 +37,7 @@ export interface Repo {
   /**
    * Permanently deletes every day doc and the settings doc for this user (the account stays).
    * Needs a connection: the day list comes from the server, never the cache. Active
-   * subscribers update on their own. Optional so older Repo stubs keep compiling; the real
-   * implementations always provide it.
+   * subscribers update on their own.
    */
-  deleteAllData?(uid: string): Promise<{ deletedDays: number }>;
+  deleteAllData(uid: string): Promise<{ deletedDays: number }>;
 }

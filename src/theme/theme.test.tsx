@@ -84,6 +84,7 @@ describe('ThemeSync', () => {
     subscribeDays: () => () => {},
     getDays: async () => ({}),
     writeDays: async () => {},
+    deleteAllData: async () => ({ deletedDays: 0 }),
   });
   const mount = (settings: Settings) =>
     render(

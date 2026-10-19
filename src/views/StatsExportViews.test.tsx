@@ -51,6 +51,7 @@ function fakeRepo(initial: Record<string, DayDoc>, getDays?: Repo['getDays']) {
       (async (_uid, start, end) =>
         Object.fromEntries(Object.entries(initial).filter(([k]) => k >= start && k <= end))),
     writeDays: async () => {},
+    deleteAllData: async () => ({ deletedDays: 0 }),
   };
   return repo;
 }

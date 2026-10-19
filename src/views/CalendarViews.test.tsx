@@ -50,6 +50,7 @@ function fakeRepo(initial: Record<string, DayDoc>): Repo {
     },
     getDays: async () => ({}),
     writeDays: async () => {},
+    deleteAllData: async () => ({ deletedDays: 0 }),
   };
 }
 

@@ -32,6 +32,7 @@ const repo: Repo = {
   },
   getDays: async () => ({}),
   writeDays: async () => {},
+  deleteAllData: async () => ({ deletedDays: 0 }),
 };
 
 function mount(showBanner: boolean) {

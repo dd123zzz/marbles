@@ -30,7 +30,7 @@ For each hour position:
 - If both 30-minute halves have the same category, draw one full marble.
 - If they differ, draw two half-circle marbles side by side (left half = :00–:30, right half = :30–:60).
 
-Marbles stack chronologically: 00:00 at the bottom of the jar, 23:00 at the top. Each marble's position always means a time of day, so the jar is readable rather than random.
+Marbles stack chronologically: 00:00 at the bottom of the jar, 23:00 at the top. Each marble's position always means a time of day, so the jar is readable rather than random. **Exception:** the optional per-device Loose jar (P5) lets marbles roll and settle physically, so there the hour labels carry the meaning instead of position.
 
 ## 3. Core User Loop (MVP)
 
@@ -49,6 +49,7 @@ Marbles stack chronologically: 00:00 at the bottom of the jar, 23:00 at the top.
 - **Midnight:** an entry that crosses midnight is split across both days automatically.
 - **Overlaps:** logging over already-logged slots asks the user to confirm, then overwrites them (the last write wins). Sleep and unlogged slots are overwritten silently.
 - **Target:** the default "log last hour" flow takes 2 taps or fewer.
+- **Drag-to-drop (Stage 4):** on today's jar, dragging a category marble from the tray into the jar logs the last hour, rounded to the nearest 30 minutes (e.g., at 14:44 it logs 13:30–14:30). No sheet opens. Logged slots in that hour are overwritten with no confirm, and notes in it are dropped. Sleep and unlogged slots are filled. An Undo toast restores the previous slots and notes. A repeat drop with a different category changes the same block. The Log sheet keeps its overwrite confirm.
 
 ### F3. Edit, delete & backfill
 - Tap a marble to see its entry (time range, category, note), then edit or delete it.
@@ -57,18 +58,20 @@ Marbles stack chronologically: 00:00 at the bottom of the jar, 23:00 at the top.
 
 ### F4. Day jar view (home)
 - Shows today's jar with 24 positions, filled using the rendering rule above.
-- Shows a summary line with hours per category (e.g., `G 6h · B 2.5h · R 1h · Sleep 8h · Unlogged 3.5h`).
+- Layout, top to bottom: a tray of three category marbles (Wanted, Wasted, Unwanted) above today's jar, used for drag-to-drop (F2); the jar; then summary chips under the jar. The tray shows on today only.
+- Summary chips show hours per category (e.g., `G 6h · B 2.5h · R 1h · Sleep 8h · Unlogged 3.5h`).
 
 ### F5. Calendar views
 - **Week view:** 7 mini jars with day labels. The week start (Mon or Sun) is a user setting.
 - **Month view:** a grid of mini jars.
 - Tapping any mini jar opens that day's jar.
-- Mini jars use the same rendering rule as the day jar, drawn as static images.
+- Mini jars use the same rendering rule as the day jar, drawn as static images. Past days with nothing logged show an empty jar.
 
 ### F6. Settings
 - **Sleep window:** start and end time, default 23:00–07:00.
 - **Week start:** Monday or Sunday.
 - **Account:** email, sign out.
+- **Delete all data:** permanently deletes every day and the settings after the user types `DELETE` to confirm. The account is kept.
 - Changing the sleep window does not rewrite past days (each day keeps a snapshot of its sleep window).
 
 ## 4. Post-MVP Features (chosen by the user)
