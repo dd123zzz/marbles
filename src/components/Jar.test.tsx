@@ -166,6 +166,13 @@ describe('marble animations', () => {
 });
 
 describe('MiniJar', () => {
+  it('draws no marbles and says nothing logged when nothingLogged', () => {
+    const { container } = render(<MiniJar date="2026-10-14" marbles={marbles} nothingLogged />);
+    expect(screen.getByRole('img').getAttribute('aria-label')).toBe('Wed Oct 14: nothing logged');
+    expect(container.querySelectorAll('.marble')).toHaveLength(0);
+    expect(container.querySelector('.jar-outline')).not.toBeNull();
+  });
+
   it('labels the day with its summary', () => {
     render(<MiniJar date="2026-10-14" marbles={marbles} />);
     expect(screen.getByRole('img').getAttribute('aria-label')).toMatch(

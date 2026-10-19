@@ -4,7 +4,7 @@ import MiniJar from '../components/MiniJar.tsx';
 import { useDays, useSettings } from '../data/RepoProvider.tsx';
 import { useNow } from '../hooks/useNow';
 import { monthDay, weekdayShort } from '../lib/dateLabels';
-import { computeMarbles } from '../lib/jar';
+import { computeMarbles, isEmptyPastDay } from '../lib/jar';
 import { addDays, isValidDateKey, parseDateKey, toDateKey, weekRange } from '../lib/time';
 import { weekTitle } from '../share/drawJar';
 import ShareButton from '../share/ShareButton.tsx';
@@ -27,7 +27,11 @@ function Week({ date }: { date: string }) {
   const weekDays = keys.map((k) => {
     const doc = days[k];
     const sleep = doc?.sleep ?? { start: settings.sleepStart, end: settings.sleepEnd };
-    return { date: k, marbles: computeMarbles({ date: k, slots: doc?.slots, sleep, now }) };
+    return {
+      date: k,
+      marbles: computeMarbles({ date: k, slots: doc?.slots, sleep, now }),
+      nothingLogged: isEmptyPastDay(k, today, doc?.slots),
+    };
   });
 
   return (
@@ -73,7 +77,7 @@ function Week({ date }: { date: string }) {
         <p className="loading">Loading…</p>
       ) : (
         <ul className="week-grid">
-          {weekDays.map(({ date: k, marbles }) => {
+          {weekDays.map(({ date: k, marbles, nothingLogged }) => {
             const dow = parseDateKey(k).getDay();
             const cls = ['day-cell', k === today && 'today', (dow === 0 || dow === 6) && 'weekend']
               .filter(Boolean)
@@ -81,7 +85,7 @@ function Week({ date }: { date: string }) {
             return (
               <li key={k}>
                 <Link to={`/day/${k}`} className={cls}>
-                  <MiniJar date={k} marbles={marbles} size={44} />
+                  <MiniJar date={k} marbles={marbles} size={44} nothingLogged={nothingLogged} />
                   <span className="day-name">{weekdayShort(k)}</span>
                   <span>{parseDateKey(k).getDate()}</span>
                   {k === today && <span className="today-badge">Today</span>}

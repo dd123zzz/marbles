@@ -34,6 +34,8 @@ export const WEEK_IMAGE: ImageSize = { width: 420, height: 650, scale: IMAGE_PX_
 export interface WeekImageDay {
   date: DateKey;
   marbles: Marble[];
+  /** past day with nothing logged: draw the bare jar */
+  nothingLogged?: boolean;
 }
 
 /** "Sat, Oct 18, 2026" */
@@ -250,7 +252,7 @@ export function drawWeekImage(
   input.days.slice(0, 7).forEach((d, i) => {
     const x0 = 16 + (i % cols) * cell;
     const y0 = 100 + Math.floor(i / cols) * rowH;
-    drawJar(ctx, d.marbles, x0 + (cell - jarW) / 2, y0, jarW, false);
+    drawJar(ctx, d.nothingLogged ? [] : d.marbles, x0 + (cell - jarW) / 2, y0, jarW, false);
     const cx = x0 + cell / 2;
     text(ctx, weekdayShort(d.date), cx, y0 + jarH + 20, { size: 14, weight: 700, align: 'center' });
     text(ctx, String(parseDateKey(d.date).getDate()), cx, y0 + jarH + 38, {

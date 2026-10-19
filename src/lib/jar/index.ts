@@ -57,6 +57,16 @@ export function computeMarbles(input: ComputeMarblesInput): Marble[] {
   });
 }
 
+/** True when any slot is logged (g/b/r); a missing doc or all-'.' slots is not. */
+export function hasLoggedSlots(slots?: string): boolean {
+  return slots !== undefined && /[gbr]/.test(slots);
+}
+
+/** A day before `today` (both YYYY-MM-DD) with nothing logged; shown as an empty jar. */
+export function isEmptyPastDay(date: DateKey, today: DateKey, slots?: string): boolean {
+  return date < today && !hasLoggedSlots(slots);
+}
+
 export type Summary = Record<Category | 'sleep' | 'unlogged', number>;
 
 /** Hours per category; each half marble counts 0.5. Empty and n/a halves are not counted. */

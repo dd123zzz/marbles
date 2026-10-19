@@ -142,6 +142,14 @@ describe('drawWeekImage', () => {
     // mini jars carry no hour numbers
     expect(of(calls, 'strokeText')).toHaveLength(0);
   });
+
+  it('draws no marbles for a past day with nothing logged, but keeps its label', () => {
+    const { ctx, calls } = mockCtx();
+    const mixed = days.map((d, i) => (i === 1 ? { ...d, nothingLogged: true } : d));
+    drawWeekImage(ctx, { title: weekTitle('2026-10-12'), days: mixed });
+    expect(marbleArcs(calls)).toHaveLength(6 * 24);
+    expect(of(calls, 'fillText').map((c) => c.args[0])).toContain('Tue');
+  });
 });
 
 describe('labels', () => {

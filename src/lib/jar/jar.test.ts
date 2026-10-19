@@ -1,6 +1,14 @@
 import { describe, expect, it } from 'vitest';
 import type { Marble, MarbleColor } from '../../types';
-import { CATEGORY_LABEL, MARBLE_COLORS, computeMarbles, formatSummary, summarize } from './index';
+import {
+  CATEGORY_LABEL,
+  MARBLE_COLORS,
+  computeMarbles,
+  formatSummary,
+  hasLoggedSlots,
+  isEmptyPastDay,
+  summarize,
+} from './index';
 
 const SLEEP = { start: '23:00', end: '07:00' };
 const NO_SLEEP = { start: '00:00', end: '00:00' };
@@ -303,5 +311,32 @@ describe('constants', () => {
     expect(CATEGORY_LABEL.unlogged).toBe('Unlogged');
     expect(CATEGORY_LABEL.empty).toBe('Not yet');
     expect(CATEGORY_LABEL.na).toContain('Not applicable');
+  });
+});
+
+describe('hasLoggedSlots', () => {
+  it('is false for a missing doc and for all-unlogged slots', () => {
+    expect(hasLoggedSlots(undefined)).toBe(false);
+    expect(hasLoggedSlots('')).toBe(false);
+    expect(hasLoggedSlots('.'.repeat(48))).toBe(false);
+  });
+
+  it('is true for any g, b or r slot', () => {
+    for (const c of ['g', 'b', 'r']) expect(hasLoggedSlots(make({ 47: c }))).toBe(true);
+    expect(hasLoggedSlots(make({ 0: 'g' }))).toBe(true);
+  });
+});
+
+describe('isEmptyPastDay', () => {
+  const blank = '.'.repeat(48);
+  it('is true only for days before today with nothing logged', () => {
+    expect(isEmptyPastDay('2026-10-13', '2026-10-14', undefined)).toBe(true);
+    expect(isEmptyPastDay('2026-10-13', '2026-10-14', blank)).toBe(true);
+    expect(isEmptyPastDay('2026-10-13', '2026-10-14', make({ 5: 'b' }))).toBe(false);
+  });
+
+  it('is false for today and future days', () => {
+    expect(isEmptyPastDay('2026-10-14', '2026-10-14', blank)).toBe(false);
+    expect(isEmptyPastDay('2026-10-15', '2026-10-14', undefined)).toBe(false);
   });
 });

@@ -10,7 +10,7 @@ import {
   parseYearMonth,
   shiftMonth,
 } from '../lib/dateLabels';
-import { computeMarbles } from '../lib/jar';
+import { computeMarbles, isEmptyPastDay } from '../lib/jar';
 import { monthGrid, monthRange, parseDateKey, toDateKey } from '../lib/time';
 import './calendar.css';
 
@@ -104,7 +104,12 @@ function Month({ year, month0 }: { year: number; month0: number }) {
                     return (
                       <td key={j}>
                         <Link to={`/day/${k}`} className={cls}>
-                          <MiniJar date={k} marbles={marbles} size={34} />
+                          <MiniJar
+                            date={k}
+                            marbles={marbles}
+                            size={34}
+                            nothingLogged={isEmptyPastDay(k, today, doc?.slots)}
+                          />
                           <span>{parseDateKey(k).getDate()}</span>
                           {k === today && <span className="sr-only">Today</span>}
                         </Link>
