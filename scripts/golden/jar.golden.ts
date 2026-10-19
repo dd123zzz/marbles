@@ -50,8 +50,16 @@ it('jar golden', () => {
   }
   for (const s of slotSets) {
     c.push({ fn: 'hasLoggedSlots', input: { slots: s ?? null }, output: hasLoggedSlots(s) });
-    for (const [date, today] of [['2026-10-17', '2026-10-18'], ['2026-10-18', '2026-10-18'], ['2026-10-19', '2026-10-18']]) {
-      c.push({ fn: 'isEmptyPastDay', input: { date, today, slots: s ?? null }, output: isEmptyPastDay(date, today, s) });
+    for (const [date, today] of [
+      ['2026-10-17', '2026-10-18'],
+      ['2026-10-18', '2026-10-18'],
+      ['2026-10-19', '2026-10-18'],
+    ]) {
+      c.push({
+        fn: 'isEmptyPastDay',
+        input: { date, today, slots: s ?? null },
+        output: isEmptyPastDay(date, today, s),
+      });
     }
   }
   c.push({ fn: 'CATEGORY_LABEL', input: {}, output: CATEGORY_LABEL });

@@ -1,0 +1,1394 @@
+{
+  "cases": [
+    {
+      "fn": "exportRows",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          }
+        },
+        "range": {
+          "start": "2026-10-17",
+          "end": "2026-10-18"
+        }
+      },
+      "output": [
+        {
+          "date": "2026-10-17",
+          "start": "2026-10-17T09:00:00+11:00",
+          "end": "2026-10-17T11:00:00+11:00",
+          "duration_minutes": 120,
+          "category": "wanted",
+          "note": "deep work, \"quoted\""
+        },
+        {
+          "date": "2026-10-17",
+          "start": "2026-10-17T15:00:00+11:00",
+          "end": "2026-10-17T15:30:00+11:00",
+          "duration_minutes": 30,
+          "category": "wasted",
+          "note": "a,b"
+        },
+        {
+          "date": "2026-10-18",
+          "start": "2026-10-18T00:00:00+11:00",
+          "end": "2026-10-18T02:00:00+11:00",
+          "duration_minutes": 120,
+          "category": "unwanted",
+          "note": ""
+        },
+        {
+          "date": "2026-10-18",
+          "start": "2026-10-18T13:00:00+11:00",
+          "end": "2026-10-18T15:00:00+11:00",
+          "duration_minutes": 120,
+          "category": "wasted",
+          "note": "line\nbreak"
+        },
+        {
+          "date": "2026-10-18",
+          "start": "2026-10-18T20:00:00+11:00",
+          "end": "2026-10-18T20:30:00+11:00",
+          "duration_minutes": 30,
+          "category": "wanted",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "fn": "toCsv",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          }
+        },
+        "range": {
+          "start": "2026-10-17",
+          "end": "2026-10-18"
+        }
+      },
+      "output": "﻿date,start,end,duration_minutes,category,note\r\n2026-10-17,2026-10-17T09:00:00+11:00,2026-10-17T11:00:00+11:00,120,wanted,\"deep work, \"\"quoted\"\"\"\r\n2026-10-17,2026-10-17T15:00:00+11:00,2026-10-17T15:30:00+11:00,30,wasted,\"a,b\"\r\n2026-10-18,2026-10-18T00:00:00+11:00,2026-10-18T02:00:00+11:00,120,unwanted,\r\n2026-10-18,2026-10-18T13:00:00+11:00,2026-10-18T15:00:00+11:00,120,wasted,\"line\nbreak\"\r\n2026-10-18,2026-10-18T20:00:00+11:00,2026-10-18T20:30:00+11:00,30,wanted,\r\n"
+    },
+    {
+      "fn": "toJson",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          }
+        },
+        "range": {
+          "start": "2026-10-17",
+          "end": "2026-10-18"
+        },
+        "meta": {
+          "exportedAt": "2026-10-18T14:20:00.000Z",
+          "timezone": "Australia/Lord_Howe"
+        }
+      },
+      "output": "{\n  \"exportedAt\": \"2026-10-18T14:20:00.000Z\",\n  \"timezone\": \"Australia/Lord_Howe\",\n  \"range\": {\n    \"start\": \"2026-10-17\",\n    \"end\": \"2026-10-18\"\n  },\n  \"days\": [\n    {\n      \"date\": \"2026-10-17\",\n      \"slots\": \"..................gggg........b.................\",\n      \"notes\": {\n        \"18\": \"deep work, \\\"quoted\\\"\",\n        \"30\": \"a,b\"\n      },\n      \"sleep\": {\n        \"start\": \"23:00\",\n        \"end\": \"07:00\"\n      },\n      \"tz\": \"Australia/Lord_Howe\"\n    },\n    {\n      \"date\": \"2026-10-18\",\n      \"slots\": \"rrrr......................bbbb..........g.......\",\n      \"notes\": {\n        \"26\": \"line\\nbreak\"\n      },\n      \"sleep\": {\n        \"start\": \"23:00\",\n        \"end\": \"07:00\"\n      },\n      \"tz\": \"Australia/Lord_Howe\",\n      \"reflection\": \"good day\"\n    }\n  ],\n  \"entries\": [\n    {\n      \"date\": \"2026-10-17\",\n      \"start\": \"2026-10-17T09:00:00+11:00\",\n      \"end\": \"2026-10-17T11:00:00+11:00\",\n      \"duration_minutes\": 120,\n      \"category\": \"wanted\",\n      \"note\": \"deep work, \\\"quoted\\\"\"\n    },\n    {\n      \"date\": \"2026-10-17\",\n      \"start\": \"2026-10-17T15:00:00+11:00\",\n      \"end\": \"2026-10-17T15:30:00+11:00\",\n      \"duration_minutes\": 30,\n      \"category\": \"wasted\",\n      \"note\": \"a,b\"\n    },\n    {\n      \"date\": \"2026-10-18\",\n      \"start\": \"2026-10-18T00:00:00+11:00\",\n      \"end\": \"2026-10-18T02:00:00+11:00\",\n      \"duration_minutes\": 120,\n      \"category\": \"unwanted\",\n      \"note\": \"\"\n    },\n    {\n      \"date\": \"2026-10-18\",\n      \"start\": \"2026-10-18T13:00:00+11:00\",\n      \"end\": \"2026-10-18T15:00:00+11:00\",\n      \"duration_minutes\": 120,\n      \"category\": \"wasted\",\n      \"note\": \"line\\nbreak\"\n    },\n    {\n      \"date\": \"2026-10-18\",\n      \"start\": \"2026-10-18T20:00:00+11:00\",\n      \"end\": \"2026-10-18T20:30:00+11:00\",\n      \"duration_minutes\": 30,\n      \"category\": \"wanted\",\n      \"note\": \"\"\n    }\n  ]\n}"
+    },
+    {
+      "fn": "exportCounts",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          }
+        },
+        "range": {
+          "start": "2026-10-17",
+          "end": "2026-10-18"
+        }
+      },
+      "output": {
+        "days": 2,
+        "entries": 5
+      }
+    },
+    {
+      "fn": "exportFilename",
+      "input": {
+        "range": {
+          "start": "2026-10-17",
+          "end": "2026-10-18"
+        },
+        "format": "csv"
+      },
+      "output": "marbles-2026-10-17_2026-10-18.csv"
+    },
+    {
+      "fn": "exportFilename",
+      "input": {
+        "range": {
+          "start": "2026-10-17",
+          "end": "2026-10-18"
+        },
+        "format": "json"
+      },
+      "output": "marbles-2026-10-17_2026-10-18.json"
+    },
+    {
+      "fn": "exportRows",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          }
+        },
+        "range": {
+          "start": "2026-12-31",
+          "end": "2027-01-01"
+        }
+      },
+      "output": [
+        {
+          "date": "2026-12-31",
+          "start": "2026-12-31T22:00:00+11:00",
+          "end": "2027-01-01T00:00:00+11:00",
+          "duration_minutes": 120,
+          "category": "wanted",
+          "note": ""
+        },
+        {
+          "date": "2027-01-01",
+          "start": "2027-01-01T00:00:00+11:00",
+          "end": "2027-01-01T01:00:00+11:00",
+          "duration_minutes": 60,
+          "category": "wanted",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "fn": "toCsv",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          }
+        },
+        "range": {
+          "start": "2026-12-31",
+          "end": "2027-01-01"
+        }
+      },
+      "output": "﻿date,start,end,duration_minutes,category,note\r\n2026-12-31,2026-12-31T22:00:00+11:00,2027-01-01T00:00:00+11:00,120,wanted,\r\n2027-01-01,2027-01-01T00:00:00+11:00,2027-01-01T01:00:00+11:00,60,wanted,\r\n"
+    },
+    {
+      "fn": "toJson",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          }
+        },
+        "range": {
+          "start": "2026-12-31",
+          "end": "2027-01-01"
+        },
+        "meta": {
+          "exportedAt": "2026-10-18T14:20:00.000Z",
+          "timezone": "Australia/Lord_Howe"
+        }
+      },
+      "output": "{\n  \"exportedAt\": \"2026-10-18T14:20:00.000Z\",\n  \"timezone\": \"Australia/Lord_Howe\",\n  \"range\": {\n    \"start\": \"2026-12-31\",\n    \"end\": \"2027-01-01\"\n  },\n  \"days\": [\n    {\n      \"date\": \"2026-12-31\",\n      \"slots\": \"............................................gggg\",\n      \"notes\": {},\n      \"sleep\": {\n        \"start\": \"23:00\",\n        \"end\": \"07:00\"\n      },\n      \"tz\": \"Australia/Lord_Howe\"\n    },\n    {\n      \"date\": \"2027-01-01\",\n      \"slots\": \"gg..............................................\",\n      \"notes\": {},\n      \"sleep\": {\n        \"start\": \"23:00\",\n        \"end\": \"07:00\"\n      },\n      \"tz\": \"Australia/Lord_Howe\"\n    }\n  ],\n  \"entries\": [\n    {\n      \"date\": \"2026-12-31\",\n      \"start\": \"2026-12-31T22:00:00+11:00\",\n      \"end\": \"2027-01-01T00:00:00+11:00\",\n      \"duration_minutes\": 120,\n      \"category\": \"wanted\",\n      \"note\": \"\"\n    },\n    {\n      \"date\": \"2027-01-01\",\n      \"start\": \"2027-01-01T00:00:00+11:00\",\n      \"end\": \"2027-01-01T01:00:00+11:00\",\n      \"duration_minutes\": 60,\n      \"category\": \"wanted\",\n      \"note\": \"\"\n    }\n  ]\n}"
+    },
+    {
+      "fn": "exportCounts",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          }
+        },
+        "range": {
+          "start": "2026-12-31",
+          "end": "2027-01-01"
+        }
+      },
+      "output": {
+        "days": 2,
+        "entries": 2
+      }
+    },
+    {
+      "fn": "exportFilename",
+      "input": {
+        "range": {
+          "start": "2026-12-31",
+          "end": "2027-01-01"
+        },
+        "format": "csv"
+      },
+      "output": "marbles-2026-12-31_2027-01-01.csv"
+    },
+    {
+      "fn": "exportFilename",
+      "input": {
+        "range": {
+          "start": "2026-12-31",
+          "end": "2027-01-01"
+        },
+        "format": "json"
+      },
+      "output": "marbles-2026-12-31_2027-01-01.json"
+    },
+    {
+      "fn": "exportRows",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          }
+        },
+        "range": {
+          "start": "2026-03-08",
+          "end": "2026-03-09"
+        }
+      },
+      "output": [
+        {
+          "date": "2026-03-08",
+          "start": "2026-03-08T00:00:00+11:00",
+          "end": "2026-03-08T00:30:00+11:00",
+          "duration_minutes": 30,
+          "category": "wanted",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "fn": "toCsv",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          }
+        },
+        "range": {
+          "start": "2026-03-08",
+          "end": "2026-03-09"
+        }
+      },
+      "output": "﻿date,start,end,duration_minutes,category,note\r\n2026-03-08,2026-03-08T00:00:00+11:00,2026-03-08T00:30:00+11:00,30,wanted,\r\n"
+    },
+    {
+      "fn": "toJson",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          }
+        },
+        "range": {
+          "start": "2026-03-08",
+          "end": "2026-03-09"
+        },
+        "meta": {
+          "exportedAt": "2026-10-18T14:20:00.000Z",
+          "timezone": "Australia/Lord_Howe"
+        }
+      },
+      "output": "{\n  \"exportedAt\": \"2026-10-18T14:20:00.000Z\",\n  \"timezone\": \"Australia/Lord_Howe\",\n  \"range\": {\n    \"start\": \"2026-03-08\",\n    \"end\": \"2026-03-09\"\n  },\n  \"days\": [\n    {\n      \"date\": \"2026-03-08\",\n      \"slots\": \"g...............................................\",\n      \"notes\": {},\n      \"sleep\": {\n        \"start\": \"23:00\",\n        \"end\": \"07:00\"\n      },\n      \"tz\": \"Australia/Lord_Howe\"\n    }\n  ],\n  \"entries\": [\n    {\n      \"date\": \"2026-03-08\",\n      \"start\": \"2026-03-08T00:00:00+11:00\",\n      \"end\": \"2026-03-08T00:30:00+11:00\",\n      \"duration_minutes\": 30,\n      \"category\": \"wanted\",\n      \"note\": \"\"\n    }\n  ]\n}"
+    },
+    {
+      "fn": "exportCounts",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          }
+        },
+        "range": {
+          "start": "2026-03-08",
+          "end": "2026-03-09"
+        }
+      },
+      "output": {
+        "days": 1,
+        "entries": 1
+      }
+    },
+    {
+      "fn": "exportFilename",
+      "input": {
+        "range": {
+          "start": "2026-03-08",
+          "end": "2026-03-09"
+        },
+        "format": "csv"
+      },
+      "output": "marbles-2026-03-08_2026-03-09.csv"
+    },
+    {
+      "fn": "exportFilename",
+      "input": {
+        "range": {
+          "start": "2026-03-08",
+          "end": "2026-03-09"
+        },
+        "format": "json"
+      },
+      "output": "marbles-2026-03-08_2026-03-09.json"
+    },
+    {
+      "fn": "exportRows",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          }
+        },
+        "range": {
+          "start": "2026-10-10",
+          "end": "2026-10-25"
+        }
+      },
+      "output": [
+        {
+          "date": "2026-10-17",
+          "start": "2026-10-17T09:00:00+11:00",
+          "end": "2026-10-17T11:00:00+11:00",
+          "duration_minutes": 120,
+          "category": "wanted",
+          "note": "deep work, \"quoted\""
+        },
+        {
+          "date": "2026-10-17",
+          "start": "2026-10-17T15:00:00+11:00",
+          "end": "2026-10-17T15:30:00+11:00",
+          "duration_minutes": 30,
+          "category": "wasted",
+          "note": "a,b"
+        },
+        {
+          "date": "2026-10-18",
+          "start": "2026-10-18T00:00:00+11:00",
+          "end": "2026-10-18T02:00:00+11:00",
+          "duration_minutes": 120,
+          "category": "unwanted",
+          "note": ""
+        },
+        {
+          "date": "2026-10-18",
+          "start": "2026-10-18T13:00:00+11:00",
+          "end": "2026-10-18T15:00:00+11:00",
+          "duration_minutes": 120,
+          "category": "wasted",
+          "note": "line\nbreak"
+        },
+        {
+          "date": "2026-10-18",
+          "start": "2026-10-18T20:00:00+11:00",
+          "end": "2026-10-18T20:30:00+11:00",
+          "duration_minutes": 30,
+          "category": "wanted",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "fn": "toCsv",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          }
+        },
+        "range": {
+          "start": "2026-10-10",
+          "end": "2026-10-25"
+        }
+      },
+      "output": "﻿date,start,end,duration_minutes,category,note\r\n2026-10-17,2026-10-17T09:00:00+11:00,2026-10-17T11:00:00+11:00,120,wanted,\"deep work, \"\"quoted\"\"\"\r\n2026-10-17,2026-10-17T15:00:00+11:00,2026-10-17T15:30:00+11:00,30,wasted,\"a,b\"\r\n2026-10-18,2026-10-18T00:00:00+11:00,2026-10-18T02:00:00+11:00,120,unwanted,\r\n2026-10-18,2026-10-18T13:00:00+11:00,2026-10-18T15:00:00+11:00,120,wasted,\"line\nbreak\"\r\n2026-10-18,2026-10-18T20:00:00+11:00,2026-10-18T20:30:00+11:00,30,wanted,\r\n"
+    },
+    {
+      "fn": "toJson",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          }
+        },
+        "range": {
+          "start": "2026-10-10",
+          "end": "2026-10-25"
+        },
+        "meta": {
+          "exportedAt": "2026-10-18T14:20:00.000Z",
+          "timezone": "Australia/Lord_Howe"
+        }
+      },
+      "output": "{\n  \"exportedAt\": \"2026-10-18T14:20:00.000Z\",\n  \"timezone\": \"Australia/Lord_Howe\",\n  \"range\": {\n    \"start\": \"2026-10-10\",\n    \"end\": \"2026-10-25\"\n  },\n  \"days\": [\n    {\n      \"date\": \"2026-10-17\",\n      \"slots\": \"..................gggg........b.................\",\n      \"notes\": {\n        \"18\": \"deep work, \\\"quoted\\\"\",\n        \"30\": \"a,b\"\n      },\n      \"sleep\": {\n        \"start\": \"23:00\",\n        \"end\": \"07:00\"\n      },\n      \"tz\": \"Australia/Lord_Howe\"\n    },\n    {\n      \"date\": \"2026-10-18\",\n      \"slots\": \"rrrr......................bbbb..........g.......\",\n      \"notes\": {\n        \"26\": \"line\\nbreak\"\n      },\n      \"sleep\": {\n        \"start\": \"23:00\",\n        \"end\": \"07:00\"\n      },\n      \"tz\": \"Australia/Lord_Howe\",\n      \"reflection\": \"good day\"\n    }\n  ],\n  \"entries\": [\n    {\n      \"date\": \"2026-10-17\",\n      \"start\": \"2026-10-17T09:00:00+11:00\",\n      \"end\": \"2026-10-17T11:00:00+11:00\",\n      \"duration_minutes\": 120,\n      \"category\": \"wanted\",\n      \"note\": \"deep work, \\\"quoted\\\"\"\n    },\n    {\n      \"date\": \"2026-10-17\",\n      \"start\": \"2026-10-17T15:00:00+11:00\",\n      \"end\": \"2026-10-17T15:30:00+11:00\",\n      \"duration_minutes\": 30,\n      \"category\": \"wasted\",\n      \"note\": \"a,b\"\n    },\n    {\n      \"date\": \"2026-10-18\",\n      \"start\": \"2026-10-18T00:00:00+11:00\",\n      \"end\": \"2026-10-18T02:00:00+11:00\",\n      \"duration_minutes\": 120,\n      \"category\": \"unwanted\",\n      \"note\": \"\"\n    },\n    {\n      \"date\": \"2026-10-18\",\n      \"start\": \"2026-10-18T13:00:00+11:00\",\n      \"end\": \"2026-10-18T15:00:00+11:00\",\n      \"duration_minutes\": 120,\n      \"category\": \"wasted\",\n      \"note\": \"line\\nbreak\"\n    },\n    {\n      \"date\": \"2026-10-18\",\n      \"start\": \"2026-10-18T20:00:00+11:00\",\n      \"end\": \"2026-10-18T20:30:00+11:00\",\n      \"duration_minutes\": 30,\n      \"category\": \"wanted\",\n      \"note\": \"\"\n    }\n  ]\n}"
+    },
+    {
+      "fn": "exportCounts",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Australia/Lord_Howe",
+            "v": 1
+          }
+        },
+        "range": {
+          "start": "2026-10-10",
+          "end": "2026-10-25"
+        }
+      },
+      "output": {
+        "days": 2,
+        "entries": 5
+      }
+    },
+    {
+      "fn": "exportFilename",
+      "input": {
+        "range": {
+          "start": "2026-10-10",
+          "end": "2026-10-25"
+        },
+        "format": "csv"
+      },
+      "output": "marbles-2026-10-10_2026-10-25.csv"
+    },
+    {
+      "fn": "exportFilename",
+      "input": {
+        "range": {
+          "start": "2026-10-10",
+          "end": "2026-10-25"
+        },
+        "format": "json"
+      },
+      "output": "marbles-2026-10-10_2026-10-25.json"
+    },
+    {
+      "fn": "csvField",
+      "input": {
+        "v": "plain"
+      },
+      "output": "plain"
+    },
+    {
+      "fn": "csvField",
+      "input": {
+        "v": "a,b"
+      },
+      "output": "\"a,b\""
+    },
+    {
+      "fn": "csvField",
+      "input": {
+        "v": "q\"uote"
+      },
+      "output": "\"q\"\"uote\""
+    },
+    {
+      "fn": "csvField",
+      "input": {
+        "v": "line\nbreak"
+      },
+      "output": "\"line\nbreak\""
+    },
+    {
+      "fn": "csvField",
+      "input": {
+        "v": "x\ry"
+      },
+      "output": "\"x\ry\""
+    },
+    {
+      "fn": "csvField",
+      "input": {
+        "v": 42
+      },
+      "output": "42"
+    },
+    {
+      "fn": "csvField",
+      "input": {
+        "v": ""
+      },
+      "output": ""
+    },
+    {
+      "fn": "CSV_HEADER",
+      "input": {},
+      "output": "date,start,end,duration_minutes,category,note"
+    },
+    {
+      "fn": "isoWithOffset",
+      "input": {
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": "2026-10-18T14:20:00+11:00"
+    },
+    {
+      "fn": "isoWithOffset",
+      "input": {
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": "2026-03-08T03:10:00+11:00"
+    },
+    {
+      "fn": "isoWithOffset",
+      "input": {
+        "now": "2026-11-01T01:30:00",
+        "nowEpochMs": 1793457000000
+      },
+      "output": "2026-11-01T01:30:00+11:00"
+    }
+  ]
+}

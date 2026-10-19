@@ -1,0 +1,4421 @@
+{
+  "cases": [
+    {
+      "fn": "entriesFromDay",
+      "input": {
+        "date": "2026-10-17",
+        "doc": {
+          "slots": "..................gggg........b.................",
+          "notes": {
+            "18": "deep work, \"quoted\"",
+            "30": "a,b"
+          },
+          "sleep": {
+            "start": "23:00",
+            "end": "07:00"
+          },
+          "tz": "Asia/Kolkata",
+          "v": 1
+        }
+      },
+      "output": [
+        {
+          "date": "2026-10-17",
+          "startSlot": 18,
+          "length": 4,
+          "category": "g",
+          "note": "deep work, \"quoted\""
+        },
+        {
+          "date": "2026-10-17",
+          "startSlot": 30,
+          "length": 1,
+          "category": "b",
+          "note": "a,b"
+        }
+      ]
+    },
+    {
+      "fn": "logicalEntriesForDay",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "date": "2026-10-17"
+      },
+      "output": [
+        {
+          "date": "2026-10-17",
+          "startSlot": 18,
+          "length": 4,
+          "category": "g",
+          "note": "deep work, \"quoted\""
+        },
+        {
+          "date": "2026-10-17",
+          "startSlot": 30,
+          "length": 1,
+          "category": "b",
+          "note": "a,b"
+        }
+      ]
+    },
+    {
+      "fn": "entriesFromDay",
+      "input": {
+        "date": "2026-10-18",
+        "doc": {
+          "slots": "rrrr......................bbbb..........g.......",
+          "notes": {
+            "26": "line\nbreak"
+          },
+          "sleep": {
+            "start": "23:00",
+            "end": "07:00"
+          },
+          "tz": "Asia/Kolkata",
+          "v": 1,
+          "reflection": "good day"
+        }
+      },
+      "output": [
+        {
+          "date": "2026-10-18",
+          "startSlot": 0,
+          "length": 4,
+          "category": "r"
+        },
+        {
+          "date": "2026-10-18",
+          "startSlot": 26,
+          "length": 4,
+          "category": "b",
+          "note": "line\nbreak"
+        },
+        {
+          "date": "2026-10-18",
+          "startSlot": 40,
+          "length": 1,
+          "category": "g"
+        }
+      ]
+    },
+    {
+      "fn": "logicalEntriesForDay",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "date": "2026-10-18"
+      },
+      "output": [
+        {
+          "date": "2026-10-18",
+          "startSlot": 0,
+          "length": 4,
+          "category": "r"
+        },
+        {
+          "date": "2026-10-18",
+          "startSlot": 26,
+          "length": 4,
+          "category": "b",
+          "note": "line\nbreak"
+        },
+        {
+          "date": "2026-10-18",
+          "startSlot": 40,
+          "length": 1,
+          "category": "g"
+        }
+      ]
+    },
+    {
+      "fn": "entriesFromDay",
+      "input": {
+        "date": "2026-03-08",
+        "doc": {
+          "slots": "g...............................................",
+          "notes": {},
+          "sleep": {
+            "start": "23:00",
+            "end": "07:00"
+          },
+          "tz": "Asia/Kolkata",
+          "v": 1
+        }
+      },
+      "output": [
+        {
+          "date": "2026-03-08",
+          "startSlot": 0,
+          "length": 1,
+          "category": "g"
+        }
+      ]
+    },
+    {
+      "fn": "logicalEntriesForDay",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "date": "2026-03-08"
+      },
+      "output": [
+        {
+          "date": "2026-03-08",
+          "startSlot": 0,
+          "length": 1,
+          "category": "g"
+        }
+      ]
+    },
+    {
+      "fn": "entriesFromDay",
+      "input": {
+        "date": "2026-12-31",
+        "doc": {
+          "slots": "............................................gggg",
+          "notes": {},
+          "sleep": {
+            "start": "23:00",
+            "end": "07:00"
+          },
+          "tz": "Asia/Kolkata",
+          "v": 1
+        }
+      },
+      "output": [
+        {
+          "date": "2026-12-31",
+          "startSlot": 44,
+          "length": 4,
+          "category": "g"
+        }
+      ]
+    },
+    {
+      "fn": "logicalEntriesForDay",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "date": "2026-12-31"
+      },
+      "output": [
+        {
+          "date": "2026-12-31",
+          "startSlot": 44,
+          "length": 6,
+          "category": "g"
+        }
+      ]
+    },
+    {
+      "fn": "entriesFromDay",
+      "input": {
+        "date": "2027-01-01",
+        "doc": {
+          "slots": "gg..............................................",
+          "notes": {},
+          "sleep": {
+            "start": "23:00",
+            "end": "07:00"
+          },
+          "tz": "Asia/Kolkata",
+          "v": 1
+        }
+      },
+      "output": [
+        {
+          "date": "2027-01-01",
+          "startSlot": 0,
+          "length": 2,
+          "category": "g"
+        }
+      ]
+    },
+    {
+      "fn": "logicalEntriesForDay",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "date": "2027-01-01"
+      },
+      "output": [
+        {
+          "date": "2026-12-31",
+          "startSlot": 44,
+          "length": 6,
+          "category": "g"
+        }
+      ]
+    },
+    {
+      "fn": "applyEntry",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "entry": {
+          "date": "2026-10-18",
+          "startSlot": 10,
+          "length": 2,
+          "category": "g",
+          "note": "hello"
+        },
+        "replace": null,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        },
+        "tz": "Asia/Kolkata"
+      },
+      "output": {
+        "2026-10-18": {
+          "slots": "rrrr......gg..............bbbb..........g.......",
+          "notes": {
+            "10": "hello",
+            "26": "line\nbreak"
+          },
+          "sleep": {
+            "start": "23:00",
+            "end": "07:00"
+          },
+          "tz": "Asia/Kolkata",
+          "v": 1,
+          "reflection": "good day"
+        }
+      }
+    },
+    {
+      "fn": "deleteEntry",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "entry": {
+          "date": "2026-10-18",
+          "startSlot": 10,
+          "length": 2,
+          "category": "g",
+          "note": "hello"
+        }
+      },
+      "output": {}
+    },
+    {
+      "fn": "applyEntry",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "entry": {
+          "date": "2026-10-18",
+          "startSlot": 46,
+          "length": 4,
+          "category": "b"
+        },
+        "replace": null,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        },
+        "tz": "Asia/Kolkata"
+      },
+      "output": {
+        "2026-10-18": {
+          "slots": "rrrr......................bbbb..........g.....bb",
+          "notes": {
+            "26": "line\nbreak"
+          },
+          "sleep": {
+            "start": "23:00",
+            "end": "07:00"
+          },
+          "tz": "Asia/Kolkata",
+          "v": 1,
+          "reflection": "good day"
+        },
+        "2026-10-19": {
+          "slots": "bb..............................................",
+          "notes": {},
+          "sleep": {
+            "start": "23:00",
+            "end": "07:00"
+          },
+          "tz": "Asia/Kolkata",
+          "v": 1
+        }
+      }
+    },
+    {
+      "fn": "deleteEntry",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "entry": {
+          "date": "2026-10-18",
+          "startSlot": 46,
+          "length": 4,
+          "category": "b"
+        }
+      },
+      "output": {}
+    },
+    {
+      "fn": "applyEntry",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "entry": {
+          "date": "2026-12-31",
+          "startSlot": 46,
+          "length": 4,
+          "category": "r",
+          "note": "ny"
+        },
+        "replace": null,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        },
+        "tz": "Asia/Kolkata"
+      },
+      "output": {
+        "2026-12-31": {
+          "slots": "............................................ggrr",
+          "notes": {
+            "46": "ny"
+          },
+          "sleep": {
+            "start": "23:00",
+            "end": "07:00"
+          },
+          "tz": "Asia/Kolkata",
+          "v": 1
+        },
+        "2027-01-01": {
+          "slots": "rr..............................................",
+          "notes": {
+            "0": "ny"
+          },
+          "sleep": {
+            "start": "23:00",
+            "end": "07:00"
+          },
+          "tz": "Asia/Kolkata",
+          "v": 1
+        }
+      }
+    },
+    {
+      "fn": "deleteEntry",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "entry": {
+          "date": "2026-12-31",
+          "startSlot": 46,
+          "length": 4,
+          "category": "r",
+          "note": "ny"
+        }
+      },
+      "output": {
+        "2026-12-31": {
+          "slots": "............................................gg..",
+          "notes": {},
+          "sleep": {
+            "start": "23:00",
+            "end": "07:00"
+          },
+          "tz": "Asia/Kolkata",
+          "v": 1
+        },
+        "2027-01-01": {
+          "slots": "................................................",
+          "notes": {},
+          "sleep": {
+            "start": "23:00",
+            "end": "07:00"
+          },
+          "tz": "Asia/Kolkata",
+          "v": 1
+        }
+      }
+    },
+    {
+      "fn": "applyEntry",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "entry": {
+          "date": "2026-10-18",
+          "startSlot": 2,
+          "length": 4,
+          "category": "g"
+        },
+        "replace": null,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        },
+        "tz": "Asia/Kolkata"
+      },
+      "output": {
+        "2026-10-18": {
+          "slots": "rrgggg....................bbbb..........g.......",
+          "notes": {
+            "26": "line\nbreak"
+          },
+          "sleep": {
+            "start": "23:00",
+            "end": "07:00"
+          },
+          "tz": "Asia/Kolkata",
+          "v": 1,
+          "reflection": "good day"
+        }
+      }
+    },
+    {
+      "fn": "deleteEntry",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "entry": {
+          "date": "2026-10-18",
+          "startSlot": 2,
+          "length": 4,
+          "category": "g"
+        }
+      },
+      "output": {
+        "2026-10-18": {
+          "slots": "rr........................bbbb..........g.......",
+          "notes": {
+            "26": "line\nbreak"
+          },
+          "sleep": {
+            "start": "23:00",
+            "end": "07:00"
+          },
+          "tz": "Asia/Kolkata",
+          "v": 1,
+          "reflection": "good day"
+        }
+      }
+    },
+    {
+      "fn": "applyEntry",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "entry": {
+          "date": "2026-10-18",
+          "startSlot": 26,
+          "length": 2,
+          "category": "r",
+          "note": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        },
+        "replace": null,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        },
+        "tz": "Asia/Kolkata"
+      },
+      "output": {
+        "2026-10-18": {
+          "slots": "rrrr......................rrbb..........g.......",
+          "notes": {
+            "26": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+          },
+          "sleep": {
+            "start": "23:00",
+            "end": "07:00"
+          },
+          "tz": "Asia/Kolkata",
+          "v": 1,
+          "reflection": "good day"
+        }
+      }
+    },
+    {
+      "fn": "deleteEntry",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "entry": {
+          "date": "2026-10-18",
+          "startSlot": 26,
+          "length": 2,
+          "category": "r",
+          "note": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "output": {
+        "2026-10-18": {
+          "slots": "rrrr........................bb..........g.......",
+          "notes": {},
+          "sleep": {
+            "start": "23:00",
+            "end": "07:00"
+          },
+          "tz": "Asia/Kolkata",
+          "v": 1,
+          "reflection": "good day"
+        }
+      }
+    },
+    {
+      "fn": "applyEntry",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "entry": {
+          "date": "2026-10-17",
+          "startSlot": 18,
+          "length": 2,
+          "category": "b"
+        },
+        "replace": {
+          "date": "2026-10-17",
+          "startSlot": 18,
+          "length": 4,
+          "category": "g",
+          "note": "deep"
+        },
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        },
+        "tz": "Asia/Kolkata"
+      },
+      "output": {
+        "2026-10-17": {
+          "slots": "..................bb..........b.................",
+          "notes": {
+            "30": "a,b"
+          },
+          "sleep": {
+            "start": "23:00",
+            "end": "07:00"
+          },
+          "tz": "Asia/Kolkata",
+          "v": 1
+        }
+      }
+    },
+    {
+      "fn": "deleteEntry",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "entry": {
+          "date": "2026-10-17",
+          "startSlot": 18,
+          "length": 2,
+          "category": "b"
+        }
+      },
+      "output": {
+        "2026-10-17": {
+          "slots": "....................gg........b.................",
+          "notes": {
+            "30": "a,b"
+          },
+          "sleep": {
+            "start": "23:00",
+            "end": "07:00"
+          },
+          "tz": "Asia/Kolkata",
+          "v": 1
+        }
+      }
+    },
+    {
+      "fn": "applyEntry",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "entry": {
+          "date": "2026-10-19",
+          "startSlot": 5,
+          "length": 1,
+          "category": "g"
+        },
+        "replace": null,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        },
+        "tz": "Asia/Kolkata"
+      },
+      "output": {
+        "2026-10-19": {
+          "slots": ".....g..........................................",
+          "notes": {},
+          "sleep": {
+            "start": "23:00",
+            "end": "07:00"
+          },
+          "tz": "Asia/Kolkata",
+          "v": 1
+        }
+      }
+    },
+    {
+      "fn": "deleteEntry",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "entry": {
+          "date": "2026-10-19",
+          "startSlot": 5,
+          "length": 1,
+          "category": "g"
+        }
+      },
+      "output": {}
+    },
+    {
+      "fn": "validateEntry",
+      "input": {
+        "entry": {
+          "date": "2026-10-18",
+          "startSlot": 20,
+          "length": 2,
+          "category": "g"
+        },
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792313400000
+      },
+      "output": null
+    },
+    {
+      "fn": "validateEntry",
+      "input": {
+        "entry": {
+          "date": "2026-10-18",
+          "startSlot": 47,
+          "length": 2,
+          "category": "g"
+        },
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792313400000
+      },
+      "output": "Entries cannot be in the future."
+    },
+    {
+      "fn": "validateEntry",
+      "input": {
+        "entry": {
+          "date": "2026-10-18",
+          "startSlot": 30,
+          "length": 1,
+          "category": "b"
+        },
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792313400000
+      },
+      "output": "Entries cannot be in the future."
+    },
+    {
+      "fn": "validateEntry",
+      "input": {
+        "entry": {
+          "date": "2026-10-16",
+          "startSlot": 0,
+          "length": 1,
+          "category": "r"
+        },
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792313400000
+      },
+      "output": null
+    },
+    {
+      "fn": "validateEntry",
+      "input": {
+        "entry": {
+          "date": "2026-10-18",
+          "startSlot": 0,
+          "length": 49,
+          "category": "g"
+        },
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792313400000
+      },
+      "output": "Duration must be between 30 minutes and 24 hours."
+    },
+    {
+      "fn": "validateEntry",
+      "input": {
+        "entry": {
+          "date": "2026-10-18",
+          "startSlot": 20,
+          "length": 2,
+          "category": "g"
+        },
+        "now": "2026-10-18T00:00:00",
+        "nowEpochMs": 1792261800000
+      },
+      "output": "Entries cannot be in the future."
+    },
+    {
+      "fn": "validateEntry",
+      "input": {
+        "entry": {
+          "date": "2026-10-18",
+          "startSlot": 47,
+          "length": 2,
+          "category": "g"
+        },
+        "now": "2026-10-18T00:00:00",
+        "nowEpochMs": 1792261800000
+      },
+      "output": "Entries cannot be in the future."
+    },
+    {
+      "fn": "validateEntry",
+      "input": {
+        "entry": {
+          "date": "2026-10-18",
+          "startSlot": 30,
+          "length": 1,
+          "category": "b"
+        },
+        "now": "2026-10-18T00:00:00",
+        "nowEpochMs": 1792261800000
+      },
+      "output": "Entries cannot be in the future."
+    },
+    {
+      "fn": "validateEntry",
+      "input": {
+        "entry": {
+          "date": "2026-10-16",
+          "startSlot": 0,
+          "length": 1,
+          "category": "r"
+        },
+        "now": "2026-10-18T00:00:00",
+        "nowEpochMs": 1792261800000
+      },
+      "output": null
+    },
+    {
+      "fn": "validateEntry",
+      "input": {
+        "entry": {
+          "date": "2026-10-18",
+          "startSlot": 0,
+          "length": 49,
+          "category": "g"
+        },
+        "now": "2026-10-18T00:00:00",
+        "nowEpochMs": 1792261800000
+      },
+      "output": "Duration must be between 30 minutes and 24 hours."
+    },
+    {
+      "fn": "validateEntry",
+      "input": {
+        "entry": {
+          "date": "2026-10-18",
+          "startSlot": 20,
+          "length": 2,
+          "category": "g"
+        },
+        "now": "2026-10-19T00:00:00",
+        "nowEpochMs": 1792348200000
+      },
+      "output": null
+    },
+    {
+      "fn": "validateEntry",
+      "input": {
+        "entry": {
+          "date": "2026-10-18",
+          "startSlot": 47,
+          "length": 2,
+          "category": "g"
+        },
+        "now": "2026-10-19T00:00:00",
+        "nowEpochMs": 1792348200000
+      },
+      "output": null
+    },
+    {
+      "fn": "validateEntry",
+      "input": {
+        "entry": {
+          "date": "2026-10-18",
+          "startSlot": 30,
+          "length": 1,
+          "category": "b"
+        },
+        "now": "2026-10-19T00:00:00",
+        "nowEpochMs": 1792348200000
+      },
+      "output": null
+    },
+    {
+      "fn": "validateEntry",
+      "input": {
+        "entry": {
+          "date": "2026-10-16",
+          "startSlot": 0,
+          "length": 1,
+          "category": "r"
+        },
+        "now": "2026-10-19T00:00:00",
+        "nowEpochMs": 1792348200000
+      },
+      "output": null
+    },
+    {
+      "fn": "validateEntry",
+      "input": {
+        "entry": {
+          "date": "2026-10-18",
+          "startSlot": 0,
+          "length": 49,
+          "category": "g"
+        },
+        "now": "2026-10-19T00:00:00",
+        "nowEpochMs": 1792348200000
+      },
+      "output": "Duration must be between 30 minutes and 24 hours."
+    },
+    {
+      "fn": "withReflection",
+      "input": {
+        "doc": {
+          "slots": "rrrr......................bbbb..........g.......",
+          "notes": {
+            "26": "line\nbreak"
+          },
+          "sleep": {
+            "start": "23:00",
+            "end": "07:00"
+          },
+          "tz": "Asia/Kolkata",
+          "v": 1,
+          "reflection": "good day"
+        },
+        "text": "hi"
+      },
+      "output": {
+        "slots": "rrrr......................bbbb..........g.......",
+        "notes": {
+          "26": "line\nbreak"
+        },
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        },
+        "tz": "Asia/Kolkata",
+        "v": 1,
+        "reflection": "hi"
+      }
+    },
+    {
+      "fn": "withReflection",
+      "input": {
+        "doc": {
+          "slots": "rrrr......................bbbb..........g.......",
+          "notes": {
+            "26": "line\nbreak"
+          },
+          "sleep": {
+            "start": "23:00",
+            "end": "07:00"
+          },
+          "tz": "Asia/Kolkata",
+          "v": 1,
+          "reflection": "good day"
+        },
+        "text": ""
+      },
+      "output": {
+        "slots": "rrrr......................bbbb..........g.......",
+        "notes": {
+          "26": "line\nbreak"
+        },
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        },
+        "tz": "Asia/Kolkata",
+        "v": 1
+      }
+    },
+    {
+      "fn": "withReflection",
+      "input": {
+        "doc": {
+          "slots": "rrrr......................bbbb..........g.......",
+          "notes": {
+            "26": "line\nbreak"
+          },
+          "sleep": {
+            "start": "23:00",
+            "end": "07:00"
+          },
+          "tz": "Asia/Kolkata",
+          "v": 1,
+          "reflection": "good day"
+        },
+        "text": "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"
+      },
+      "output": {
+        "slots": "rrrr......................bbbb..........g.......",
+        "notes": {
+          "26": "line\nbreak"
+        },
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        },
+        "tz": "Asia/Kolkata",
+        "v": 1,
+        "reflection": "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"
+      }
+    },
+    {
+      "fn": "planDrop",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "category": "g",
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        },
+        "tz": "Asia/Kolkata",
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792313400000
+      },
+      "output": {
+        "changed": {
+          "2026-10-18": {
+            "slots": "rrrr......................bggb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          }
+        },
+        "undo": {
+          "category": "g",
+          "slots": [
+            {
+              "date": "2026-10-18",
+              "slot": 27,
+              "prev": "b"
+            },
+            {
+              "date": "2026-10-18",
+              "slot": 28,
+              "prev": "b"
+            }
+          ],
+          "removedNotes": [],
+          "addedNotes": []
+        },
+        "noop": false
+      }
+    },
+    {
+      "fn": "undoDrop",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "undo": {
+          "category": "g",
+          "slots": [
+            {
+              "date": "2026-10-18",
+              "slot": 27,
+              "prev": "b"
+            },
+            {
+              "date": "2026-10-18",
+              "slot": 28,
+              "prev": "b"
+            }
+          ],
+          "removedNotes": [],
+          "addedNotes": []
+        }
+      },
+      "output": {
+        "2026-10-18": {
+          "slots": "rrrr......................bbbb..........g.......",
+          "notes": {
+            "26": "line\nbreak"
+          },
+          "sleep": {
+            "start": "23:00",
+            "end": "07:00"
+          },
+          "tz": "Asia/Kolkata",
+          "v": 1,
+          "reflection": "good day"
+        }
+      }
+    },
+    {
+      "fn": "planDrop",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "category": "b",
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        },
+        "tz": "Asia/Kolkata",
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792313400000
+      },
+      "output": {
+        "changed": {},
+        "undo": {
+          "category": "b",
+          "slots": [],
+          "removedNotes": [],
+          "addedNotes": []
+        },
+        "noop": true
+      }
+    },
+    {
+      "fn": "undoDrop",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "undo": {
+          "category": "b",
+          "slots": [],
+          "removedNotes": [],
+          "addedNotes": []
+        }
+      },
+      "output": {}
+    },
+    {
+      "fn": "planDrop",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "category": "r",
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        },
+        "tz": "Asia/Kolkata",
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792313400000
+      },
+      "output": {
+        "changed": {
+          "2026-10-18": {
+            "slots": "rrrr......................brrb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          }
+        },
+        "undo": {
+          "category": "r",
+          "slots": [
+            {
+              "date": "2026-10-18",
+              "slot": 27,
+              "prev": "b"
+            },
+            {
+              "date": "2026-10-18",
+              "slot": 28,
+              "prev": "b"
+            }
+          ],
+          "removedNotes": [],
+          "addedNotes": []
+        },
+        "noop": false
+      }
+    },
+    {
+      "fn": "undoDrop",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "undo": {
+          "category": "r",
+          "slots": [
+            {
+              "date": "2026-10-18",
+              "slot": 27,
+              "prev": "b"
+            },
+            {
+              "date": "2026-10-18",
+              "slot": 28,
+              "prev": "b"
+            }
+          ],
+          "removedNotes": [],
+          "addedNotes": []
+        }
+      },
+      "output": {
+        "2026-10-18": {
+          "slots": "rrrr......................bbbb..........g.......",
+          "notes": {
+            "26": "line\nbreak"
+          },
+          "sleep": {
+            "start": "23:00",
+            "end": "07:00"
+          },
+          "tz": "Asia/Kolkata",
+          "v": 1,
+          "reflection": "good day"
+        }
+      }
+    },
+    {
+      "fn": "planDrop",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "category": "g",
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        },
+        "tz": "Asia/Kolkata",
+        "now": "2026-10-18T00:20:00",
+        "nowEpochMs": 1792263000000
+      },
+      "output": {
+        "changed": {
+          "2026-10-17": {
+            "slots": "..................gggg........b................g",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "grrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          }
+        },
+        "undo": {
+          "category": "g",
+          "slots": [
+            {
+              "date": "2026-10-17",
+              "slot": 47,
+              "prev": "."
+            },
+            {
+              "date": "2026-10-18",
+              "slot": 0,
+              "prev": "r"
+            }
+          ],
+          "removedNotes": [],
+          "addedNotes": []
+        },
+        "noop": false
+      }
+    },
+    {
+      "fn": "undoDrop",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "undo": {
+          "category": "g",
+          "slots": [
+            {
+              "date": "2026-10-17",
+              "slot": 47,
+              "prev": "."
+            },
+            {
+              "date": "2026-10-18",
+              "slot": 0,
+              "prev": "r"
+            }
+          ],
+          "removedNotes": [],
+          "addedNotes": []
+        }
+      },
+      "output": {
+        "2026-10-17": {
+          "slots": "..................gggg........b.................",
+          "notes": {
+            "18": "deep work, \"quoted\"",
+            "30": "a,b"
+          },
+          "sleep": {
+            "start": "23:00",
+            "end": "07:00"
+          },
+          "tz": "Asia/Kolkata",
+          "v": 1
+        },
+        "2026-10-18": {
+          "slots": "rrrr......................bbbb..........g.......",
+          "notes": {
+            "26": "line\nbreak"
+          },
+          "sleep": {
+            "start": "23:00",
+            "end": "07:00"
+          },
+          "tz": "Asia/Kolkata",
+          "v": 1,
+          "reflection": "good day"
+        }
+      }
+    },
+    {
+      "fn": "planDrop",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "category": "b",
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        },
+        "tz": "Asia/Kolkata",
+        "now": "2026-10-18T00:20:00",
+        "nowEpochMs": 1792263000000
+      },
+      "output": {
+        "changed": {
+          "2026-10-17": {
+            "slots": "..................gggg........b................b",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "brrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          }
+        },
+        "undo": {
+          "category": "b",
+          "slots": [
+            {
+              "date": "2026-10-17",
+              "slot": 47,
+              "prev": "."
+            },
+            {
+              "date": "2026-10-18",
+              "slot": 0,
+              "prev": "r"
+            }
+          ],
+          "removedNotes": [],
+          "addedNotes": []
+        },
+        "noop": false
+      }
+    },
+    {
+      "fn": "undoDrop",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "undo": {
+          "category": "b",
+          "slots": [
+            {
+              "date": "2026-10-17",
+              "slot": 47,
+              "prev": "."
+            },
+            {
+              "date": "2026-10-18",
+              "slot": 0,
+              "prev": "r"
+            }
+          ],
+          "removedNotes": [],
+          "addedNotes": []
+        }
+      },
+      "output": {
+        "2026-10-17": {
+          "slots": "..................gggg........b.................",
+          "notes": {
+            "18": "deep work, \"quoted\"",
+            "30": "a,b"
+          },
+          "sleep": {
+            "start": "23:00",
+            "end": "07:00"
+          },
+          "tz": "Asia/Kolkata",
+          "v": 1
+        },
+        "2026-10-18": {
+          "slots": "rrrr......................bbbb..........g.......",
+          "notes": {
+            "26": "line\nbreak"
+          },
+          "sleep": {
+            "start": "23:00",
+            "end": "07:00"
+          },
+          "tz": "Asia/Kolkata",
+          "v": 1,
+          "reflection": "good day"
+        }
+      }
+    },
+    {
+      "fn": "planDrop",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "category": "r",
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        },
+        "tz": "Asia/Kolkata",
+        "now": "2026-10-18T00:20:00",
+        "nowEpochMs": 1792263000000
+      },
+      "output": {
+        "changed": {
+          "2026-10-17": {
+            "slots": "..................gggg........b................r",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "undo": {
+          "category": "r",
+          "slots": [
+            {
+              "date": "2026-10-17",
+              "slot": 47,
+              "prev": "."
+            },
+            {
+              "date": "2026-10-18",
+              "slot": 0,
+              "prev": "r"
+            }
+          ],
+          "removedNotes": [],
+          "addedNotes": []
+        },
+        "noop": false
+      }
+    },
+    {
+      "fn": "undoDrop",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "undo": {
+          "category": "r",
+          "slots": [
+            {
+              "date": "2026-10-17",
+              "slot": 47,
+              "prev": "."
+            },
+            {
+              "date": "2026-10-18",
+              "slot": 0,
+              "prev": "r"
+            }
+          ],
+          "removedNotes": [],
+          "addedNotes": []
+        }
+      },
+      "output": {
+        "2026-10-17": {
+          "slots": "..................gggg........b.................",
+          "notes": {
+            "18": "deep work, \"quoted\"",
+            "30": "a,b"
+          },
+          "sleep": {
+            "start": "23:00",
+            "end": "07:00"
+          },
+          "tz": "Asia/Kolkata",
+          "v": 1
+        }
+      }
+    },
+    {
+      "fn": "planDrop",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "category": "g",
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        },
+        "tz": "Asia/Kolkata",
+        "now": "2027-01-01T00:20:00",
+        "nowEpochMs": 1798743000000
+      },
+      "output": {
+        "changed": {},
+        "undo": {
+          "category": "g",
+          "slots": [],
+          "removedNotes": [],
+          "addedNotes": []
+        },
+        "noop": true
+      }
+    },
+    {
+      "fn": "undoDrop",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "undo": {
+          "category": "g",
+          "slots": [],
+          "removedNotes": [],
+          "addedNotes": []
+        }
+      },
+      "output": {}
+    },
+    {
+      "fn": "planDrop",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "category": "b",
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        },
+        "tz": "Asia/Kolkata",
+        "now": "2027-01-01T00:20:00",
+        "nowEpochMs": 1798743000000
+      },
+      "output": {
+        "changed": {
+          "2026-12-31": {
+            "slots": "............................................gggb",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "bg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "undo": {
+          "category": "b",
+          "slots": [
+            {
+              "date": "2026-12-31",
+              "slot": 47,
+              "prev": "g"
+            },
+            {
+              "date": "2027-01-01",
+              "slot": 0,
+              "prev": "g"
+            }
+          ],
+          "removedNotes": [],
+          "addedNotes": []
+        },
+        "noop": false
+      }
+    },
+    {
+      "fn": "undoDrop",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "undo": {
+          "category": "b",
+          "slots": [
+            {
+              "date": "2026-12-31",
+              "slot": 47,
+              "prev": "g"
+            },
+            {
+              "date": "2027-01-01",
+              "slot": 0,
+              "prev": "g"
+            }
+          ],
+          "removedNotes": [],
+          "addedNotes": []
+        }
+      },
+      "output": {
+        "2026-12-31": {
+          "slots": "............................................gggg",
+          "notes": {},
+          "sleep": {
+            "start": "23:00",
+            "end": "07:00"
+          },
+          "tz": "Asia/Kolkata",
+          "v": 1
+        },
+        "2027-01-01": {
+          "slots": "gg..............................................",
+          "notes": {},
+          "sleep": {
+            "start": "23:00",
+            "end": "07:00"
+          },
+          "tz": "Asia/Kolkata",
+          "v": 1
+        }
+      }
+    },
+    {
+      "fn": "planDrop",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "category": "r",
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        },
+        "tz": "Asia/Kolkata",
+        "now": "2027-01-01T00:20:00",
+        "nowEpochMs": 1798743000000
+      },
+      "output": {
+        "changed": {
+          "2026-12-31": {
+            "slots": "............................................gggr",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "rg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "undo": {
+          "category": "r",
+          "slots": [
+            {
+              "date": "2026-12-31",
+              "slot": 47,
+              "prev": "g"
+            },
+            {
+              "date": "2027-01-01",
+              "slot": 0,
+              "prev": "g"
+            }
+          ],
+          "removedNotes": [],
+          "addedNotes": []
+        },
+        "noop": false
+      }
+    },
+    {
+      "fn": "undoDrop",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "undo": {
+          "category": "r",
+          "slots": [
+            {
+              "date": "2026-12-31",
+              "slot": 47,
+              "prev": "g"
+            },
+            {
+              "date": "2027-01-01",
+              "slot": 0,
+              "prev": "g"
+            }
+          ],
+          "removedNotes": [],
+          "addedNotes": []
+        }
+      },
+      "output": {
+        "2026-12-31": {
+          "slots": "............................................gggg",
+          "notes": {},
+          "sleep": {
+            "start": "23:00",
+            "end": "07:00"
+          },
+          "tz": "Asia/Kolkata",
+          "v": 1
+        },
+        "2027-01-01": {
+          "slots": "gg..............................................",
+          "notes": {},
+          "sleep": {
+            "start": "23:00",
+            "end": "07:00"
+          },
+          "tz": "Asia/Kolkata",
+          "v": 1
+        }
+      }
+    },
+    {
+      "fn": "planDrop",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "category": "g",
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        },
+        "tz": "Asia/Kolkata",
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772919600000
+      },
+      "output": {
+        "changed": {
+          "2026-03-08": {
+            "slots": "g...gg..........................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "undo": {
+          "category": "g",
+          "slots": [
+            {
+              "date": "2026-03-08",
+              "slot": 4,
+              "prev": "."
+            },
+            {
+              "date": "2026-03-08",
+              "slot": 5,
+              "prev": "."
+            }
+          ],
+          "removedNotes": [],
+          "addedNotes": []
+        },
+        "noop": false
+      }
+    },
+    {
+      "fn": "undoDrop",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "undo": {
+          "category": "g",
+          "slots": [
+            {
+              "date": "2026-03-08",
+              "slot": 4,
+              "prev": "."
+            },
+            {
+              "date": "2026-03-08",
+              "slot": 5,
+              "prev": "."
+            }
+          ],
+          "removedNotes": [],
+          "addedNotes": []
+        }
+      },
+      "output": {
+        "2026-03-08": {
+          "slots": "g...............................................",
+          "notes": {},
+          "sleep": {
+            "start": "23:00",
+            "end": "07:00"
+          },
+          "tz": "Asia/Kolkata",
+          "v": 1
+        }
+      }
+    },
+    {
+      "fn": "planDrop",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "category": "b",
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        },
+        "tz": "Asia/Kolkata",
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772919600000
+      },
+      "output": {
+        "changed": {
+          "2026-03-08": {
+            "slots": "g...bb..........................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "undo": {
+          "category": "b",
+          "slots": [
+            {
+              "date": "2026-03-08",
+              "slot": 4,
+              "prev": "."
+            },
+            {
+              "date": "2026-03-08",
+              "slot": 5,
+              "prev": "."
+            }
+          ],
+          "removedNotes": [],
+          "addedNotes": []
+        },
+        "noop": false
+      }
+    },
+    {
+      "fn": "undoDrop",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "undo": {
+          "category": "b",
+          "slots": [
+            {
+              "date": "2026-03-08",
+              "slot": 4,
+              "prev": "."
+            },
+            {
+              "date": "2026-03-08",
+              "slot": 5,
+              "prev": "."
+            }
+          ],
+          "removedNotes": [],
+          "addedNotes": []
+        }
+      },
+      "output": {
+        "2026-03-08": {
+          "slots": "g...............................................",
+          "notes": {},
+          "sleep": {
+            "start": "23:00",
+            "end": "07:00"
+          },
+          "tz": "Asia/Kolkata",
+          "v": 1
+        }
+      }
+    },
+    {
+      "fn": "planDrop",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "category": "r",
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        },
+        "tz": "Asia/Kolkata",
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772919600000
+      },
+      "output": {
+        "changed": {
+          "2026-03-08": {
+            "slots": "g...rr..........................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "undo": {
+          "category": "r",
+          "slots": [
+            {
+              "date": "2026-03-08",
+              "slot": 4,
+              "prev": "."
+            },
+            {
+              "date": "2026-03-08",
+              "slot": 5,
+              "prev": "."
+            }
+          ],
+          "removedNotes": [],
+          "addedNotes": []
+        },
+        "noop": false
+      }
+    },
+    {
+      "fn": "undoDrop",
+      "input": {
+        "days": {
+          "2026-10-17": {
+            "slots": "..................gggg........b.................",
+            "notes": {
+              "18": "deep work, \"quoted\"",
+              "30": "a,b"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-10-18": {
+            "slots": "rrrr......................bbbb..........g.......",
+            "notes": {
+              "26": "line\nbreak"
+            },
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1,
+            "reflection": "good day"
+          },
+          "2026-03-08": {
+            "slots": "g...............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2026-12-31": {
+            "slots": "............................................gggg",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          },
+          "2027-01-01": {
+            "slots": "gg..............................................",
+            "notes": {},
+            "sleep": {
+              "start": "23:00",
+              "end": "07:00"
+            },
+            "tz": "Asia/Kolkata",
+            "v": 1
+          }
+        },
+        "undo": {
+          "category": "r",
+          "slots": [
+            {
+              "date": "2026-03-08",
+              "slot": 4,
+              "prev": "."
+            },
+            {
+              "date": "2026-03-08",
+              "slot": 5,
+              "prev": "."
+            }
+          ],
+          "removedNotes": [],
+          "addedNotes": []
+        }
+      },
+      "output": {
+        "2026-03-08": {
+          "slots": "g...............................................",
+          "notes": {},
+          "sleep": {
+            "start": "23:00",
+            "end": "07:00"
+          },
+          "tz": "Asia/Kolkata",
+          "v": 1
+        }
+      }
+    }
+  ]
+}
