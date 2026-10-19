@@ -34,7 +34,7 @@ Marbles is an installable PWA (service worker only in production builds, not `np
 `.github/workflows/ci.yml` runs lint, format, typecheck, tests and build, the rules tests, and on `main` deploys `dist/` to GitHub Pages. On `main`, its `deploy-rules` job deploys `firestore.rules` only after the checks and rules tests pass and only when `firestore.rules` or `firebase.json` changed. `deploy-rules.yml` is a manual (`workflow_dispatch`) fallback.
 
 Repository **variables** (Settings → Secrets and variables → Actions → Variables):
-`VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_STORAGE_BUCKET`, `VITE_FIREBASE_MESSAGING_SENDER_ID`, `VITE_FIREBASE_APP_ID`.
+`VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_STORAGE_BUCKET`, `VITE_FIREBASE_MESSAGING_SENDER_ID`, `VITE_FIREBASE_APP_ID`, and optionally `VITE_APPCHECK_SITE_KEY` (see [App Check](#app-check)).
 
 Repository **secret**: `FIREBASE_SERVICE_ACCOUNT` — JSON key of a service account allowed to deploy rules (role *Firebase Rules Admin*).
 
@@ -47,3 +47,15 @@ Repository **secret**: `FIREBASE_SERVICE_ACCOUNT` — JSON key of a service acco
 - [ ] Google Cloud console → Credentials: restrict the browser API key by HTTP referrer (`https://<user>.github.io/*`, plus `http://localhost:*` for dev).
 - [ ] Create the service account for `FIREBASE_SERVICE_ACCOUNT` and add it as a repo secret.
 - [ ] GitHub repo Settings → Pages → Source: **GitHub Actions**.
+- [ ] (Optional) App Check: see the section below.
+
+## App Check (optional)
+
+App Check adds reCAPTCHA v3 tokens to Firestore and Auth requests to limit abuse of the shared quota. It is only loaded in real Firebase mode, and it is skipped when `VITE_APPCHECK_SITE_KEY` is unset. Setup (done by you, in the consoles):
+
+1. Create a reCAPTCHA v3 key (or Enterprise, if the console offers it) for `dd123zzz.github.io` and `localhost`.
+2. Firebase console → App Check → register the web app with that key.
+3. Add the GitHub repo variable `VITE_APPCHECK_SITE_KEY` (Settings → Secrets and variables → Actions → Variables). The next deploy picks it up.
+4. For local dev (optional), create a debug token, add it to `.env.local` as `VITE_APPCHECK_DEBUG_TOKEN=<uuid>` (never commit it), and register the same token under App Check → Apps → Manage debug tokens. The debug token is only used in `npm run dev`.
+5. Monitor the App Check metrics for Firestore for 1–2 weeks while enforcement is **off**.
+6. Enforce App Check for Firestore in the console. Enforcement is reversible there if users are blocked.

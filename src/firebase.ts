@@ -1,4 +1,5 @@
 import { getApp, getApps, initializeApp, type FirebaseApp } from 'firebase/app';
+import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
 import {
   browserLocalPersistence,
   browserPopupRedirectResolver,
@@ -19,6 +20,13 @@ import {
 
 // Only ever loaded via dynamic import() when VITE_DEMO !== 'true'.
 
+declare global {
+  interface Window {
+    // Read by the App Check SDK; lets local dev use a token registered in the Firebase console.
+    FIREBASE_APPCHECK_DEBUG_TOKEN?: string | boolean;
+  }
+}
+
 export interface FirebaseServices {
   app: FirebaseApp;
   auth: Auth;
@@ -27,9 +35,21 @@ export interface FirebaseServices {
 
 let services: FirebaseServices | undefined;
 
+// Optional: skipped when VITE_APPCHECK_SITE_KEY is unset. Runs once, when the app is first created.
+function initAppCheck(app: FirebaseApp): void {
+  const siteKey = import.meta.env.VITE_APPCHECK_SITE_KEY;
+  if (!siteKey) return;
+  const debugToken = import.meta.env.VITE_APPCHECK_DEBUG_TOKEN;
+  if (import.meta.env.DEV && debugToken) self.FIREBASE_APPCHECK_DEBUG_TOKEN = debugToken;
+  initializeAppCheck(app, {
+    provider: new ReCaptchaV3Provider(siteKey),
+    isTokenAutoRefreshEnabled: true,
+  });
+}
+
 function createApp(): FirebaseApp {
   if (getApps().length > 0) return getApp();
-  return initializeApp({
+  const app = initializeApp({
     apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
     authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
     projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
@@ -37,6 +57,8 @@ function createApp(): FirebaseApp {
     messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
     appId: import.meta.env.VITE_FIREBASE_APP_ID,
   });
+  initAppCheck(app);
+  return app;
 }
 
 export function getFirebase(): FirebaseServices {
