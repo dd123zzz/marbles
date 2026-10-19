@@ -79,10 +79,10 @@ Marbles stack chronologically: 00:00 at the bottom of the jar, 23:00 at the top.
 | P2 | **Dark mode** | Follows the system setting, with a manual toggle. Black marbles get an outline or glow so they stay visible. |
 | P3 | **End-of-day reflection** | One free-text note per day (up to 1,000 characters), shown under the day jar. |
 | P4 | **CSV/JSON export** | Exports all data or a date range. Generated in the browser. |
-| P5 | **Marble drop animation** | New marbles drop into their slot with a bounce. Respects the device's reduced-motion setting. Optional real physics on the day view only (stretch). |
+| P5 | **Marble drop animation** | New marbles drop into their slot with a bounce, including marbles dragged in from the category tray (Stage 4). Respects the device's reduced-motion setting. Optional **Loose** jar style (Stage 4, day view only, off by default): marbles roll and settle as real marbles, keeping their hour labels. Under reduced motion it shows a static settled layout. |
 | P6 | **Share jar image** | Saves the day or week jar as a PNG and opens the phone's share sheet, with a download fallback. |
-| P7 | **Hourly reminders** | Tiered: an in-app banner and browser notification while the app is open, then a calendar `.ics` reminder, then real push notifications (stretch; needs a free external scheduler). |
-| P8 | **Installable app (PWA)** | Can be installed to the home screen. Needed for iOS push and gives offline-first behavior. |
+| P7 | **Hourly reminders** | Tiered: an in-app banner and browser notification while the app is open, then a calendar `.ics` reminder. Real push notifications are out of scope (removed in Stage 4). |
+| P8 | **Installable app (PWA)** | Can be installed to the home screen. Gives offline-first behavior. |
 
 ## 5. Out of Scope (for now)
 - Social features, multiple users per jar, teams.
@@ -107,8 +107,8 @@ Marbles stack chronologically: 00:00 at the bottom of the jar, 23:00 at the top.
 | Data model | One document per user per day, holding a 48-slot string | Cheap reads, easy validation in security rules, and overlaps are impossible by design. |
 | Gray and sleep fill | Computed in the browser, not stored | No extra writes; rendering stays consistent. |
 | Jar size | 24 marbles, sleep in its own color | User decision. |
-| Physics | Fixed slot positions plus a drop animation (physics is a stretch goal) | Each position means a time of day, so random physics would scramble the meaning. |
-| Push reminders | Staged, with real push as a stretch goal | The free plan has no server-side sender. |
+| Physics | Fixed slot positions plus a drop animation by default. Optional per-device **Loose** jar (custom circle solver, lazy-loaded, day view only): marbles pour in hour order and keep their hour labels. | Each grid position means a time of day, so the grid stays the default. The user wants real marble behavior, so physics is opt-in and meaning is carried by labels. |
+| Push reminders | In-app and `.ics` only; real push is out of scope | The free plan has no server-side sender. Removed by the user in Stage 4. |
 
 ## 8. Open Questions
 1. **Resolved:** The sleep color is indigo `#4f46e5`. Sleep is excluded from "awake %" stats.
