@@ -8,7 +8,38 @@ import { ToastProvider } from '../components/Toast.tsx';
 import { RepoProvider } from '../data/RepoProvider.tsx';
 import type { Repo } from '../data/repo.ts';
 import { DEFAULT_SETTINGS, type DayDoc } from '../types';
+import { FLY_MS } from '../components/useMarbleDrag.ts';
+import { JAR_STYLE_KEY } from '../hooks/useJarStyle';
+import { TILT_STORAGE_KEY } from '../hooks/useDeviceTilt';
 import DayView from './DayView.tsx';
+
+const physics = vi.hoisted(() => ({ dropAt: vi.fn(), lastGravity: null as unknown }));
+
+// The real PhysicsJar is covered by its own tests; here it only has to mount and expose its handle.
+vi.mock('../components/PhysicsJar.tsx', async () => {
+  const { useImperativeHandle } = await import('react');
+  return {
+    default: function PhysicsJarStub({
+      ref,
+      gravity,
+      label,
+    }: {
+      ref?: React.Ref<unknown>;
+      gravity?: { x: number; y: number };
+      label?: string;
+    }) {
+      physics.lastGravity = gravity;
+      useImperativeHandle(ref, () => ({ dropAt: physics.dropAt, getRect: () => null }), []);
+      return (
+        <div
+          data-testid="physics-jar"
+          data-gravity={gravity ? `${gravity.x},${gravity.y}` : ''}
+          aria-label={label}
+        />
+      );
+    },
+  };
+});
 
 const auth: AuthBackend = {
   subscribe(cb) {
@@ -650,5 +681,248 @@ describe('DayView drag-to-drop tray', () => {
     await dragOut('Wanted');
     expect(Object.keys(writeDays.mock.calls[0][1])).toEqual(['2026-10-13']);
     expect(screen.getByText('Logged yesterday 23:00–24:00 as Wanted')).toBeTruthy();
+  });
+});
+
+describe('DayView Loose jar', () => {
+  const PTR = { pointerId: 1, isPrimary: true, button: 0, pointerType: 'touch' };
+  const animate = vi.fn(() => ({}));
+
+  beforeEach(() => {
+    localStorage.clear();
+    physics.dropAt.mockClear();
+    animate.mockClear();
+    vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockReturnValue({
+      left: 100,
+      top: 300,
+      width: 52,
+      height: 52,
+      right: 152,
+      bottom: 352,
+      x: 100,
+      y: 300,
+      toJSON: () => ({}),
+    } as DOMRect);
+    Object.defineProperty(HTMLElement.prototype, 'setPointerCapture', {
+      configurable: true,
+      value: vi.fn(),
+    });
+    Object.defineProperty(HTMLElement.prototype, 'animate', { configurable: true, value: animate });
+  });
+  afterEach(() => {
+    localStorage.clear();
+    vi.unstubAllGlobals();
+    Reflect.deleteProperty(HTMLElement.prototype, 'animate');
+  });
+
+  const marble = (name: string) =>
+    screen.findByRole('button', { name: new RegExp(`^Log .* as ${name}$`) });
+  const writable = () => vi.waitFor(() => expect(screen.queryByText('Syncing…')).toBeNull());
+  async function dragOut(name: string) {
+    const btn = await marble(name);
+    fireEvent.pointerDown(btn, { ...PTR, clientX: 126, clientY: 326 });
+    fireEvent.pointerMove(btn, { ...PTR, clientX: 126, clientY: 200 });
+    fireEvent.pointerUp(btn, { ...PTR, clientX: 126, clientY: 200 });
+  }
+  const toggle = () => screen.findByRole('button', { name: 'Loose jar' });
+
+  it('keeps the grid jar by default and switches to Loose with the toggle, saved per device', async () => {
+    const { repo } = fakeRepo();
+    renderDay(repo);
+    const btn = await toggle();
+    expect(btn.getAttribute('aria-pressed')).toBe('false');
+    expect(screen.queryByTestId('physics-jar')).toBeNull();
+    expect(screen.getByRole('group', { name: 'Jar for Wed Oct 14' })).toBeTruthy();
+
+    fireEvent.click(btn);
+    const jar = await screen.findByTestId('physics-jar');
+    expect(jar.closest('.jar-slot')).toBeTruthy();
+    expect(btn.getAttribute('aria-pressed')).toBe('true');
+    expect(localStorage.getItem(JAR_STYLE_KEY)).toBe('loose');
+
+    fireEvent.click(btn);
+    expect(screen.queryByTestId('physics-jar')).toBeNull();
+    expect(btn.getAttribute('aria-pressed')).toBe('false');
+    expect(localStorage.getItem(JAR_STYLE_KEY)).toBe('grid');
+  });
+
+  it('starts in Loose when the device saved it', async () => {
+    localStorage.setItem(JAR_STYLE_KEY, 'loose');
+    const { repo } = fakeRepo();
+    renderDay(repo);
+    expect(await screen.findByTestId('physics-jar')).toBeTruthy();
+    expect((await toggle()).getAttribute('aria-pressed')).toBe('true');
+  });
+
+  it('drops each hour of the window at the release point and flies nothing', async () => {
+    localStorage.setItem(JAR_STYLE_KEY, 'loose');
+    const { repo, writeDays } = fakeRepo();
+    renderDay(repo);
+    await screen.findByTestId('physics-jar');
+    await writable();
+    await dragOut('Wanted');
+
+    expect(writeDays).toHaveBeenCalledTimes(1);
+    // 13:30–14:30 touches hours 13 and 14
+    expect(physics.dropAt.mock.calls.map((c) => c[0])).toEqual([13, 14]);
+    for (const [, x, y, vx, vy] of physics.dropAt.mock.calls) {
+      expect([x, y]).toEqual([126, 200]);
+      expect(Number.isFinite(vx) && Number.isFinite(vy)).toBe(true);
+    }
+    expect(animate).not.toHaveBeenCalled();
+    expect(screen.getByText('Logged 13:30–14:30 as Wanted')).toBeTruthy();
+  });
+
+  it('drops a keyboard log at the neck', async () => {
+    localStorage.setItem(JAR_STYLE_KEY, 'loose');
+    const { repo } = fakeRepo();
+    renderDay(repo);
+    await screen.findByTestId('physics-jar');
+    await writable();
+    fireEvent.click(await marble('Wasted'), { detail: 0 });
+    expect(physics.dropAt).toHaveBeenCalledTimes(2);
+    const [, x, y, vx, vy] = physics.dropAt.mock.calls[0];
+    expect(x).toBe(-Infinity);
+    expect(y).toBe(-Infinity);
+    expect([vx, vy]).toEqual([0, 0]);
+  });
+
+  it('keeps the grid fly-in and does not touch physics in Grid', async () => {
+    const { repo } = fakeRepo();
+    renderDay(repo);
+    await writable();
+    await dragOut('Wanted');
+    expect(physics.dropAt).not.toHaveBeenCalled();
+    expect(animate).toHaveBeenCalled();
+  });
+
+  it('does not spawn bodies for a yesterday-only window and keeps the ‹ fly-in', async () => {
+    vi.setSystemTime(new Date(2026, 9, 14, 0, 5));
+    localStorage.setItem(JAR_STYLE_KEY, 'loose');
+    const { repo, writeDays } = fakeRepo();
+    renderDay(repo);
+    await screen.findByTestId('physics-jar');
+    await writable();
+    await dragOut('Wanted');
+    expect(writeDays).toHaveBeenCalledTimes(1);
+    expect(physics.dropAt).not.toHaveBeenCalled();
+    expect(animate).toHaveBeenCalled();
+  });
+
+  it('only drops the hour that is on the viewed day when the window crosses midnight', async () => {
+    vi.setSystemTime(new Date(2026, 9, 14, 0, 20));
+    localStorage.setItem(JAR_STYLE_KEY, 'loose');
+    const { repo } = fakeRepo();
+    renderDay(repo);
+    await screen.findByTestId('physics-jar');
+    await writable();
+    await dragOut('Wanted');
+    // 23:30 yesterday → 00:30 today: only hour 0 is in today's jar
+    expect(physics.dropAt.mock.calls.map((c) => c[0])).toEqual([0]);
+  });
+
+  describe('tilt', () => {
+    const tiltBtn = () => screen.queryByRole('button', { name: /^(Enable tilt|Tilt on)$/ });
+    const stubTilt = () => vi.stubGlobal('DeviceOrientationEvent', class {});
+
+    it('is hidden in Grid, even where tilt is supported', async () => {
+      stubTilt();
+      const { repo } = fakeRepo();
+      renderDay(repo);
+      await toggle();
+      expect(tiltBtn()).toBeNull();
+    });
+
+    it('is hidden in Loose when tilt is not supported', async () => {
+      vi.stubGlobal('DeviceOrientationEvent', undefined);
+      localStorage.setItem(JAR_STYLE_KEY, 'loose');
+      const { repo } = fakeRepo();
+      renderDay(repo);
+      await screen.findByTestId('physics-jar');
+      expect(tiltBtn()).toBeNull();
+    });
+
+    it('is hidden in Loose with reduced motion', async () => {
+      stubTilt();
+      vi.stubGlobal(
+        'matchMedia',
+        vi.fn(() => ({
+          matches: true,
+          addEventListener: () => {},
+          removeEventListener: () => {},
+        })),
+      );
+      localStorage.setItem(JAR_STYLE_KEY, 'loose');
+      const { repo } = fakeRepo();
+      renderDay(repo);
+      await screen.findByTestId('physics-jar');
+      expect(tiltBtn()).toBeNull();
+    });
+
+    it('enables on tap, feeds gravity to the jar, and disables again', async () => {
+      stubTilt();
+      localStorage.setItem(JAR_STYLE_KEY, 'loose');
+      const { repo } = fakeRepo();
+      renderDay(repo);
+      const jar = await screen.findByTestId('physics-jar');
+      expect(jar.dataset.gravity).toBe('');
+      fireEvent.click(screen.getByRole('button', { name: 'Enable tilt' }));
+      const on = await screen.findByRole('button', { name: 'Tilt on' });
+      expect(on.getAttribute('aria-pressed')).toBe('true');
+      expect(localStorage.getItem(TILT_STORAGE_KEY)).not.toBeNull();
+
+      act(() => {
+        window.dispatchEvent(
+          Object.assign(new Event('deviceorientation'), { beta: 20, gamma: 20 }),
+        );
+      });
+      await vi.waitFor(() => expect(jar.dataset.gravity).not.toBe(''));
+
+      fireEvent.click(on);
+      expect(await screen.findByRole('button', { name: 'Enable tilt' })).toBeTruthy();
+      await vi.waitFor(() => expect(jar.dataset.gravity).toBe(''));
+    });
+  });
+});
+
+describe('marble-pop delay variable', () => {
+  it('sets --marble-delay on popping marbles so the pop waits for the tray fly-in', async () => {
+    vi.useFakeTimers({ toFake: ['Date'] });
+    vi.setSystemTime(new Date(2026, 9, 14, 14, 20));
+    localStorage.clear();
+    const doc: DayDoc = {
+      slots: '.'.repeat(27) + 'gg' + '.'.repeat(19),
+      notes: {},
+      sleep: { start: '23:00', end: '07:00' },
+      tz: 'America/Los_Angeles',
+      v: 1,
+    };
+    const { repo } = fakeRepo({ '2026-10-14': doc }, { applyWrites: true });
+    vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockReturnValue({
+      left: 100,
+      top: 300,
+      width: 52,
+      height: 52,
+      right: 152,
+      bottom: 352,
+      x: 100,
+      y: 300,
+      toJSON: () => ({}),
+    } as DOMRect);
+    Object.defineProperty(HTMLElement.prototype, 'setPointerCapture', {
+      configurable: true,
+      value: vi.fn(),
+    });
+    renderDay(repo);
+    await vi.waitFor(() => expect(screen.queryByText('Syncing…')).toBeNull());
+    const btn = await screen.findByRole('button', { name: /^Log .* as Wasted$/ });
+    const PTR = { pointerId: 1, isPrimary: true, button: 0, pointerType: 'touch' };
+    fireEvent.pointerDown(btn, { ...PTR, clientX: 126, clientY: 326 });
+    fireEvent.pointerMove(btn, { ...PTR, clientX: 126, clientY: 200 });
+    fireEvent.pointerUp(btn, { ...PTR, clientX: 126, clientY: 200 });
+    await vi.waitFor(() => expect(document.querySelector('.marble-pop')).not.toBeNull());
+    const popping = document.querySelectorAll<SVGGElement>('.marble-pop');
+    for (const el of popping)
+      expect(el.style.getPropertyValue('--marble-delay')).toBe(`${FLY_MS}ms`);
   });
 });

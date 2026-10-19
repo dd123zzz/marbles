@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../auth/AuthProvider.tsx';
 import { PlusIcon } from '../components/icons.tsx';
 import Jar from '../components/Jar.tsx';
 import MarbleTray from '../components/MarbleTray.tsx';
+import type { PhysicsJarHandle } from '../components/PhysicsJar.tsx';
 import SummaryChips from '../components/SummaryChips.tsx';
 import { useToast } from '../components/Toast.tsx';
 import {
@@ -13,6 +14,8 @@ import {
   type DropResult,
 } from '../components/useMarbleDrag.ts';
 import { useDays, useRepo, useSettings } from '../data/RepoProvider.tsx';
+import { useDeviceTilt } from '../hooks/useDeviceTilt';
+import { useJarStyle } from '../hooks/useJarStyle';
 import { useNow } from '../hooks/useNow';
 import { fullDate, weekdayMonthDay } from '../lib/dateLabels';
 import {
@@ -32,16 +35,27 @@ import {
   slotToHHmm,
   toDateKey,
 } from '../lib/time';
-import { SLOTS_PER_DAY, type Category, type DateKey, type DayDoc, type SlotRef } from '../types';
+import {
+  SLOTS_PER_DAY,
+  type Category,
+  type DateKey,
+  type DayDoc,
+  type Marble,
+  type SlotRef,
+} from '../types';
 import ShareButton from '../share/ShareButton.tsx';
 import LogSheet, { type SheetMode } from './LogSheet.tsx';
 import Reflection from './Reflection.tsx';
 import SleepSheet from './SleepSheet.tsx';
 import { defaultStartFor, formatEntryRange } from './logSheetLogic';
+import { JarStyleToggle, TiltToggle } from './JarStyleToggle.tsx';
 import { useWriteGate, writeErrorMessage } from './useWriteGate';
 import './day.css';
 
 const DROP_TOAST_KEY = 'drop';
+
+// The physics code stays out of the main bundle until someone picks the Loose jar.
+const PhysicsJar = lazy(() => import('../components/PhysicsJar.tsx'));
 
 const follows = (a: SlotRef, b: SlotRef): boolean =>
   b.date === a.date
@@ -85,6 +99,11 @@ function Day({ param }: { param: string | undefined }) {
   const { writable } = useWriteGate({ loading, fromCache, settingsLoading });
   const jarRef = useRef<HTMLDivElement>(null);
   const prevRef = useRef<HTMLAnchorElement>(null);
+  const physicsRef = useRef<PhysicsJarHandle>(null);
+  const [jarStyle, setJarStyle] = useJarStyle();
+  const loose = jarStyle === 'loose';
+  const reducedMotion = prefersReducedMotion();
+  const tilt = useDeviceTilt(loose && !reducedMotion);
   const view = useRef<{ date: DateKey; days: Record<DateKey, DayDoc> } | null>(null);
   const [armed, setArmed] = useState<Category | null>(null);
   const [dropDelay, setDropDelay] = useState(0);
@@ -166,7 +185,8 @@ function Day({ param }: { param: string | undefined }) {
       toast.show(`${label} is already ${name}`, { key: DROP_TOAST_KEY });
       return { accepted: false };
     }
-    const flies = info.source === 'pointer' && !prefersReducedMotion();
+    // The Loose jar spawns the body at the release point, so nothing flies there.
+    const flies = !loose && info.source === 'pointer' && !prefersReducedMotion();
     setDropDelay(flies ? FLY_MS : 0);
     // not awaited: the local cache updates immediately and the write syncs when online
     repo.writeDays(uid, plan.changed).catch(onWriteError);
@@ -174,13 +194,35 @@ function Day({ param }: { param: string | undefined }) {
       key: DROP_TOAST_KEY,
       action: { label: 'Undo', onAction: () => void undo(plan.undo) },
     });
-    if (info.source === 'keyboard') return { accepted: true, flyTo: 'none' };
     const yesterdayOnly = targets.every((t) => t.date < toDateKey(at));
+    if (loose && !yesterdayOnly) {
+      const hours = new Set(
+        targets.filter((t) => t.date === date).map((t) => Math.floor(t.slot / 2)),
+      );
+      // a keyboard drop has no release point: a point outside the jar spawns the marble at the neck
+      const keyboard = info.source === 'keyboard';
+      const x = keyboard ? -Infinity : info.clientX;
+      const y = keyboard ? -Infinity : info.clientY;
+      for (const hour of hours) physicsRef.current?.dropAt(hour, x, y, info.vx, info.vy);
+      return { accepted: true, flyTo: 'none' };
+    }
+    if (info.source === 'keyboard') return { accepted: true, flyTo: 'none' };
     return {
       accepted: true,
       flyTo: yesterdayOnly ? prevRef.current?.getBoundingClientRect() : undefined,
     };
   };
+
+  const onSelect = (slot: number, m: Marble) => selectSlot(slot, slot % 2 === 0 ? m.left : m.right);
+  const gridJar = (
+    <Jar
+      marbles={marbles}
+      label={`Jar for ${weekdayMonthDay(date)}`}
+      date={date}
+      dropDelayMs={dropDelay}
+      onSelect={onSelect}
+    />
+  );
 
   const emptyText = isFuture
     ? 'This day is still ahead, so there is nothing to log yet.'
@@ -246,6 +288,15 @@ function Day({ param }: { param: string | undefined }) {
         <p className="loading">Loading…</p>
       ) : (
         <section className="card jar-card" aria-label="Jar">
+          <div className="jar-tools">
+            {loose && !reducedMotion && tilt.supported && (
+              <TiltToggle
+                tilt={tilt}
+                onDenied={() => toast.error('Tilt needs motion access. Allow it and try again.')}
+              />
+            )}
+            <JarStyleToggle style={jarStyle} onChange={setJarStyle} />
+          </div>
           {showTray && (
             <MarbleTray
               rangeLabel={trayLabel}
@@ -256,13 +307,20 @@ function Day({ param }: { param: string | undefined }) {
             />
           )}
           <div ref={jarRef} className={`jar-slot${armed ? ` jar-armed jar-armed-${armed}` : ''}`}>
-            <Jar
-              marbles={marbles}
-              label={`Jar for ${weekdayMonthDay(date)}`}
-              date={date}
-              dropDelayMs={dropDelay}
-              onSelect={(slot, m) => selectSlot(slot, slot % 2 === 0 ? m.left : m.right)}
-            />
+            {loose ? (
+              <Suspense fallback={gridJar}>
+                <PhysicsJar
+                  ref={physicsRef}
+                  marbles={marbles}
+                  label={`Jar for ${weekdayMonthDay(date)}`}
+                  date={date}
+                  gravity={tilt.gravity ?? undefined}
+                  onSelect={onSelect}
+                />
+              </Suspense>
+            ) : (
+              gridJar
+            )}
           </div>
           <SummaryChips
             marbles={marbles}
