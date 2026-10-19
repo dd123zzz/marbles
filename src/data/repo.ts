@@ -27,6 +27,8 @@ export interface Repo {
     cb: (days: Record<DateKey, DayDoc>, meta: SnapshotMeta) => void,
     onError?: (e: Error) => void,
   ): Unsubscribe;
+  /** One-shot read of the same inclusive range as subscribeDays (used by export). */
+  getDays(uid: string, start: DateKey, end: DateKey): Promise<Record<DateKey, DayDoc>>;
   /**
    * Write all given day docs in ONE batch (midnight-crossing entries touch 2 days).
    * Adds updatedAt. Resolves on server ack, so callers should not await it for offline UX.

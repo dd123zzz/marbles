@@ -28,6 +28,9 @@ export default function Layout() {
         <NavItem to={`/month/${today.slice(0, 7)}`} active={is('/month')}>
           Month
         </NavItem>
+        <NavItem to={`/stats/week/${today}`} active={is('/stats')}>
+          Stats
+        </NavItem>
         <NavItem to="/settings" active={is('/settings')}>
           Settings
         </NavItem>

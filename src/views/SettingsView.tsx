@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../auth/AuthProvider.tsx';
 import { useRepo, useSettings } from '../data/RepoProvider.tsx';
 import type { Settings, WeekStart } from '../types';
@@ -13,6 +14,12 @@ export default function SettingsView() {
     <div>
       <h1>Settings</h1>
       {loading || !user ? <p>Loading…</p> : <SettingsForm uid={user.uid} initial={settings} />}
+      <section>
+        <h2>Data</h2>
+        <p>
+          <Link to="/export">Export data</Link>
+        </p>
+      </section>
       <AccountSection />
     </div>
   );

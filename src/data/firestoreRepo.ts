@@ -2,6 +2,7 @@ import {
   collection,
   doc,
   documentId,
+  getDocs,
   onSnapshot,
   query,
   serverTimestamp,
@@ -69,6 +70,20 @@ export function createFirestoreRepo(): Repo {
         },
         (e) => onError?.(e),
       );
+    },
+
+    async getDays(uid, start, end) {
+      const q = query(
+        collection(db, 'users', uid, 'days'),
+        where(documentId(), '>=', start),
+        where(documentId(), '<=', end),
+      );
+      const snap = await getDocs(q);
+      const days: Record<DateKey, DayDoc> = {};
+      snap.forEach((d) => {
+        days[d.id] = toDayDoc(d.data());
+      });
+      return days;
     },
 
     writeDays(uid, days) {

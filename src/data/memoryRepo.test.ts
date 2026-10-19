@@ -77,4 +77,12 @@ describe('memoryRepo', () => {
     await tick();
     expect(seen).toEqual(['g'.repeat(48)]);
   });
+
+  it('getDays reads an inclusive range once', async () => {
+    const repo = createMemoryRepo();
+    await repo.writeDays('u', { '2026-03-01': day(), '2026-03-05': day(), '2026-03-09': day() });
+    const out = await repo.getDays('u', '2026-03-01', '2026-03-05');
+    expect(Object.keys(out).sort()).toEqual(['2026-03-01', '2026-03-05']);
+    expect(await repo.getDays('other', '1970-01-01', '2999-01-01')).toEqual({});
+  });
 });

@@ -65,6 +65,14 @@ export function createMemoryRepo(): Repo {
       });
     },
 
+    async getDays(uid, start, end) {
+      const out: Record<DateKey, DayDoc> = {};
+      for (const [date, day] of Object.entries(user(uid).days)) {
+        if (date >= start && date <= end) out[date] = structuredClone(day);
+      }
+      return out;
+    },
+
     async writeDays(uid, days) {
       const u = user(uid);
       for (const [date, day] of Object.entries(days)) u.days[date] = structuredClone(day);
