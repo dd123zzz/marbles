@@ -55,6 +55,29 @@
   overflow-wrap: anywhere;
 }
 
+/* Inverted pill built from the toast's own colour pair, so it contrasts in light, dark and error toasts */
+.toast-action {
+  flex: none;
+  min-height: 32px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--toast-text);
+  color: var(--toast-bg);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.toast-action:hover {
+  opacity: 0.88;
+}
+
+.toast-action:focus-visible {
+  outline: 2px solid var(--toast-text);
+  outline-offset: 2px;
+}
+
 .toast-close {
   flex: none;
   width: var(--tap);

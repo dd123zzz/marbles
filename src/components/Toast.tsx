@@ -13,20 +13,40 @@ import './toast.css';
 
 export type ToastKind = 'info' | 'success' | 'error';
 
+export interface ToastAction {
+  label: string;
+  onAction: () => void;
+}
+
+export interface ToastOptions {
+  kind?: ToastKind;
+  /** Renders a button in the toast. Clicking it calls onAction once and dismisses the toast. */
+  action?: ToastAction;
+  /** Overrides the default: 8000 ms with an action, 8000 ms for errors, otherwise 5000 ms. */
+  durationMs?: number;
+  /** A toast shown with the same key replaces the one already on screen. */
+  key?: string;
+}
+
 interface ToastItem {
   id: number;
   kind: ToastKind;
   message: string;
+  action?: ToastAction;
+  durationMs: number;
+  key?: string;
 }
 
 export interface ToastApi {
-  show: (message: string, kind?: ToastKind) => void;
-  success: (message: string) => void;
-  error: (message: string) => void;
+  /** Accepts a kind (`show(msg, 'error')`) or an options object (`show(msg, { action })`). */
+  show: (message: string, kindOrOptions?: ToastKind | ToastOptions) => void;
+  success: (message: string, options?: Omit<ToastOptions, 'kind'>) => void;
+  error: (message: string, options?: Omit<ToastOptions, 'kind'>) => void;
 }
 
 export const TOAST_MS = 5000;
 export const ERROR_TOAST_MS = 8000;
+export const ACTION_TOAST_MS = 8000;
 const MAX_TOASTS = 4;
 
 const ToastContext = createContext<ToastApi | null>(null);
@@ -39,16 +59,30 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     setToasts((list) => list.filter((t) => t.id !== id));
   }, []);
 
-  const show = useCallback((message: string, kind: ToastKind = 'info') => {
-    const id = nextId.current++;
-    setToasts((list) => [...list, { id, kind, message }].slice(-MAX_TOASTS));
+  const show = useCallback((message: string, kindOrOptions: ToastKind | ToastOptions = 'info') => {
+    const opts: ToastOptions =
+      typeof kindOrOptions === 'string' ? { kind: kindOrOptions } : kindOrOptions;
+    const kind = opts.kind ?? 'info';
+    const defaultMs = opts.action ? ACTION_TOAST_MS : kind === 'error' ? ERROR_TOAST_MS : TOAST_MS;
+    const item: ToastItem = {
+      id: nextId.current++,
+      kind,
+      message,
+      action: opts.action,
+      durationMs: opts.durationMs ?? defaultMs,
+      key: opts.key,
+    };
+    setToasts((list) => {
+      const kept = opts.key === undefined ? list : list.filter((t) => t.key !== opts.key);
+      return [...kept, item].slice(-MAX_TOASTS);
+    });
   }, []);
 
   const api = useMemo<ToastApi>(
     () => ({
       show,
-      success: (m) => show(m, 'success'),
-      error: (m) => show(m, 'error'),
+      success: (m, options) => show(m, { ...options, kind: 'success' }),
+      error: (m, options) => show(m, { ...options, kind: 'error' }),
     }),
     [show],
   );
@@ -78,14 +112,19 @@ export function ToastProvider({ children }: { children: ReactNode }) {
 }
 
 function ToastView({ toast, onDismiss }: { toast: ToastItem; onDismiss: (id: number) => void }) {
-  const { id, kind, message } = toast;
+  const { id, kind, message, action, durationMs } = toast;
+  const acted = useRef(false);
   useEffect(() => {
-    const timer = window.setTimeout(
-      () => onDismiss(id),
-      kind === 'error' ? ERROR_TOAST_MS : TOAST_MS,
-    );
+    const timer = window.setTimeout(() => onDismiss(id), durationMs);
     return () => window.clearTimeout(timer);
-  }, [id, kind, onDismiss]);
+  }, [id, durationMs, onDismiss]);
+
+  const onActionClick = () => {
+    if (!action || acted.current) return;
+    acted.current = true;
+    onDismiss(id);
+    action.onAction();
+  };
 
   return (
     <div className={`toast toast-${kind}`} role={kind === 'error' ? 'alert' : undefined}>
@@ -93,6 +132,11 @@ function ToastView({ toast, onDismiss }: { toast: ToastItem; onDismiss: (id: num
         {kind === 'error' ? '!' : kind === 'success' ? '✓' : 'i'}
       </span>
       <span className="toast-message">{message}</span>
+      {action && (
+        <button type="button" className="toast-action" onClick={onActionClick}>
+          {action.label}
+        </button>
+      )}
       <button
         type="button"
         className="toast-close"
