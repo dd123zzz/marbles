@@ -23,11 +23,13 @@ export interface DayDoc {
 }
 
 export type WeekStart = 'mon' | 'sun';
+export type ThemePref = 'system' | 'light' | 'dark';
 
 export interface Settings {
   sleepStart: HHmm;
   sleepEnd: HHmm;
   weekStart: WeekStart;
+  theme: ThemePref;
   v: 1;
 }
 
@@ -35,6 +37,7 @@ export const DEFAULT_SETTINGS: Settings = {
   sleepStart: '23:00',
   sleepEnd: '07:00',
   weekStart: 'mon',
+  theme: 'system',
   v: 1,
 };
 
