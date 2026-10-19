@@ -26,6 +26,10 @@ Running log, updated roughly every 100 AI credits spent (see [model_rate.md](./m
 | 3 | Deployed: repo `dd123zzz/marbles`, Firebase project `marbles-life`. First CI run green: check, rules (34/34 rules tests), Pages deploy, rules deploy. Live at https://dd123zzz.github.io/marbles/. Real-device checks passed. Carryover moved to Stage 2; AGENTS.md added. | ~265 |
 | 4 | Stage 2 wave 1: docs fixes (2.0a/b); midnight-crossing entries edit as one + day reflection (2.0c, 2.4); stats view + CSV/JSON export with `Repo.getDays` (2.3, 2.5); PWA with update prompt + icons (2.6). 247 tests green. Next: wave 2 = design pass + dark mode + keyboard halves + toast (2.1, 2.2, 2.0d, 2.0e). | ~420 |
 | 5 | Stage 2 wave 2: soft visual design, bottom tab bar, bottom-sheet log form with in-sheet confirms, toasts (2.0e), keyboard targets per marble half (2.0d), dark mode with theme setting (2.2). 270 tests green. Browser smoke test passed in light and dark. Next: code review → fixes (incl. Log time button overlapping Entries on short screens, manifest colors). | ~544 |
+| 6 | Stage 2 code complete locally. Review found 2 bugs (joined midnight note lost on edit; focus not restored to SVG marble openers), both fixed. Log time button moved in-flow under the jar; manifest colors match tokens. 274 tests; lint/typecheck/format/build green. Not yet pushed. | ~600 |
+
+## Stage 2 status: code complete, awaiting push
+Needs the user: push to deploy, then check on real devices. On iPhone, add to Home Screen and test Google popup sign-in **inside the installed app**: iOS keeps separate storage per installed app and the popup can be flaky in standalone mode. Also check dark mode, the update prompt after the next deploy, a CSV export opened in Numbers or Sheets, plus carryover items 2.0f–2.0h.
 
 ## Stage 1 status: complete
 Deployed and verified on real iPhone and Android devices (2026-10-18). Everything left over (README fix, SPEC questions, the midnight-edit / keyboard / toast gaps, and user checks for usage, API key and key file) moved to **PLAN.md Stage 2 → "Stage 1 carryover" (2.0a–2.0h)**. Dev rules are codified in [AGENTS.md](./AGENTS.md).

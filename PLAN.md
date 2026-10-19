@@ -139,6 +139,8 @@ Plain styling only: system fonts, basic layout, and SVG circles for marbles.
 
 **Exit:** The app looks good, installs to the home screen, and shows stats. Export works.
 
+**Stage 2 status (2026-10-18):** all agent items (2.0a–2.0e, 2.1–2.6) are done and verified locally. Remaining: deploy, real-device checks, and user items 2.0f–2.0h.
+
 ---
 
 ## Stage 3: Delight & Engagement (about 3–4 days)
