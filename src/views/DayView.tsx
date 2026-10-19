@@ -5,11 +5,12 @@ import Jar from '../components/Jar.tsx';
 import { useDays, useSettings } from '../data/RepoProvider.tsx';
 import { useNow } from '../hooks/useNow';
 import { weekdayMonthDay } from '../lib/dateLabels';
-import { entriesFromDay, entryAt } from '../lib/entries';
+import { logicalEntriesForDay, logicalEntryAt } from '../lib/entries';
 import { CATEGORY_LABEL, computeMarbles, formatSummary, summarize } from '../lib/jar';
-import { addDays, formatSlotRange, isFutureSlot, isValidDateKey, toDateKey } from '../lib/time';
+import { addDays, isFutureSlot, isValidDateKey, toDateKey } from '../lib/time';
 import LogSheet, { type SheetMode } from './LogSheet.tsx';
-import { defaultStartFor } from './logSheetLogic';
+import Reflection from './Reflection.tsx';
+import { defaultStartFor, formatEntryRange } from './logSheetLogic';
 
 export default function DayView() {
   const { date: param } = useParams();
@@ -25,13 +26,14 @@ function Day({ param }: { param: string | undefined }) {
   const today = toDateKey(now);
   const date = param ?? today;
   const { settings, loading: settingsLoading } = useSettings(uid);
-  const { days, loading, error } = useDays(uid, date, date);
+  // Neighbouring days let an entry that crosses midnight resolve as one.
+  const { days, loading, fromCache, error } = useDays(uid, addDays(date, -1), addDays(date, 1));
   const [sheet, setSheet] = useState<{ mode: SheetMode; id: number } | null>(null);
 
   const doc = days[date];
   const sleep = doc?.sleep ?? { start: settings.sleepStart, end: settings.sleepEnd };
   const marbles = computeMarbles({ date, slots: doc?.slots, sleep, now });
-  const entries = entriesFromDay(date, doc);
+  const entries = logicalEntriesForDay(days, date);
   const isFuture = date > today;
 
   const open = (mode: SheetMode) => setSheet((s) => ({ mode, id: (s?.id ?? 0) + 1 }));
@@ -39,7 +41,7 @@ function Day({ param }: { param: string | undefined }) {
   const logTime = () => open({ kind: 'create', ...defaultStartFor(date, now) });
 
   const selectSlot = (slot: number, color: string) => {
-    const entry = entryAt(date, doc, slot);
+    const entry = logicalEntryAt(days, date, slot);
     if (entry) open({ kind: 'edit', entry });
     else if (color !== 'na' && !isFutureSlot(date, slot, now)) {
       open({ kind: 'create', date, startSlot: slot });
@@ -109,14 +111,27 @@ function Day({ param }: { param: string | undefined }) {
       ) : (
         <ul className="entries">
           {entries.map((e) => (
-            <li key={e.startSlot}>
+            <li key={`${e.date}#${e.startSlot}`}>
               <button type="button" onClick={() => open({ kind: 'edit', entry: e })}>
-                {formatSlotRange(e.startSlot, e.length)} · {CATEGORY_LABEL[e.category]}
+                {formatEntryRange(e, date)} · {CATEGORY_LABEL[e.category]}
                 {e.note ? ` · ${e.note}` : ''}
               </button>
             </li>
           ))}
         </ul>
+      )}
+
+      {!isFuture && uid && (
+        <Reflection
+          key={date}
+          uid={uid}
+          date={date}
+          doc={doc}
+          loading={loading}
+          fromCache={fromCache}
+          settings={settings}
+          settingsLoading={settingsLoading}
+        />
       )}
 
       {sheet && uid && (

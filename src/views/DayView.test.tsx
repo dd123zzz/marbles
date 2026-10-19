@@ -47,6 +47,7 @@ function fakeRepo(
         dayListeners.delete(emit);
       };
     },
+    getDays: async () => ({}),
     writeDays,
   };
   return {
@@ -181,5 +182,130 @@ describe('DayView', () => {
     renderDay(repo, '/day/2026-10-20');
     const btn = await screen.findByRole('button', { name: 'Log time' });
     expect((btn as HTMLButtonElement).disabled).toBe(true);
+  });
+
+  describe('midnight-crossing entries', () => {
+    const base = {
+      sleep: { start: '23:00', end: '07:00' },
+      tz: 'America/Los_Angeles',
+      v: 1,
+    } as const;
+    const crossingDays = (): Record<string, DayDoc> => ({
+      '2026-10-13': { ...base, slots: '.'.repeat(46) + 'bb', notes: { '46': 'late' } },
+      '2026-10-14': { ...base, slots: 'bb' + '.'.repeat(46), notes: { '0': 'late' } },
+    });
+
+    it('lists the entry with its range from either day', async () => {
+      const { repo } = fakeRepo(crossingDays());
+      renderDay(repo, '/day/2026-10-14');
+      expect(await screen.findByText('Tue 23:00 – 01:00 · Wasted · late')).toBeTruthy();
+      cleanup();
+      renderDay(repo, '/day/2026-10-13');
+      expect(await screen.findByText('23:00 – Wed 01:00 · Wasted · late')).toBeTruthy();
+    });
+
+    it('edits and deletes the whole entry from the later day', async () => {
+      const { repo, writeDays } = fakeRepo(crossingDays());
+      vi.spyOn(window, 'confirm').mockReturnValue(true);
+      renderDay(repo, '/day/2026-10-14');
+      fireEvent.click(await screen.findByLabelText('00:00–01:00 Wasted'));
+      expect(await screen.findByRole('dialog')).toBeTruthy();
+      expect((screen.getByLabelText('Date') as HTMLInputElement).value).toBe('2026-10-13');
+      expect((screen.getByLabelText('Note (optional)') as HTMLInputElement).value).toBe('late');
+      const del = screen.getByRole('button', { name: 'Delete' });
+      await vi.waitFor(() => expect((del as HTMLButtonElement).disabled).toBe(false));
+      fireEvent.click(del);
+      const docs = writeDays.mock.calls[0][1];
+      expect(docs['2026-10-13']).toMatchObject({ slots: '.'.repeat(48), notes: {} });
+      expect(docs['2026-10-14']).toMatchObject({ slots: '.'.repeat(48), notes: {} });
+    });
+
+    it('changes the category on both days in one write', async () => {
+      const { repo, writeDays } = fakeRepo(crossingDays());
+      renderDay(repo, '/day/2026-10-13');
+      fireEvent.click(await screen.findByLabelText('23:00–24:00 Wasted'));
+      await screen.findByRole('dialog');
+      const wanted = screen.getByRole('button', { name: 'Wanted' });
+      await vi.waitFor(() => expect((wanted as HTMLButtonElement).disabled).toBe(false));
+      fireEvent.click(wanted);
+      fireEvent.click(screen.getByRole('button', { name: 'Save' }));
+      expect(writeDays).toHaveBeenCalledTimes(1);
+      const docs = writeDays.mock.calls[0][1];
+      expect(docs['2026-10-13'].slots.slice(44)).toBe('..gg');
+      expect(docs['2026-10-14'].slots.slice(0, 4)).toBe('gg..');
+    });
+  });
+
+  describe('reflection', () => {
+    const base: DayDoc = {
+      slots: '.'.repeat(48),
+      notes: {},
+      sleep: { start: '23:00', end: '07:00' },
+      tz: 'America/Los_Angeles',
+      reflection: 'calm day',
+      v: 1,
+    };
+
+    it('shows the saved text with a counter and keeps Save disabled until changed', async () => {
+      const { repo } = fakeRepo({ '2026-10-14': base });
+      renderDay(repo);
+      const box = (await screen.findByLabelText('Reflection')) as HTMLTextAreaElement;
+      await vi.waitFor(() => expect(box.value).toBe('calm day'));
+      expect(screen.getByText('8/1000')).toBeTruthy();
+      const save = screen.getByRole('button', { name: 'Save reflection' }) as HTMLButtonElement;
+      expect(save.disabled).toBe(true);
+      fireEvent.change(box, { target: { value: 'calm day!' } });
+      expect(screen.getByText('9/1000')).toBeTruthy();
+      expect(box.maxLength).toBe(1000);
+      await vi.waitFor(() => expect(save.disabled).toBe(false));
+    });
+
+    it('writes only that day, creating the doc when missing, and then disables Save', async () => {
+      const { repo, writeDays } = fakeRepo();
+      renderDay(repo);
+      const box = (await screen.findByLabelText('Reflection')) as HTMLTextAreaElement;
+      fireEvent.change(box, { target: { value: '  good  ' } });
+      const save = screen.getByRole('button', { name: 'Save reflection' }) as HTMLButtonElement;
+      await vi.waitFor(() => expect(save.disabled).toBe(false));
+      fireEvent.click(save);
+      expect(writeDays).toHaveBeenCalledTimes(1);
+      const [uid, docs] = writeDays.mock.calls[0];
+      expect(uid).toBe('u1');
+      expect(Object.keys(docs)).toEqual(['2026-10-14']);
+      expect(docs['2026-10-14']).toMatchObject({ reflection: 'good', notes: {}, v: 1 });
+      expect(docs['2026-10-14'].slots).toBe('.'.repeat(48));
+      expect(save.disabled).toBe(true);
+    });
+
+    it('clearing the text removes the reflection', async () => {
+      const { repo, writeDays } = fakeRepo({ '2026-10-14': base });
+      renderDay(repo);
+      const box = (await screen.findByLabelText('Reflection')) as HTMLTextAreaElement;
+      await vi.waitFor(() => expect(box.value).toBe('calm day'));
+      fireEvent.change(box, { target: { value: '' } });
+      const save = screen.getByRole('button', { name: 'Save reflection' }) as HTMLButtonElement;
+      fireEvent.click(save);
+      expect('reflection' in writeDays.mock.calls[0][1]['2026-10-14']).toBe(false);
+    });
+
+    it('blocks saving from a cache-only snapshot until the server answers', async () => {
+      const { repo, writeDays, serverArrives } = fakeRepo({}, { cacheOnly: true });
+      renderDay(repo);
+      const box = (await screen.findByLabelText('Reflection')) as HTMLTextAreaElement;
+      fireEvent.change(box, { target: { value: 'x' } });
+      const save = screen.getByRole('button', { name: 'Save reflection' }) as HTMLButtonElement;
+      expect(save.disabled).toBe(true);
+      serverArrives();
+      await vi.waitFor(() => expect(save.disabled).toBe(false));
+      fireEvent.click(save);
+      expect(writeDays).toHaveBeenCalledTimes(1);
+    });
+
+    it('is not shown for a future day', async () => {
+      const { repo } = fakeRepo();
+      renderDay(repo, '/day/2026-10-20');
+      await screen.findByRole('button', { name: 'Log time' });
+      expect(screen.queryByLabelText('Reflection')).toBeNull();
+    });
   });
 });

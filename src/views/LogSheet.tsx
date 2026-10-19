@@ -15,6 +15,7 @@ import {
   touchedRange,
   type FormState,
 } from './logSheetLogic';
+import { reportWriteError, useWriteGate } from './useWriteGate';
 
 export type SheetMode =
   { kind: 'create'; date: DateKey; startSlot: number } | { kind: 'edit'; entry: Entry };
@@ -31,27 +32,6 @@ interface LogSheetProps {
 const CATEGORIES: Category[] = ['g', 'b', 'r'];
 const START_OPTIONS = startOptions();
 const DURATION_OPTIONS = durationOptions();
-/** After this long with only cached data we assume we are offline and let the user log. */
-const CACHE_GRACE_MS = 4000;
-
-function useOffline(): boolean {
-  const [offline, setOffline] = useState(() => !navigator.onLine);
-  useEffect(() => {
-    const update = () => setOffline(!navigator.onLine);
-    window.addEventListener('online', update);
-    window.addEventListener('offline', update);
-    return () => {
-      window.removeEventListener('online', update);
-      window.removeEventListener('offline', update);
-    };
-  }, []);
-  return offline;
-}
-
-function reportWriteError(e: unknown) {
-  const msg = e instanceof Error ? e.message : String(e);
-  window.alert(`Could not save your changes: ${msg}`);
-}
 
 export default function LogSheet({
   uid,
@@ -69,16 +49,13 @@ export default function LogSheet({
   );
   const [error, setError] = useState<string | null>(null);
   const firstRef = useRef<HTMLInputElement>(null);
-  const offline = useOffline();
-  const [graceElapsed, setGraceElapsed] = useState(false);
 
   useEffect(() => {
     firstRef.current?.focus();
-    const t = setTimeout(() => setGraceElapsed(true), CACHE_GRACE_MS);
-    return () => clearTimeout(t);
   }, []);
 
-  // Day docs the entry can touch: the original's day pair, plus the form date's pair when it differs.
+  // Day docs the entry can touch: the original's day pair (it may start the day before the
+  // view's date), plus the form date's pair when it differs.
   const base = touchedRange(anchor);
   const sameDate = form.date === anchor;
   const form2 = touchedRange(isValidDateKey(form.date) ? form.date : anchor);
@@ -88,8 +65,7 @@ export default function LogSheet({
   const loadError = a.error ?? (sameDate ? null : b.error);
   const fromCache = a.fromCache || (!sameDate && b.fromCache);
   const days: Record<DateKey, DayDoc> = { ...a.days, ...(sameDate ? {} : b.days) };
-  // A partial cache can lack docs that exist on the server; writing from it could wipe them.
-  const daysReady = !loading && (!fromCache || offline || graceElapsed);
+  const { daysReady } = useWriteGate({ loading, fromCache, settingsLoading });
 
   const patch = (p: Partial<FormState>) => {
     setForm((f) => ({ ...f, ...p }));

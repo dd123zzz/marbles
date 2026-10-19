@@ -1,7 +1,15 @@
 import type { Category, DateKey, DayDoc, Entry, SleepWindow } from '../types';
 import { SLOTS_PER_DAY } from '../types';
 import { applyEntry, findConflicts, validateEntry } from '../lib/entries';
-import { addDays, currentSlotInfo, defaultStart, slotToHHmm, toDateKey } from '../lib/time';
+import { weekdayShort } from '../lib/dateLabels';
+import {
+  addDays,
+  currentSlotInfo,
+  defaultStart,
+  formatSlotRange,
+  slotToHHmm,
+  toDateKey,
+} from '../lib/time';
 
 export interface FormState {
   date: DateKey;
@@ -121,4 +129,19 @@ export function planSave({ days, entry, original, now, sleep, tz }: PlanInput): 
 /** Date keys whose docs an entry (and its original, when editing) can touch. */
 export function touchedRange(date: DateKey): { start: DateKey; end: DateKey } {
   return { start: date, end: addDays(date, 1) };
+}
+
+/**
+ * Time range of an entry as listed on `viewDate`. An entry that crosses midnight names the
+ * other day: "Thu 23:00 – 01:00" (started the day before) or "23:00 – Fri 01:00" (continues).
+ */
+export function formatEntryRange(entry: Entry, viewDate: DateKey): string {
+  const end = entry.startSlot + entry.length;
+  if (entry.date < viewDate) {
+    return `${weekdayShort(entry.date)} ${slotToHHmm(entry.startSlot)} – ${slotToHHmm(end - SLOTS_PER_DAY)}`;
+  }
+  if (end > SLOTS_PER_DAY) {
+    return `${slotToHHmm(entry.startSlot)} – ${weekdayShort(addDays(entry.date, 1))} ${slotToHHmm(end - SLOTS_PER_DAY)}`;
+  }
+  return formatSlotRange(entry.startSlot, entry.length);
 }

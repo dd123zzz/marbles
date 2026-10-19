@@ -10,6 +10,7 @@ import {
   durationOptions,
   editForm,
   formatDuration,
+  formatEntryRange,
   maxLengthFor,
   planSave,
   startOptions,
@@ -152,5 +153,59 @@ describe('planSave', () => {
     const edit = planSave({ days, entry, original, now, sleep, tz });
     expect(edit.ok && edit.conflicts).toBe(0);
     expect(edit.ok && edit.changed['2026-10-14'].slots.slice(24, 28)).toBe('..gg');
+  });
+});
+
+describe('formatEntryRange', () => {
+  const entry: Entry = { date: '2026-10-15', startSlot: 46, length: 4, category: 'b' };
+  it('names the next day for an entry continuing past midnight', () => {
+    expect(formatEntryRange(entry, '2026-10-15')).toBe('23:00 – Fri 01:00');
+  });
+  it('names the start day for an entry that began the day before', () => {
+    expect(formatEntryRange(entry, '2026-10-16')).toBe('Thu 23:00 – 01:00');
+  });
+  it('uses the plain range within one day', () => {
+    expect(formatEntryRange({ ...entry, startSlot: 26, length: 2 }, '2026-10-15')).toBe(
+      '13:00–14:00',
+    );
+    expect(formatEntryRange({ ...entry, length: 2 }, '2026-10-15')).toBe('23:00–24:00');
+  });
+});
+
+describe('planSave with a midnight-crossing original', () => {
+  const now = at(2026, 10, 20, 12);
+  const doc = (slots: string, notes: Record<string, string> = {}): DayDoc => ({
+    slots,
+    notes,
+    sleep,
+    tz,
+    v: 1,
+  });
+  const days = {
+    '2026-10-14': doc('.'.repeat(46) + 'bb', { '46': 'x' }),
+    '2026-10-15': doc('bb' + '.'.repeat(46), { '0': 'x' }),
+  };
+  const original: Entry = {
+    date: '2026-10-14',
+    startSlot: 46,
+    length: 4,
+    category: 'b',
+    note: 'x',
+  };
+
+  it('edits the category across both days without conflicts', () => {
+    const plan = planSave({
+      days,
+      entry: { ...original, category: 'g' },
+      original,
+      now,
+      sleep,
+      tz,
+    });
+    expect(plan).toMatchObject({ ok: true, conflicts: 0 });
+    if (plan.ok) {
+      expect(plan.changed['2026-10-14'].slots.slice(44)).toBe('..gg');
+      expect(plan.changed['2026-10-15'].slots.slice(0, 4)).toBe('gg..');
+    }
   });
 });

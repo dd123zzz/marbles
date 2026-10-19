@@ -1,6 +1,6 @@
 import type { Category, DateKey, DayDoc, Entry, SleepWindow } from '../../types';
 import { SLOTS_PER_DAY } from '../../types';
-import { isEntryInFuture, isValidDateKey, splitAcrossDays } from '../time';
+import { addDays, isEntryInFuture, isValidDateKey, splitAcrossDays } from '../time';
 
 export const MAX_NOTE_LENGTH = 200;
 const NOTE_SEPARATOR = ' · ';
@@ -206,4 +206,76 @@ export function validateEntry(e: Entry, now: Date): string | null {
   }
   if (isEntryInFuture(e, now)) return 'Entries cannot be in the future.';
   return null;
+}
+
+const lastDay = (e: Pick<Entry, 'startSlot' | 'length'>): boolean =>
+  e.startSlot + e.length === SLOTS_PER_DAY;
+
+/**
+ * `tail` is an entry on `date` that ends at midnight. Returns it merged with the
+ * next day's head run when they share a category and fit in one 24h entry.
+ */
+function joinWithNext(days: DayMap, date: DateKey, tail: Entry): Entry | null {
+  const head = entriesFromDay(addDays(date, 1), days[addDays(date, 1)])[0];
+  if (!head || head.startSlot !== 0) return null;
+  if (head.category !== tail.category || tail.length + head.length > SLOTS_PER_DAY) return null;
+  const joined: Entry = { ...tail, length: tail.length + head.length };
+  const note = tail.note ?? head.note;
+  if (note) joined.note = note;
+  else delete joined.note;
+  return joined;
+}
+
+/** The entry on the previous day that joins into the head run `head` of `date`, if any. */
+function joinedFromPrevious(days: DayMap, date: DateKey, head: Entry): Entry | null {
+  if (head.startSlot !== 0) return null;
+  const prevDate = addDays(date, -1);
+  const tail = entriesFromDay(prevDate, days[prevDate]).find(lastDay);
+  if (!tail) return null;
+  const joined = joinWithNext(days, prevDate, tail);
+  return joined && joined.length === tail.length + head.length ? joined : null;
+}
+
+/**
+ * The entry covering a slot, where a run ending at midnight joins the next day's
+ * first run (same category, at most 48 slots together). A joined entry starts on
+ * the earlier day and has the earlier day's note, falling back to the later one.
+ */
+export function logicalEntryAt(days: DayMap, date: DateKey, slot: number): Entry | null {
+  const e = entryAt(date, days[date], slot);
+  if (!e) return null;
+  return (
+    joinedFromPrevious(days, date, e) ?? (lastDay(e) ? joinWithNext(days, date, e) : null) ?? e
+  );
+}
+
+/** Entries overlapping `date` in time order, including one that started the previous day. */
+export function logicalEntriesForDay(days: DayMap, date: DateKey): Entry[] {
+  const result: Entry[] = [];
+  for (const e of entriesFromDay(date, days[date])) {
+    const fromPrev = joinedFromPrevious(days, date, e);
+    if (fromPrev) result.push(fromPrev);
+    else result.push((lastDay(e) ? joinWithNext(days, date, e) : null) ?? e);
+  }
+  return result;
+}
+
+export const MAX_REFLECTION_LENGTH = 1000;
+
+/**
+ * Returns the day doc with its reflection set to `text` (trimmed, at most 1000 chars).
+ * Empty text removes the field. A missing doc is created with a sleep snapshot.
+ */
+export function withReflection(
+  doc: DayDoc | undefined,
+  text: string,
+  opts: { sleep: SleepWindow; tz: string },
+): DayDoc {
+  const next: DayDoc = doc
+    ? cloneDoc(doc)
+    : { slots: emptySlots(), notes: {}, sleep: { ...opts.sleep }, tz: opts.tz, v: 1 };
+  const value = text.trim().slice(0, MAX_REFLECTION_LENGTH);
+  if (value) next.reflection = value;
+  else delete next.reflection;
+  return next;
 }
