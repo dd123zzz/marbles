@@ -18,8 +18,8 @@ export default defineConfig({
         start_url: '/marbles/',
         scope: '/marbles/',
         display: 'standalone',
-        background_color: '#ffffff',
-        theme_color: '#4f46e5',
+        background_color: '#faf7f2',
+        theme_color: '#faf7f2',
         icons: [
           { src: 'pwa-192x192.png', sizes: '192x192', type: 'image/png' },
           { src: 'pwa-512x512.png', sizes: '512x512', type: 'image/png' },

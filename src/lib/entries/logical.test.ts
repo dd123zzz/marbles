@@ -196,6 +196,39 @@ describe('editing a joined entry', () => {
   });
 });
 
+describe('joined entries with differing notes', () => {
+  it('keeps both notes when edited', () => {
+    let days: Record<DateKey, DayDoc> = {};
+    days = { ...days, ...applyEntry(days, e(D1, 46, 4, 'g', 'late'), OPTS) };
+    days = { ...days, ...applyEntry(days, e(D2, 2, 2, 'g', 'extra'), OPTS) };
+    const joined = logicalEntryAt(days, D1, 47)!;
+    expect(joined.note).toBe('late · extra');
+    const out = applyEntry(days, { ...joined, category: 'b' }, { ...OPTS, replace: joined });
+    expect(out[D1]!.notes).toEqual({ '46': 'late · extra' });
+    expect(out[D2]!.notes['0']).toBe('late · extra');
+  });
+
+  it('joins unrelated notes in time order and skips duplicates', () => {
+    const days = {
+      [D1]: doc(run(46, 48, 'b'), { '46': 'a' }),
+      [D2]: doc(run(0, 2, 'b'), { '0': 'b' }),
+    };
+    expect(logicalEntryAt(days, D1, 46)!.note).toBe('a · b');
+    days[D2] = doc(run(0, 2, 'b'), { '0': 'a' });
+    expect(logicalEntryAt(days, D1, 46)!.note).toBe('a');
+    days[D1] = doc(run(46, 48, 'b'));
+    expect(logicalEntryAt(days, D1, 46)!.note).toBe('a');
+  });
+
+  it('truncates the combined note', () => {
+    const days = {
+      [D1]: doc(run(46, 48, 'b'), { '46': 'x'.repeat(150) }),
+      [D2]: doc(run(0, 2, 'b'), { '0': 'y'.repeat(150) }),
+    };
+    expect(logicalEntryAt(days, D1, 46)!.note).toHaveLength(200);
+  });
+});
+
 describe('reflection', () => {
   const o = { sleep: SLEEP, tz: 'Europe/Paris' };
 

@@ -15,14 +15,15 @@ export default function BottomSheet({ titleId, onClose, children }: BottomSheetP
   const panelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const previous = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    const active = document.activeElement;
+    const previous = active instanceof HTMLElement || active instanceof SVGElement ? active : null;
     panelRef.current?.focus();
     const html = document.documentElement;
     const overflow = html.style.overflow;
     html.style.overflow = 'hidden';
     return () => {
       html.style.overflow = overflow;
-      previous?.focus();
+      if (previous?.isConnected) previous.focus();
     };
   }, []);
 

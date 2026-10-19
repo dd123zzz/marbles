@@ -65,4 +65,24 @@ describe('BottomSheet', () => {
     expect(document.activeElement).toBe(opener);
     opener.remove();
   });
+
+  it('restores focus to an SVG opener', () => {
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    g.setAttribute('role', 'button');
+    g.setAttribute('tabindex', '0');
+    svg.appendChild(g);
+    document.body.appendChild(svg);
+    g.focus();
+    expect(document.activeElement).toBe(g);
+    const { unmount } = render(
+      <BottomSheet titleId="t" onClose={() => {}}>
+        <h2 id="t">Title</h2>
+      </BottomSheet>,
+    );
+    expect(document.activeElement).not.toBe(g);
+    unmount();
+    expect(document.activeElement).toBe(g);
+    svg.remove();
+  });
 });

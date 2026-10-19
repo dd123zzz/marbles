@@ -211,6 +211,18 @@ export function validateEntry(e: Entry, now: Date): string | null {
 const lastDay = (e: Pick<Entry, 'startSlot' | 'length'>): boolean =>
   e.startSlot + e.length === SLOTS_PER_DAY;
 
+const hasSegment = (note: string, part: string): boolean =>
+  note === part || note.split(NOTE_SEPARATOR).includes(part);
+
+/** Notes of a midnight-crossing entry in time order, without repeating one the other already holds. */
+function joinNotes(first: string | undefined, second: string | undefined): string | undefined {
+  if (!first) return second;
+  if (!second) return first;
+  if (hasSegment(second, first)) return second;
+  if (hasSegment(first, second)) return first;
+  return truncate(`${first}${NOTE_SEPARATOR}${second}`);
+}
+
 /**
  * `tail` is an entry on `date` that ends at midnight. Returns it merged with the
  * next day's head run when they share a category and fit in one 24h entry.
@@ -220,7 +232,7 @@ function joinWithNext(days: DayMap, date: DateKey, tail: Entry): Entry | null {
   if (!head || head.startSlot !== 0) return null;
   if (head.category !== tail.category || tail.length + head.length > SLOTS_PER_DAY) return null;
   const joined: Entry = { ...tail, length: tail.length + head.length };
-  const note = tail.note ?? head.note;
+  const note = joinNotes(tail.note, head.note);
   if (note) joined.note = note;
   else delete joined.note;
   return joined;
@@ -239,7 +251,7 @@ function joinedFromPrevious(days: DayMap, date: DateKey, head: Entry): Entry | n
 /**
  * The entry covering a slot, where a run ending at midnight joins the next day's
  * first run (same category, at most 48 slots together). A joined entry starts on
- * the earlier day and has the earlier day's note, falling back to the later one.
+ * the earlier day and has both days' notes combined in time order.
  */
 export function logicalEntryAt(days: DayMap, date: DateKey, slot: number): Entry | null {
   const e = entryAt(date, days[date], slot);

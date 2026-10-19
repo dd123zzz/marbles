@@ -115,7 +115,7 @@ function Day({ param }: { param: string | undefined }) {
 
       <button
         type="button"
-        className="btn btn-primary fab"
+        className="btn btn-primary log-btn"
         disabled={isFuture || !uid || settingsLoading}
         onClick={logTime}
       >
