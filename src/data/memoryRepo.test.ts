@@ -85,4 +85,26 @@ describe('memoryRepo', () => {
     expect(Object.keys(out).sort()).toEqual(['2026-03-01', '2026-03-05']);
     expect(await repo.getDays('other', '1970-01-01', '2999-01-01')).toEqual({});
   });
+
+  it('deleteAllData clears days and settings, notifies subscribers and returns the count', async () => {
+    const repo = createMemoryRepo();
+    await repo.writeDays('u', { '2026-03-02': day(), '2026-03-03': day() });
+    await repo.writeDays('other', { '2026-03-02': day() });
+    await repo.saveSettings('u', { weekStart: 'sun' });
+    const days: string[][] = [];
+    const settings: unknown[] = [];
+    repo.subscribeDays('u', '2026-03-01', '2026-03-31', (d) => days.push(Object.keys(d)));
+    repo.subscribeSettings('u', (s) => settings.push(s));
+    await tick();
+    expect(days.at(-1)).toHaveLength(2);
+
+    expect(await repo.deleteAllData?.('u')).toEqual({ deletedDays: 2 });
+    await tick();
+    expect(days.at(-1)).toEqual([]);
+    expect(settings.at(-1)).toEqual(DEFAULT_SETTINGS);
+    expect(await repo.getDays('u', '2026-03-01', '2026-03-31')).toEqual({});
+    expect(Object.keys(await repo.getDays('other', '2026-03-01', '2026-03-31'))).toHaveLength(1);
+    expect(JSON.parse(mem.get('marbles-demo') ?? '{}').u).toBeUndefined();
+    expect(await repo.deleteAllData?.('u')).toEqual({ deletedDays: 0 });
+  });
 });

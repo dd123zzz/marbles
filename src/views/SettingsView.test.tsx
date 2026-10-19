@@ -22,8 +22,12 @@ const auth: AuthBackend = {
   signOut: async () => {},
 };
 
-function setup(saveSettings: Repo['saveSettings'] = async () => {}) {
+function setup(
+  saveSettings: Repo['saveSettings'] = async () => {},
+  deleteAllData: NonNullable<Repo['deleteAllData']> = async () => ({ deletedDays: 0 }),
+) {
   const save = vi.fn(saveSettings);
+  const deleteAll = vi.fn(deleteAllData);
   const repo: Repo = {
     subscribeSettings(_uid, cb) {
       queueMicrotask(() => cb(DEFAULT_SETTINGS));
@@ -33,6 +37,7 @@ function setup(saveSettings: Repo['saveSettings'] = async () => {}) {
     subscribeDays: () => () => {},
     getDays: async () => ({}),
     writeDays: async () => {},
+    deleteAllData: deleteAll,
   };
   render(
     <MemoryRouter>
@@ -45,7 +50,7 @@ function setup(saveSettings: Repo['saveSettings'] = async () => {}) {
       </AuthProvider>
     </MemoryRouter>,
   );
-  return save;
+  return Object.assign(save, { deleteAll });
 }
 
 afterEach(() => {
@@ -152,6 +157,90 @@ describe('SettingsView', () => {
       expect(blob.type).toContain('text/calendar');
       expect(click).toHaveBeenCalled();
       click.mockRestore();
+    });
+  });
+
+  describe('delete all data', () => {
+    const openSheet = async () => {
+      const view = setup(undefined, deleteImpl);
+      fireEvent.click(await screen.findByRole('button', { name: 'Delete all data' }));
+      const input = (await screen.findByLabelText('Type DELETE to confirm')) as HTMLInputElement;
+      const confirm = screen.getByRole('button', { name: 'Delete everything' });
+      return { view, input, confirm };
+    };
+    let deleteImpl: NonNullable<Repo['deleteAllData']>;
+
+    it('keeps the confirm button disabled until DELETE is typed exactly', async () => {
+      deleteImpl = async () => ({ deletedDays: 0 });
+      const { input, confirm } = await openSheet();
+      expect((confirm as HTMLButtonElement).disabled).toBe(true);
+      fireEvent.change(input, { target: { value: 'delete' } });
+      expect((confirm as HTMLButtonElement).disabled).toBe(true);
+      fireEvent.change(input, { target: { value: 'DELETE ' } });
+      expect((confirm as HTMLButtonElement).disabled).toBe(true);
+      fireEvent.change(input, { target: { value: 'DELETE' } });
+      expect((confirm as HTMLButtonElement).disabled).toBe(false);
+    });
+
+    it('cancel closes the sheet without deleting', async () => {
+      deleteImpl = async () => ({ deletedDays: 0 });
+      const { view, input } = await openSheet();
+      fireEvent.change(input, { target: { value: 'DELETE' } });
+      fireEvent.click(screen.getByRole('button', { name: 'Cancel' }));
+      expect(screen.queryByRole('dialog')).toBeNull();
+      expect(view.deleteAll).not.toHaveBeenCalled();
+    });
+
+    it('deletes, clears reminder prefs, closes and toasts the day count', async () => {
+      localStorage.setItem('marbles-hourly-notify', '1');
+      let finish: (v: { deletedDays: number }) => void = () => {};
+      deleteImpl = () => new Promise((r) => (finish = r));
+      const { view, input, confirm } = await openSheet();
+      fireEvent.change(input, { target: { value: 'DELETE' } });
+      fireEvent.click(confirm);
+      expect(view.deleteAll).toHaveBeenCalledWith('u1');
+      expect(confirm.textContent).toBe('Deleting…');
+      expect((confirm as HTMLButtonElement).disabled).toBe(true);
+      finish({ deletedDays: 12 });
+      await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull());
+      expect(screen.getByRole('status').textContent).toContain('All data deleted (12 days)');
+      expect(localStorage.getItem('marbles-hourly-notify')).toBeNull();
+    });
+
+    it('keeps the sheet open and shows the error inline', async () => {
+      localStorage.setItem('marbles-hourly-notify', '1');
+      deleteImpl = async () => {
+        throw new Error('permission-denied');
+      };
+      const { input, confirm } = await openSheet();
+      fireEvent.change(input, { target: { value: 'DELETE' } });
+      fireEvent.click(confirm);
+      const alert = await screen.findByRole('alert');
+      expect(alert.textContent).toContain('permission-denied');
+      expect(screen.getByRole('dialog')).toBeTruthy();
+      expect((confirm as HTMLButtonElement).disabled).toBe(false);
+      expect(localStorage.getItem('marbles-hourly-notify')).toBe('1');
+    });
+
+    it('explains when the device is offline', async () => {
+      vi.stubGlobal('navigator', { ...navigator, onLine: false });
+      deleteImpl = async () => {
+        throw new Error('Failed to get documents from server');
+      };
+      const { input, confirm } = await openSheet();
+      fireEvent.change(input, { target: { value: 'DELETE' } });
+      fireEvent.click(confirm);
+      expect((await screen.findByRole('alert')).textContent).toBe(
+        "You're offline. Connect and try again.",
+      );
+    });
+
+    it('links to the export page', async () => {
+      deleteImpl = async () => ({ deletedDays: 0 });
+      await openSheet();
+      expect(
+        screen.getByRole('link', { name: 'Export your data first' }).getAttribute('href'),
+      ).toBe('/export');
     });
   });
 });

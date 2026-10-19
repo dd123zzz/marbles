@@ -8,6 +8,7 @@ import RemindersSection from '../reminders/RemindersSection.tsx';
 import { applyTheme } from '../theme/theme';
 import type { Settings, ThemePref, WeekStart } from '../types';
 import { startOptions } from './logSheetLogic';
+import ResetDataSheet from './ResetDataSheet.tsx';
 import './forms.css';
 
 const TIME_OPTIONS = startOptions();
@@ -34,7 +35,11 @@ export default function SettingsView() {
       ) : (
         <>
           <ThemeSection uid={user.uid} theme={settings.theme} />
-          <SettingsForm uid={user.uid} initial={settings} />
+          <SettingsForm
+            key={`${settings.sleepStart}|${settings.sleepEnd}|${settings.weekStart}`}
+            uid={user.uid}
+            initial={settings}
+          />
           <RemindersSection settings={settings} />
         </>
       )}
@@ -46,6 +51,7 @@ export default function SettingsView() {
         </Link>
       </section>
       <AccountSection />
+      {user && <DangerZone uid={user.uid} />}
     </div>
   );
 }
@@ -157,6 +163,20 @@ function AccountSection() {
       <button type="button" className="btn" onClick={() => void signOut()}>
         Sign out
       </button>
+    </section>
+  );
+}
+
+function DangerZone({ uid }: { uid: string }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <section className="card">
+      <h2>Danger zone</h2>
+      <p className="muted">Permanently delete all your logged hours, notes and settings.</p>
+      <button type="button" className="btn btn-danger" onClick={() => setOpen(true)}>
+        Delete all data
+      </button>
+      {open && <ResetDataSheet uid={uid} onClose={() => setOpen(false)} />}
     </section>
   );
 }

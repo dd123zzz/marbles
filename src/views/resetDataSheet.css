@@ -1,0 +1,22 @@
+.reset-body {
+  padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+}
+
+.reset-body p {
+  margin: 0 0 12px;
+}
+
+.reset-actions {
+  margin-top: 16px;
+}
+
+/* dark-mode --danger is a light tint, so the label uses the soft (dark) tint there */
+.btn.btn-danger-solid {
+  background: var(--danger);
+  border-color: var(--danger);
+  color: var(--danger-soft);
+}
+
+.btn.btn-danger-solid:hover:not(:disabled) {
+  filter: brightness(0.92);
+}

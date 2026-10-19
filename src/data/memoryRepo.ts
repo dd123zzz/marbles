@@ -79,6 +79,14 @@ export function createMemoryRepo(): Repo {
       persist(store);
       notify();
     },
+
+    async deleteAllData(uid) {
+      const deletedDays = Object.keys(store[uid]?.days ?? {}).length;
+      delete store[uid];
+      persist(store);
+      notify();
+      return { deletedDays };
+    },
   };
 }
 

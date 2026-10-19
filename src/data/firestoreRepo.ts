@@ -1,8 +1,10 @@
 import {
   collection,
+  deleteDoc,
   doc,
   documentId,
   getDocs,
+  getDocsFromServer,
   onSnapshot,
   query,
   serverTimestamp,
@@ -20,6 +22,8 @@ import {
   type ThemePref,
 } from '../types.ts';
 import type { Repo } from './repo.ts';
+
+const BATCH_LIMIT = 450;
 
 function toDayDoc(data: DocumentData): DayDoc {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -106,6 +110,21 @@ export function createFirestoreRepo(): Repo {
         });
       }
       return batch.commit();
+    },
+
+    async deleteAllData(uid) {
+      if (typeof navigator !== 'undefined' && !navigator.onLine) {
+        throw new Error("You're offline. Connect and try again.");
+      }
+      const snap = await getDocsFromServer(collection(db, 'users', uid, 'days'));
+      const refs = snap.docs.map((d) => d.ref);
+      for (let i = 0; i < refs.length; i += BATCH_LIMIT) {
+        const batch = writeBatch(db);
+        for (const ref of refs.slice(i, i + BATCH_LIMIT)) batch.delete(ref);
+        await batch.commit();
+      }
+      await deleteDoc(doc(db, 'users', uid));
+      return { deletedDays: refs.length };
     },
   };
 }

@@ -4,7 +4,7 @@ import {
   initializeTestEnvironment,
   type RulesTestEnvironment,
 } from '@firebase/rules-unit-testing';
-import { doc, getDoc, serverTimestamp, setDoc, deleteDoc } from 'firebase/firestore';
+import { doc, getDoc, serverTimestamp, setDoc, deleteDoc, writeBatch } from 'firebase/firestore';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { afterAll, beforeAll, beforeEach, describe, it } from 'vitest';
@@ -74,6 +74,17 @@ describe('users/{uid} settings', () => {
     );
   });
 
+  it('lets the owner delete their settings doc', async () => {
+    await seed(['users', ALICE], settings());
+    await assertSucceeds(deleteDoc(doc(alice(), 'users', ALICE)));
+  });
+
+  it('denies another user and anonymous deleting the settings doc', async () => {
+    await seed(['users', ALICE], settings());
+    await assertFails(deleteDoc(doc(bob(), 'users', ALICE)));
+    await assertFails(deleteDoc(doc(anon(), 'users', ALICE)));
+  });
+
   it('denies another user read and write', async () => {
     await seed(['users', ALICE], settings());
     await assertFails(getDoc(doc(bob(), 'users', ALICE)));
@@ -108,6 +119,21 @@ describe('users/{uid}/days/{date}', () => {
     await assertSucceeds(setDoc(ref(alice()), day()));
     await assertSucceeds(getDoc(ref(alice())));
     await assertSucceeds(deleteDoc(ref(alice())));
+  });
+
+  it('lets the owner delete every day doc in a batch', async () => {
+    await seed(['users', ALICE, 'days', DATE], day());
+    await seed(['users', ALICE, 'days', '2026-03-15'], day());
+    const batch = writeBatch(alice());
+    batch.delete(ref(alice()));
+    batch.delete(ref(alice(), ALICE, '2026-03-15'));
+    await assertSucceeds(batch.commit());
+  });
+
+  it('denies another user and anonymous deleting a day doc', async () => {
+    await seed(['users', ALICE, 'days', DATE], day());
+    await assertFails(deleteDoc(ref(bob())));
+    await assertFails(deleteDoc(ref(anon())));
   });
 
   it('accepts a full valid day with notes and reflection', async () => {
