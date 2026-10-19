@@ -12,7 +12,7 @@ import {
   MARBLE_RADIUS,
   marblePosition,
 } from './jarLayout';
-import MarbleShape from './MarbleShape.tsx';
+import MarbleShape, { type MarbleAnim } from './MarbleShape.tsx';
 import { GRADIENT_COLORS } from './marbleUtils';
 import './jar.css';
 
@@ -26,6 +26,11 @@ export interface JarSvgProps {
   width?: number | string;
   label?: string;
   showText?: boolean;
+  /** hour numbers on the marbles (day jar only) */
+  showHours?: boolean;
+  /** entrance animations keyed by hour */
+  anims?: ReadonlyMap<number, MarbleAnim>;
+  onAnimationEnd?: (hour: number) => void;
 }
 
 /** Shared drawing for the day jar and the mini jars. */
@@ -35,6 +40,9 @@ export default function JarSvg({
   width = '100%',
   label,
   showText,
+  showHours,
+  anims,
+  onAnimationEnd,
 }: JarSvgProps) {
   const gradId = `jar${useId().replace(/[^a-zA-Z0-9]/g, '')}`;
   const r = MARBLE_RADIUS;
@@ -81,6 +89,9 @@ export default function JarSvg({
             r={r}
             gradId={gradId}
             showText={showText}
+            showHour={showHours}
+            anim={anims?.get(marble.hour)}
+            onAnimationEnd={onAnimationEnd}
             onSelect={onSelect}
           />
         );

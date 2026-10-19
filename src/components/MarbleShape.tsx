@@ -1,4 +1,4 @@
-import type { KeyboardEvent, ReactNode } from 'react';
+import type { AnimationEvent, CSSProperties, KeyboardEvent, ReactNode } from 'react';
 import type { Marble, MarbleColor } from '../types';
 import { CELL_SIZE } from './jarLayout';
 import { halfLabel, isGlossy } from './marbleUtils';
@@ -17,6 +17,13 @@ function halfPath(r: number, half: 0 | 1): string {
   return `M ${x} ${-r} A ${r} ${r} 0 0 ${half === 0 ? 0 : 1} ${x} ${r} Z`;
 }
 
+export interface MarbleAnim {
+  /** drop: newly logged; pop: moved between logged categories */
+  kind: 'drop' | 'pop';
+  /** stagger in ms */
+  delay: number;
+}
+
 interface MarbleShapeProps {
   marble: Marble;
   cx: number;
@@ -26,6 +33,11 @@ interface MarbleShapeProps {
   gradId: string;
   /** show the "n/a" text on a nonexistent (DST) hour */
   showText?: boolean;
+  /** draw the hour (0–23) centered on the marble; decorative, hidden from assistive tech */
+  showHour?: boolean;
+  /** one-shot entrance animation; cleared by the parent in onAnimationEnd */
+  anim?: MarbleAnim;
+  onAnimationEnd?: (hour: number) => void;
   /** makes each target (a full marble, or each half) a keyboard-focusable button */
   onSelect?: (slot: number, marble: Marble) => void;
 }
@@ -51,9 +63,51 @@ export default function MarbleShape({
   r,
   gradId,
   showText,
+  showHour,
+  anim,
+  onAnimationEnd,
   onSelect,
 }: MarbleShapeProps) {
   const half = CELL_SIZE / 2;
+
+  const hourText = (color: MarbleColor) =>
+    showHour &&
+    color !== 'na' && (
+      <text
+        className={`marble-hour${color === 'empty' ? ' marble-hour-empty' : ''}`}
+        textAnchor="middle"
+        dominantBaseline="central"
+        aria-hidden="true"
+        pointerEvents="none"
+      >
+        {marble.hour}
+      </text>
+    );
+
+  const animated = (content: ReactNode) => (
+    <g transform={`translate(${cx} ${cy})`}>
+      <g
+        className={anim ? `marble-anim marble-${anim.kind}` : undefined}
+        style={
+          anim
+            ? ({
+                '--marble-delay': `${anim.delay}ms`,
+                '--marble-drop': `${-(cy + r + 6)}px`,
+              } as CSSProperties)
+            : undefined
+        }
+        onAnimationEnd={
+          anim
+            ? (e: AnimationEvent<SVGGElement>) => {
+                if (e.target === e.currentTarget) onAnimationEnd?.(marble.hour);
+              }
+            : undefined
+        }
+      >
+        {content}
+      </g>
+    </g>
+  );
 
   const target = (
     slot: number,
@@ -109,8 +163,8 @@ export default function MarbleShape({
         )}
       </>
     );
-    return (
-      <g transform={`translate(${cx} ${cy})`}>
+    return animated(
+      <>
         {target(
           marble.hour * 2,
           marble.label,
@@ -118,7 +172,8 @@ export default function MarbleShape({
           body,
           <circle className="focus-ring" r={r + 3} />,
         )}
-      </g>
+        {hourText(color)}
+      </>,
     );
   }
 
@@ -137,8 +192,9 @@ export default function MarbleShape({
     );
   });
 
-  return (
-    <g transform={`translate(${cx} ${cy})`}>
+  // two-tone marble: the number is centered on the seam and relies on its outline for contrast
+  return animated(
+    <>
       {onSelect ? (
         <g role="group" aria-label={marble.label}>
           {halves}
@@ -146,6 +202,7 @@ export default function MarbleShape({
       ) : (
         halves
       )}
-    </g>
+      {hourText(marble.left === 'empty' && marble.right === 'empty' ? 'empty' : 'g')}
+    </>,
   );
 }

@@ -100,3 +100,97 @@
 .marble-target:hover .marble {
   filter: brightness(1.08);
 }
+
+/* Hour numbers: white with a dark halo reads on every marble color in both themes */
+.marble-hour {
+  font-size: 13px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  fill: #fff;
+  stroke: rgba(0, 0, 0, 0.62);
+  stroke-width: 2.4px;
+  stroke-linejoin: round;
+  paint-order: stroke fill;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Future marbles are just a dashed outline on the card, so use the theme text color */
+.marble-hour-empty {
+  fill: var(--text-muted);
+  stroke: none;
+  font-weight: 600;
+}
+
+/* Entrance animations. Only translate/scale/opacity, so hit targets and focus rings are intact once done. */
+.marble-anim {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.marble-drop {
+  animation: marble-drop 650ms linear var(--marble-delay, 0ms) backwards;
+}
+
+.marble-pop {
+  animation: marble-pop 320ms ease-out backwards;
+}
+
+@keyframes marble-drop {
+  0% {
+    transform: translateY(var(--marble-drop, -120px));
+    opacity: 0;
+    animation-timing-function: cubic-bezier(0.55, 0, 0.9, 0.6);
+  }
+  12% {
+    opacity: 1;
+  }
+  55% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0.2, 0.7, 0.4, 1);
+  }
+  72% {
+    transform: translateY(-7px);
+    animation-timing-function: cubic-bezier(0.6, 0, 0.8, 0.4);
+  }
+  86% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0.2, 0.7, 0.4, 1);
+  }
+  94% {
+    transform: translateY(-1.5px);
+    animation-timing-function: cubic-bezier(0.6, 0, 0.8, 0.4);
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes marble-pop {
+  0% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.12);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes marble-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marble-drop,
+  .marble-pop {
+    animation: marble-fade 200ms ease-out var(--marble-delay, 0ms) backwards;
+  }
+}

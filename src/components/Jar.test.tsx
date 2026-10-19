@@ -70,6 +70,101 @@ describe('Jar', () => {
   });
 });
 
+describe('hour numbers', () => {
+  it('shows hours 0–23 in the day jar, hidden from assistive tech', () => {
+    const { container } = render(<Jar marbles={marbles} onSelect={() => {}} />);
+    const texts = [...container.querySelectorAll('text.marble-hour')];
+    expect(texts.map((t) => t.textContent)).toEqual(Array.from({ length: 24 }, (_, i) => `${i}`));
+    for (const t of texts) {
+      expect(t.getAttribute('aria-hidden')).toBe('true');
+      expect(t.getAttribute('pointer-events')).toBe('none');
+    }
+  });
+
+  it('shows no numbers in a mini jar', () => {
+    const { container } = render(<MiniJar date="2026-10-14" marbles={marbles} />);
+    expect(container.querySelectorAll('.marble-hour')).toHaveLength(0);
+  });
+
+  it('shows n/a instead of a number on a nonexistent DST hour', () => {
+    const dst = marbles.map((m) =>
+      m.hour === 2 ? { ...m, left: 'na' as const, right: 'na' as const } : m,
+    );
+    const { container } = render(<Jar marbles={dst} />);
+    expect(container.querySelectorAll('.marble-hour')).toHaveLength(23);
+    expect(container.querySelector('.marble-na-text')?.textContent).toBe('n/a');
+  });
+});
+
+describe('marble animations', () => {
+  const log = (base: typeof marbles, hours: number[], c: 'g' | 'b' = 'g') =>
+    base.map((m) => (hours.includes(m.hour) ? { ...m, left: c, right: c, full: true } : m));
+  const animated = (container: HTMLElement) =>
+    [...container.querySelectorAll('.marble-anim')].map((g) => ({
+      cls: g.getAttribute('class'),
+      delay: (g as SVGGElement).style.getPropertyValue('--marble-delay'),
+      hour: g.querySelector('text')?.textContent,
+    }));
+
+  it('does not animate on first render', () => {
+    const { container } = render(<Jar marbles={log(marbles, [8, 9])} date="2026-10-14" />);
+    expect(container.querySelectorAll('.marble-anim')).toHaveLength(0);
+  });
+
+  it('drops newly logged hours, staggered by hour, and ignores the rest', () => {
+    const { container, rerender } = render(<Jar marbles={marbles} date="2026-10-14" />);
+    rerender(<Jar marbles={log(marbles, [9, 5])} date="2026-10-14" />);
+    expect(animated(container)).toEqual([
+      { cls: 'marble-anim marble-drop', delay: '0ms', hour: '5' },
+      { cls: 'marble-anim marble-drop', delay: '40ms', hour: '9' },
+    ]);
+  });
+
+  it('clears the class when the animation ends so a later log animates again', () => {
+    const { container, rerender } = render(<Jar marbles={marbles} date="2026-10-14" />);
+    const next = log(marbles, [5]);
+    rerender(<Jar marbles={next} date="2026-10-14" />);
+    // jsdom has no `animation` style property, so React listens for the webkit-prefixed event
+    fireEvent(
+      container.querySelector('.marble-anim')!,
+      new Event('webkitAnimationEnd', { bubbles: true }),
+    );
+    expect(container.querySelectorAll('.marble-anim')).toHaveLength(0);
+  });
+
+  it('does not re-trigger when the same marbles are re-computed', () => {
+    const { container, rerender } = render(<Jar marbles={marbles} date="2026-10-14" />);
+    rerender(<Jar marbles={marbles.map((m) => ({ ...m }))} date="2026-10-14" />);
+    expect(container.querySelectorAll('.marble-anim')).toHaveLength(0);
+  });
+
+  it('pops a marble that moves between logged categories', () => {
+    const { container, rerender } = render(<Jar marbles={log(marbles, [5])} date="2026-10-14" />);
+    rerender(<Jar marbles={log(marbles, [5], 'b')} date="2026-10-14" />);
+    expect(animated(container).map((a) => a.cls)).toEqual(['marble-anim marble-pop']);
+  });
+
+  it('does not animate when the date changes', () => {
+    const { container, rerender } = render(<Jar marbles={marbles} date="2026-10-14" />);
+    rerender(<Jar marbles={log(marbles, [5, 6])} date="2026-10-15" />);
+    expect(container.querySelectorAll('.marble-anim')).toHaveLength(0);
+    rerender(<Jar marbles={log(marbles, [5, 6, 7])} date="2026-10-15" />);
+    expect(animated(container).map((a) => a.hour)).toEqual(['7']);
+  });
+
+  it('uses the label as the day key when no date is given', () => {
+    const { container, rerender } = render(<Jar marbles={marbles} label="Jar for Oct 14" />);
+    rerender(<Jar marbles={log(marbles, [5])} label="Jar for Oct 15" />);
+    expect(container.querySelectorAll('.marble-anim')).toHaveLength(0);
+  });
+
+  it('does not animate mini jars', () => {
+    const { container, rerender } = render(<MiniJar date="2026-10-14" marbles={marbles} />);
+    rerender(<MiniJar date="2026-10-14" marbles={log(marbles, [5])} />);
+    expect(container.querySelectorAll('.marble-anim')).toHaveLength(0);
+  });
+});
+
 describe('MiniJar', () => {
   it('labels the day with its summary', () => {
     render(<MiniJar date="2026-10-14" marbles={marbles} />);
