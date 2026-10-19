@@ -129,7 +129,8 @@ function SettingsForm({ uid, initial }: { uid: string; initial: Settings }) {
         </label>
       </div>
       <p className="muted">
-        Changing your sleep window affects only days you haven&apos;t logged yet.
+        Changes apply to days you haven&apos;t logged yet. To change one day, tap Sleep on the Day
+        view.
       </p>
 
       <SegmentedControl

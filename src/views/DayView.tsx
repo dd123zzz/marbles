@@ -121,6 +121,7 @@ function Day({ param }: { param: string | undefined }) {
           <Jar
             marbles={marbles}
             label={`Jar for ${weekdayMonthDay(date)}`}
+            date={date}
             onSelect={(slot, m) => selectSlot(slot, slot % 2 === 0 ? m.left : m.right)}
           />
         </section>
