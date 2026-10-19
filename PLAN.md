@@ -378,7 +378,7 @@ The tray shows **only on today's jar (default; open question 4)**. Past and futu
 3. Add the GitHub repo variable `VITE_APPCHECK_SITE_KEY`.
 4. Register a debug token for local dev (in `.env.local`, never committed).
 5. Watch the App Check metrics for Firestore for 1–2 weeks while **unenforced**.
-6. Enforce for Firestore. Optionally enforce for Auth later.
+6. ~~Enforce for Firestore. Optionally enforce for Auth later.~~ **Cancelled 2026-10-18 (user, iOS question N2): never enforce App Check.** The free-team iPhone app ([ios/](./ios/README.md)) can't attest, so enforcing would lock it out. App Check stays monitor-only.
 
 **Agent work:**
 - `initializeAppCheck` with `ReCaptchaV3Provider` and `isTokenAutoRefreshEnabled`.
