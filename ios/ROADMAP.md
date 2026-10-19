@@ -63,6 +63,8 @@ Inputs: [PRODUCT.md](./PRODUCT.md) · [ENGINEERING_FEEDBACK.md](./ENGINEERING_FE
 - Golden fixtures exist.
 - Spikes are deleted, not merged.
 
+**Status (2026-10-18 sprint, Xcode 26.0, host-only):** I0.3 CI workflow and I0.4 golden fixtures done. Ahead of plan, the I1 MarblesCore port and the MarblesPhysics Swift-solver fallback landed with host tests (153 + 10). I0.2 is partial (packages, `.gitignore`, `.swift-format`; no Xcode project or app target). I0.1 and I0.5–I0.7 (device, Firebase, Box2D and notification spikes) are blocked until the Mac has Xcode ≥ 26.2 / 27.1. See HANDOFF row 12.
+
 ## 3. Stage I1: Core parity
 
 **Wave 0 (orchestrator):** sign off `Types.swift` (mirror of `src/types.ts` + `SlotRef`, `JarStyle`, `defaultSettings`). Confirm the fixtures are current.
