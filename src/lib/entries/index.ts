@@ -1,6 +1,13 @@
-import type { Category, DateKey, DayDoc, Entry, SleepWindow } from '../../types';
+import type { Category, DateKey, DayDoc, Entry, SleepWindow, SlotChar, SlotRef } from '../../types';
 import { SLOTS_PER_DAY } from '../../types';
-import { addDays, isEntryInFuture, isValidDateKey, splitAcrossDays } from '../time';
+import {
+  addDays,
+  compareDateKeys,
+  isEntryInFuture,
+  isFutureSlot,
+  isValidDateKey,
+  splitAcrossDays,
+} from '../time';
 
 export const MAX_NOTE_LENGTH = 200;
 const NOTE_SEPARATOR = ' · ';
@@ -290,4 +297,142 @@ export function withReflection(
   if (value) next.reflection = value;
   else delete next.reflection;
   return next;
+}
+
+interface NoteRef {
+  date: DateKey;
+  key: string;
+  text: string;
+}
+
+/** What a drop changed, enough for `undoDrop` to reverse it. */
+export interface DropUndo {
+  category: Category;
+  /** Each written slot with the character it held before. */
+  slots: Array<SlotRef & { prev: SlotChar }>;
+  /** Notes the drop removed or rewrote, as they were before. */
+  removedNotes: NoteRef[];
+  /** Notes the drop wrote (e.g. a note folded into a merged run start). */
+  addedNotes: NoteRef[];
+}
+
+export interface DropPlan {
+  changed: Record<DateKey, DayDoc>;
+  undo: DropUndo;
+  /** True when every target already holds the category, so nothing is written. */
+  noop: boolean;
+}
+
+const cmpSlotRef = (a: SlotRef, b: SlotRef): number =>
+  compareDateKeys(a.date, b.date) || a.slot - b.slot;
+
+const follows = (prev: SlotRef, next: SlotRef): boolean =>
+  next.date === prev.date
+    ? next.slot === prev.slot + 1
+    : prev.slot === SLOTS_PER_DAY - 1 && next.slot === 0 && next.date === addDays(prev.date, 1);
+
+/** Groups sorted slots into runs of consecutive slots (crossing midnight), at most one day long. */
+function contiguousRuns(sorted: SlotRef[]): Part[] {
+  const runs: Part[] = [];
+  let prev: SlotRef | undefined;
+  for (const ref of sorted) {
+    const last = runs[runs.length - 1];
+    if (prev && last && last.length < SLOTS_PER_DAY && follows(prev, ref)) last.length++;
+    else runs.push({ date: ref.date, startSlot: ref.slot, length: 1 });
+    prev = ref;
+  }
+  return runs;
+}
+
+function diffNotes(
+  before: DayMap,
+  changed: Record<DateKey, DayDoc>,
+): Pick<DropUndo, 'removedNotes' | 'addedNotes'> {
+  const removedNotes: NoteRef[] = [];
+  const addedNotes: NoteRef[] = [];
+  for (const [date, after] of Object.entries(changed)) {
+    const old = before[date]?.notes ?? {};
+    for (const [key, text] of Object.entries(old)) {
+      if (after.notes[key] !== text) removedNotes.push({ date, key, text });
+    }
+    for (const [key, text] of Object.entries(after.notes)) {
+      if (old[key] !== text) addedNotes.push({ date, key, text });
+    }
+  }
+  return { removedNotes, addedNotes };
+}
+
+/**
+ * Plans a drag-to-drop log: every target slot gets `category` (overwriting logged
+ * slots and dropping their notes). Targets that are still in the future relative
+ * to `now` are ignored. Missing day docs are created with the sleep snapshot.
+ */
+export function planDrop(args: {
+  days: DayMap;
+  targets: SlotRef[];
+  category: Category;
+  sleep: SleepWindow;
+  tz: string;
+  now: Date;
+}): DropPlan {
+  const { days, category, sleep, tz, now } = args;
+  const seen = new Set<string>();
+  const targets = args.targets
+    .filter((t) => !isFutureSlot(t.date, t.slot, now))
+    .filter((t) => !seen.has(slotId(t.date, t.slot)) && seen.add(slotId(t.date, t.slot)))
+    .sort(cmpSlotRef);
+
+  const undo: DropUndo = { category, slots: [], removedNotes: [], addedNotes: [] };
+  if (targets.every((t) => days[t.date]?.slots.charAt(t.slot) === category)) {
+    return { changed: {}, undo, noop: true };
+  }
+
+  undo.slots = targets.map((t) => ({
+    ...t,
+    prev: (days[t.date]?.slots.charAt(t.slot) || '.') as SlotChar,
+  }));
+
+  let current: DayMap = days;
+  const changed: Record<DateKey, DayDoc> = {};
+  for (const run of contiguousRuns(targets)) {
+    const next = applyEntry(current, { ...run, category }, { sleep, tz });
+    Object.assign(changed, next);
+    current = { ...current, ...next };
+  }
+  Object.assign(undo, diffNotes(days, changed));
+  return { changed, undo, noop: false };
+}
+
+/**
+ * Reverses a drop on the current `days`. Only slots that still hold the dropped
+ * category are restored, so later edits survive. Removed notes come back unless
+ * their key has been written since.
+ */
+export function undoDrop(days: DayMap, undo: DropUndo): Record<DateKey, DayDoc> {
+  const work = new Map<DateKey, DayDoc>();
+  const docFor = (date: DateKey): DayDoc | undefined => {
+    const existing = work.get(date);
+    if (existing) return existing;
+    const base = days[date];
+    if (!base) return undefined;
+    const copy = cloneDoc(base);
+    work.set(date, copy);
+    return copy;
+  };
+
+  for (const s of undo.slots) {
+    const doc = docFor(s.date);
+    if (doc && doc.slots.charAt(s.slot) === undo.category) {
+      doc.slots = setSlots(doc.slots, s.slot, 1, s.prev);
+    }
+  }
+  for (const n of undo.addedNotes) {
+    const doc = docFor(n.date);
+    if (doc && doc.notes[n.key] === n.text) delete doc.notes[n.key];
+  }
+  for (const n of undo.removedNotes) {
+    const doc = docFor(n.date);
+    if (doc && !(n.key in doc.notes)) doc.notes[n.key] = n.text;
+  }
+  return collectChanged(work, days);
 }

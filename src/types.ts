@@ -64,3 +64,11 @@ export interface Marble {
 }
 
 export const SLOTS_PER_DAY = 48;
+
+/** A single 30-minute slot on a local calendar day. */
+export interface SlotRef {
+  date: DateKey;
+  slot: number;
+}
+
+export type JarStyle = 'grid' | 'loose';
