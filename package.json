@@ -12,6 +12,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "TZ=America/Los_Angeles vitest run",
+    "golden": "for z in America/Los_Angeles Australia/Lord_Howe Asia/Kolkata UTC; do TZ=$z vitest run --config scripts/golden/vitest.config.ts || exit 1; done",
     "test:watch": "TZ=America/Los_Angeles vitest",
     "test:rules": "firebase emulators:exec --only firestore --project demo-marbles \"vitest run -c vitest.rules.config.ts\"",
     "generate-pwa-assets": "pwa-assets-generator"

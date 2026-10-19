@@ -1,0 +1,9865 @@
+{
+  "cases": [
+    {
+      "fn": "lastHourWindow",
+      "input": {
+        "now": "2026-10-18T14:00:00",
+        "nowEpochMs": 1792292400000
+      },
+      "output": [
+        {
+          "date": "2026-10-18",
+          "slot": 26
+        },
+        {
+          "date": "2026-10-18",
+          "slot": 27
+        }
+      ]
+    },
+    {
+      "fn": "defaultStart",
+      "input": {
+        "now": "2026-10-18T14:00:00",
+        "nowEpochMs": 1792292400000
+      },
+      "output": {
+        "date": "2026-10-18",
+        "startSlot": 26
+      }
+    },
+    {
+      "fn": "currentSlotInfo",
+      "input": {
+        "now": "2026-10-18T14:00:00",
+        "nowEpochMs": 1792292400000
+      },
+      "output": {
+        "date": "2026-10-18",
+        "slot": 28
+      }
+    },
+    {
+      "fn": "toDateKey",
+      "input": {
+        "now": "2026-10-18T14:00:00",
+        "nowEpochMs": 1792292400000
+      },
+      "output": "2026-10-18"
+    },
+    {
+      "fn": "lastHourWindow",
+      "input": {
+        "now": "2026-10-18T14:14:59",
+        "nowEpochMs": 1792293299000
+      },
+      "output": [
+        {
+          "date": "2026-10-18",
+          "slot": 26
+        },
+        {
+          "date": "2026-10-18",
+          "slot": 27
+        }
+      ]
+    },
+    {
+      "fn": "defaultStart",
+      "input": {
+        "now": "2026-10-18T14:14:59",
+        "nowEpochMs": 1792293299000
+      },
+      "output": {
+        "date": "2026-10-18",
+        "startSlot": 26
+      }
+    },
+    {
+      "fn": "currentSlotInfo",
+      "input": {
+        "now": "2026-10-18T14:14:59",
+        "nowEpochMs": 1792293299000
+      },
+      "output": {
+        "date": "2026-10-18",
+        "slot": 28
+      }
+    },
+    {
+      "fn": "toDateKey",
+      "input": {
+        "now": "2026-10-18T14:14:59",
+        "nowEpochMs": 1792293299000
+      },
+      "output": "2026-10-18"
+    },
+    {
+      "fn": "lastHourWindow",
+      "input": {
+        "now": "2026-10-18T14:15:00",
+        "nowEpochMs": 1792293300000
+      },
+      "output": [
+        {
+          "date": "2026-10-18",
+          "slot": 27
+        },
+        {
+          "date": "2026-10-18",
+          "slot": 28
+        }
+      ]
+    },
+    {
+      "fn": "defaultStart",
+      "input": {
+        "now": "2026-10-18T14:15:00",
+        "nowEpochMs": 1792293300000
+      },
+      "output": {
+        "date": "2026-10-18",
+        "startSlot": 26
+      }
+    },
+    {
+      "fn": "currentSlotInfo",
+      "input": {
+        "now": "2026-10-18T14:15:00",
+        "nowEpochMs": 1792293300000
+      },
+      "output": {
+        "date": "2026-10-18",
+        "slot": 28
+      }
+    },
+    {
+      "fn": "toDateKey",
+      "input": {
+        "now": "2026-10-18T14:15:00",
+        "nowEpochMs": 1792293300000
+      },
+      "output": "2026-10-18"
+    },
+    {
+      "fn": "lastHourWindow",
+      "input": {
+        "now": "2026-10-18T14:44:00",
+        "nowEpochMs": 1792295040000
+      },
+      "output": [
+        {
+          "date": "2026-10-18",
+          "slot": 27
+        },
+        {
+          "date": "2026-10-18",
+          "slot": 28
+        }
+      ]
+    },
+    {
+      "fn": "defaultStart",
+      "input": {
+        "now": "2026-10-18T14:44:00",
+        "nowEpochMs": 1792295040000
+      },
+      "output": {
+        "date": "2026-10-18",
+        "startSlot": 26
+      }
+    },
+    {
+      "fn": "currentSlotInfo",
+      "input": {
+        "now": "2026-10-18T14:44:00",
+        "nowEpochMs": 1792295040000
+      },
+      "output": {
+        "date": "2026-10-18",
+        "slot": 29
+      }
+    },
+    {
+      "fn": "toDateKey",
+      "input": {
+        "now": "2026-10-18T14:44:00",
+        "nowEpochMs": 1792295040000
+      },
+      "output": "2026-10-18"
+    },
+    {
+      "fn": "lastHourWindow",
+      "input": {
+        "now": "2026-10-18T14:45:00",
+        "nowEpochMs": 1792295100000
+      },
+      "output": [
+        {
+          "date": "2026-10-18",
+          "slot": 28
+        },
+        {
+          "date": "2026-10-18",
+          "slot": 29
+        }
+      ]
+    },
+    {
+      "fn": "defaultStart",
+      "input": {
+        "now": "2026-10-18T14:45:00",
+        "nowEpochMs": 1792295100000
+      },
+      "output": {
+        "date": "2026-10-18",
+        "startSlot": 26
+      }
+    },
+    {
+      "fn": "currentSlotInfo",
+      "input": {
+        "now": "2026-10-18T14:45:00",
+        "nowEpochMs": 1792295100000
+      },
+      "output": {
+        "date": "2026-10-18",
+        "slot": 29
+      }
+    },
+    {
+      "fn": "toDateKey",
+      "input": {
+        "now": "2026-10-18T14:45:00",
+        "nowEpochMs": 1792295100000
+      },
+      "output": "2026-10-18"
+    },
+    {
+      "fn": "lastHourWindow",
+      "input": {
+        "now": "2026-10-18T23:50:00",
+        "nowEpochMs": 1792327800000
+      },
+      "output": [
+        {
+          "date": "2026-10-18",
+          "slot": 46
+        },
+        {
+          "date": "2026-10-18",
+          "slot": 47
+        }
+      ]
+    },
+    {
+      "fn": "defaultStart",
+      "input": {
+        "now": "2026-10-18T23:50:00",
+        "nowEpochMs": 1792327800000
+      },
+      "output": {
+        "date": "2026-10-18",
+        "startSlot": 44
+      }
+    },
+    {
+      "fn": "currentSlotInfo",
+      "input": {
+        "now": "2026-10-18T23:50:00",
+        "nowEpochMs": 1792327800000
+      },
+      "output": {
+        "date": "2026-10-18",
+        "slot": 47
+      }
+    },
+    {
+      "fn": "toDateKey",
+      "input": {
+        "now": "2026-10-18T23:50:00",
+        "nowEpochMs": 1792327800000
+      },
+      "output": "2026-10-18"
+    },
+    {
+      "fn": "lastHourWindow",
+      "input": {
+        "now": "2026-10-18T00:00:00",
+        "nowEpochMs": 1792242000000
+      },
+      "output": [
+        {
+          "date": "2026-10-17",
+          "slot": 46
+        },
+        {
+          "date": "2026-10-17",
+          "slot": 47
+        }
+      ]
+    },
+    {
+      "fn": "defaultStart",
+      "input": {
+        "now": "2026-10-18T00:00:00",
+        "nowEpochMs": 1792242000000
+      },
+      "output": {
+        "date": "2026-10-17",
+        "startSlot": 46
+      }
+    },
+    {
+      "fn": "currentSlotInfo",
+      "input": {
+        "now": "2026-10-18T00:00:00",
+        "nowEpochMs": 1792242000000
+      },
+      "output": {
+        "date": "2026-10-18",
+        "slot": 0
+      }
+    },
+    {
+      "fn": "toDateKey",
+      "input": {
+        "now": "2026-10-18T00:00:00",
+        "nowEpochMs": 1792242000000
+      },
+      "output": "2026-10-18"
+    },
+    {
+      "fn": "lastHourWindow",
+      "input": {
+        "now": "2026-10-18T00:14:00",
+        "nowEpochMs": 1792242840000
+      },
+      "output": [
+        {
+          "date": "2026-10-17",
+          "slot": 46
+        },
+        {
+          "date": "2026-10-17",
+          "slot": 47
+        }
+      ]
+    },
+    {
+      "fn": "defaultStart",
+      "input": {
+        "now": "2026-10-18T00:14:00",
+        "nowEpochMs": 1792242840000
+      },
+      "output": {
+        "date": "2026-10-17",
+        "startSlot": 46
+      }
+    },
+    {
+      "fn": "currentSlotInfo",
+      "input": {
+        "now": "2026-10-18T00:14:00",
+        "nowEpochMs": 1792242840000
+      },
+      "output": {
+        "date": "2026-10-18",
+        "slot": 0
+      }
+    },
+    {
+      "fn": "toDateKey",
+      "input": {
+        "now": "2026-10-18T00:14:00",
+        "nowEpochMs": 1792242840000
+      },
+      "output": "2026-10-18"
+    },
+    {
+      "fn": "lastHourWindow",
+      "input": {
+        "now": "2026-10-18T00:20:00",
+        "nowEpochMs": 1792243200000
+      },
+      "output": [
+        {
+          "date": "2026-10-17",
+          "slot": 47
+        },
+        {
+          "date": "2026-10-18",
+          "slot": 0
+        }
+      ]
+    },
+    {
+      "fn": "defaultStart",
+      "input": {
+        "now": "2026-10-18T00:20:00",
+        "nowEpochMs": 1792243200000
+      },
+      "output": {
+        "date": "2026-10-17",
+        "startSlot": 46
+      }
+    },
+    {
+      "fn": "currentSlotInfo",
+      "input": {
+        "now": "2026-10-18T00:20:00",
+        "nowEpochMs": 1792243200000
+      },
+      "output": {
+        "date": "2026-10-18",
+        "slot": 0
+      }
+    },
+    {
+      "fn": "toDateKey",
+      "input": {
+        "now": "2026-10-18T00:20:00",
+        "nowEpochMs": 1792243200000
+      },
+      "output": "2026-10-18"
+    },
+    {
+      "fn": "lastHourWindow",
+      "input": {
+        "now": "2026-10-18T00:50:00",
+        "nowEpochMs": 1792245000000
+      },
+      "output": [
+        {
+          "date": "2026-10-18",
+          "slot": 0
+        },
+        {
+          "date": "2026-10-18",
+          "slot": 1
+        }
+      ]
+    },
+    {
+      "fn": "defaultStart",
+      "input": {
+        "now": "2026-10-18T00:50:00",
+        "nowEpochMs": 1792245000000
+      },
+      "output": {
+        "date": "2026-10-17",
+        "startSlot": 46
+      }
+    },
+    {
+      "fn": "currentSlotInfo",
+      "input": {
+        "now": "2026-10-18T00:50:00",
+        "nowEpochMs": 1792245000000
+      },
+      "output": {
+        "date": "2026-10-18",
+        "slot": 1
+      }
+    },
+    {
+      "fn": "toDateKey",
+      "input": {
+        "now": "2026-10-18T00:50:00",
+        "nowEpochMs": 1792245000000
+      },
+      "output": "2026-10-18"
+    },
+    {
+      "fn": "lastHourWindow",
+      "input": {
+        "now": "2027-01-01T00:20:00",
+        "nowEpochMs": 1798723200000
+      },
+      "output": [
+        {
+          "date": "2026-12-31",
+          "slot": 47
+        },
+        {
+          "date": "2027-01-01",
+          "slot": 0
+        }
+      ]
+    },
+    {
+      "fn": "defaultStart",
+      "input": {
+        "now": "2027-01-01T00:20:00",
+        "nowEpochMs": 1798723200000
+      },
+      "output": {
+        "date": "2026-12-31",
+        "startSlot": 46
+      }
+    },
+    {
+      "fn": "currentSlotInfo",
+      "input": {
+        "now": "2027-01-01T00:20:00",
+        "nowEpochMs": 1798723200000
+      },
+      "output": {
+        "date": "2027-01-01",
+        "slot": 0
+      }
+    },
+    {
+      "fn": "toDateKey",
+      "input": {
+        "now": "2027-01-01T00:20:00",
+        "nowEpochMs": 1798723200000
+      },
+      "output": "2027-01-01"
+    },
+    {
+      "fn": "lastHourWindow",
+      "input": {
+        "now": "2026-12-31T23:50:00",
+        "nowEpochMs": 1798721400000
+      },
+      "output": [
+        {
+          "date": "2026-12-31",
+          "slot": 46
+        },
+        {
+          "date": "2026-12-31",
+          "slot": 47
+        }
+      ]
+    },
+    {
+      "fn": "defaultStart",
+      "input": {
+        "now": "2026-12-31T23:50:00",
+        "nowEpochMs": 1798721400000
+      },
+      "output": {
+        "date": "2026-12-31",
+        "startSlot": 44
+      }
+    },
+    {
+      "fn": "currentSlotInfo",
+      "input": {
+        "now": "2026-12-31T23:50:00",
+        "nowEpochMs": 1798721400000
+      },
+      "output": {
+        "date": "2026-12-31",
+        "slot": 47
+      }
+    },
+    {
+      "fn": "toDateKey",
+      "input": {
+        "now": "2026-12-31T23:50:00",
+        "nowEpochMs": 1798721400000
+      },
+      "output": "2026-12-31"
+    },
+    {
+      "fn": "lastHourWindow",
+      "input": {
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": [
+        {
+          "date": "2026-03-08",
+          "slot": 4
+        },
+        {
+          "date": "2026-03-08",
+          "slot": 5
+        }
+      ]
+    },
+    {
+      "fn": "defaultStart",
+      "input": {
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": {
+        "date": "2026-03-08",
+        "startSlot": 4
+      }
+    },
+    {
+      "fn": "currentSlotInfo",
+      "input": {
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": {
+        "date": "2026-03-08",
+        "slot": 6
+      }
+    },
+    {
+      "fn": "toDateKey",
+      "input": {
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": "2026-03-08"
+    },
+    {
+      "fn": "lastHourWindow",
+      "input": {
+        "now": "2026-03-08T03:00:00",
+        "nowEpochMs": 1772899200000
+      },
+      "output": [
+        {
+          "date": "2026-03-08",
+          "slot": 4
+        },
+        {
+          "date": "2026-03-08",
+          "slot": 5
+        }
+      ]
+    },
+    {
+      "fn": "defaultStart",
+      "input": {
+        "now": "2026-03-08T03:00:00",
+        "nowEpochMs": 1772899200000
+      },
+      "output": {
+        "date": "2026-03-08",
+        "startSlot": 4
+      }
+    },
+    {
+      "fn": "currentSlotInfo",
+      "input": {
+        "now": "2026-03-08T03:00:00",
+        "nowEpochMs": 1772899200000
+      },
+      "output": {
+        "date": "2026-03-08",
+        "slot": 6
+      }
+    },
+    {
+      "fn": "toDateKey",
+      "input": {
+        "now": "2026-03-08T03:00:00",
+        "nowEpochMs": 1772899200000
+      },
+      "output": "2026-03-08"
+    },
+    {
+      "fn": "lastHourWindow",
+      "input": {
+        "now": "2026-03-08T01:50:00",
+        "nowEpochMs": 1772895000000
+      },
+      "output": [
+        {
+          "date": "2026-03-08",
+          "slot": 2
+        },
+        {
+          "date": "2026-03-08",
+          "slot": 3
+        }
+      ]
+    },
+    {
+      "fn": "defaultStart",
+      "input": {
+        "now": "2026-03-08T01:50:00",
+        "nowEpochMs": 1772895000000
+      },
+      "output": {
+        "date": "2026-03-08",
+        "startSlot": 0
+      }
+    },
+    {
+      "fn": "currentSlotInfo",
+      "input": {
+        "now": "2026-03-08T01:50:00",
+        "nowEpochMs": 1772895000000
+      },
+      "output": {
+        "date": "2026-03-08",
+        "slot": 3
+      }
+    },
+    {
+      "fn": "toDateKey",
+      "input": {
+        "now": "2026-03-08T01:50:00",
+        "nowEpochMs": 1772895000000
+      },
+      "output": "2026-03-08"
+    },
+    {
+      "fn": "lastHourWindow",
+      "input": {
+        "now": "2026-03-08T00:10:00",
+        "nowEpochMs": 1772889000000
+      },
+      "output": [
+        {
+          "date": "2026-03-07",
+          "slot": 46
+        },
+        {
+          "date": "2026-03-07",
+          "slot": 47
+        }
+      ]
+    },
+    {
+      "fn": "defaultStart",
+      "input": {
+        "now": "2026-03-08T00:10:00",
+        "nowEpochMs": 1772889000000
+      },
+      "output": {
+        "date": "2026-03-07",
+        "startSlot": 46
+      }
+    },
+    {
+      "fn": "currentSlotInfo",
+      "input": {
+        "now": "2026-03-08T00:10:00",
+        "nowEpochMs": 1772889000000
+      },
+      "output": {
+        "date": "2026-03-08",
+        "slot": 0
+      }
+    },
+    {
+      "fn": "toDateKey",
+      "input": {
+        "now": "2026-03-08T00:10:00",
+        "nowEpochMs": 1772889000000
+      },
+      "output": "2026-03-08"
+    },
+    {
+      "fn": "lastHourWindow",
+      "input": {
+        "now": "2026-03-09T00:20:00",
+        "nowEpochMs": 1772976000000
+      },
+      "output": [
+        {
+          "date": "2026-03-08",
+          "slot": 47
+        },
+        {
+          "date": "2026-03-09",
+          "slot": 0
+        }
+      ]
+    },
+    {
+      "fn": "defaultStart",
+      "input": {
+        "now": "2026-03-09T00:20:00",
+        "nowEpochMs": 1772976000000
+      },
+      "output": {
+        "date": "2026-03-08",
+        "startSlot": 46
+      }
+    },
+    {
+      "fn": "currentSlotInfo",
+      "input": {
+        "now": "2026-03-09T00:20:00",
+        "nowEpochMs": 1772976000000
+      },
+      "output": {
+        "date": "2026-03-09",
+        "slot": 0
+      }
+    },
+    {
+      "fn": "toDateKey",
+      "input": {
+        "now": "2026-03-09T00:20:00",
+        "nowEpochMs": 1772976000000
+      },
+      "output": "2026-03-09"
+    },
+    {
+      "fn": "lastHourWindow",
+      "input": {
+        "now": "2026-11-01T01:30:00",
+        "nowEpochMs": 1793457000000
+      },
+      "output": [
+        {
+          "date": "2026-11-01",
+          "slot": 1
+        },
+        {
+          "date": "2026-11-01",
+          "slot": 2
+        }
+      ]
+    },
+    {
+      "fn": "defaultStart",
+      "input": {
+        "now": "2026-11-01T01:30:00",
+        "nowEpochMs": 1793457000000
+      },
+      "output": {
+        "date": "2026-11-01",
+        "startSlot": 0
+      }
+    },
+    {
+      "fn": "currentSlotInfo",
+      "input": {
+        "now": "2026-11-01T01:30:00",
+        "nowEpochMs": 1793457000000
+      },
+      "output": {
+        "date": "2026-11-01",
+        "slot": 3
+      }
+    },
+    {
+      "fn": "toDateKey",
+      "input": {
+        "now": "2026-11-01T01:30:00",
+        "nowEpochMs": 1793457000000
+      },
+      "output": "2026-11-01"
+    },
+    {
+      "fn": "lastHourWindow",
+      "input": {
+        "now": "2026-11-01T02:10:00",
+        "nowEpochMs": 1793459400000
+      },
+      "output": [
+        {
+          "date": "2026-11-01",
+          "slot": 2
+        },
+        {
+          "date": "2026-11-01",
+          "slot": 3
+        }
+      ]
+    },
+    {
+      "fn": "defaultStart",
+      "input": {
+        "now": "2026-11-01T02:10:00",
+        "nowEpochMs": 1793459400000
+      },
+      "output": {
+        "date": "2026-11-01",
+        "startSlot": 2
+      }
+    },
+    {
+      "fn": "currentSlotInfo",
+      "input": {
+        "now": "2026-11-01T02:10:00",
+        "nowEpochMs": 1793459400000
+      },
+      "output": {
+        "date": "2026-11-01",
+        "slot": 4
+      }
+    },
+    {
+      "fn": "toDateKey",
+      "input": {
+        "now": "2026-11-01T02:10:00",
+        "nowEpochMs": 1793459400000
+      },
+      "output": "2026-11-01"
+    },
+    {
+      "fn": "lastHourWindow",
+      "input": {
+        "now": "2026-11-01T12:00:00",
+        "nowEpochMs": 1793494800000
+      },
+      "output": [
+        {
+          "date": "2026-11-01",
+          "slot": 22
+        },
+        {
+          "date": "2026-11-01",
+          "slot": 23
+        }
+      ]
+    },
+    {
+      "fn": "defaultStart",
+      "input": {
+        "now": "2026-11-01T12:00:00",
+        "nowEpochMs": 1793494800000
+      },
+      "output": {
+        "date": "2026-11-01",
+        "startSlot": 22
+      }
+    },
+    {
+      "fn": "currentSlotInfo",
+      "input": {
+        "now": "2026-11-01T12:00:00",
+        "nowEpochMs": 1793494800000
+      },
+      "output": {
+        "date": "2026-11-01",
+        "slot": 24
+      }
+    },
+    {
+      "fn": "toDateKey",
+      "input": {
+        "now": "2026-11-01T12:00:00",
+        "nowEpochMs": 1793494800000
+      },
+      "output": "2026-11-01"
+    },
+    {
+      "fn": "lastHourWindow",
+      "input": {
+        "now": "2026-04-05T03:20:00",
+        "nowEpochMs": 1775321400000
+      },
+      "output": [
+        {
+          "date": "2026-04-05",
+          "slot": 5
+        },
+        {
+          "date": "2026-04-05",
+          "slot": 6
+        }
+      ]
+    },
+    {
+      "fn": "defaultStart",
+      "input": {
+        "now": "2026-04-05T03:20:00",
+        "nowEpochMs": 1775321400000
+      },
+      "output": {
+        "date": "2026-04-05",
+        "startSlot": 4
+      }
+    },
+    {
+      "fn": "currentSlotInfo",
+      "input": {
+        "now": "2026-04-05T03:20:00",
+        "nowEpochMs": 1775321400000
+      },
+      "output": {
+        "date": "2026-04-05",
+        "slot": 6
+      }
+    },
+    {
+      "fn": "toDateKey",
+      "input": {
+        "now": "2026-04-05T03:20:00",
+        "nowEpochMs": 1775321400000
+      },
+      "output": "2026-04-05"
+    },
+    {
+      "fn": "lastHourWindow",
+      "input": {
+        "now": "2026-10-04T03:10:00",
+        "nowEpochMs": 1791043800000
+      },
+      "output": [
+        {
+          "date": "2026-10-04",
+          "slot": 3
+        },
+        {
+          "date": "2026-10-04",
+          "slot": 5
+        }
+      ]
+    },
+    {
+      "fn": "defaultStart",
+      "input": {
+        "now": "2026-10-04T03:10:00",
+        "nowEpochMs": 1791043800000
+      },
+      "output": {
+        "date": "2026-10-04",
+        "startSlot": 4
+      }
+    },
+    {
+      "fn": "currentSlotInfo",
+      "input": {
+        "now": "2026-10-04T03:10:00",
+        "nowEpochMs": 1791043800000
+      },
+      "output": {
+        "date": "2026-10-04",
+        "slot": 6
+      }
+    },
+    {
+      "fn": "toDateKey",
+      "input": {
+        "now": "2026-10-04T03:10:00",
+        "nowEpochMs": 1791043800000
+      },
+      "output": "2026-10-04"
+    },
+    {
+      "fn": "lastHourWindow",
+      "input": {
+        "now": "2026-10-04T00:20:00",
+        "nowEpochMs": 1791035400000
+      },
+      "output": [
+        {
+          "date": "2026-10-03",
+          "slot": 47
+        },
+        {
+          "date": "2026-10-04",
+          "slot": 0
+        }
+      ]
+    },
+    {
+      "fn": "defaultStart",
+      "input": {
+        "now": "2026-10-04T00:20:00",
+        "nowEpochMs": 1791035400000
+      },
+      "output": {
+        "date": "2026-10-03",
+        "startSlot": 46
+      }
+    },
+    {
+      "fn": "currentSlotInfo",
+      "input": {
+        "now": "2026-10-04T00:20:00",
+        "nowEpochMs": 1791035400000
+      },
+      "output": {
+        "date": "2026-10-04",
+        "slot": 0
+      }
+    },
+    {
+      "fn": "toDateKey",
+      "input": {
+        "now": "2026-10-04T00:20:00",
+        "nowEpochMs": 1791035400000
+      },
+      "output": "2026-10-04"
+    },
+    {
+      "fn": "lastHourWindow",
+      "input": {
+        "now": "2026-04-05T12:00:00",
+        "nowEpochMs": 1775352600000
+      },
+      "output": [
+        {
+          "date": "2026-04-05",
+          "slot": 22
+        },
+        {
+          "date": "2026-04-05",
+          "slot": 23
+        }
+      ]
+    },
+    {
+      "fn": "defaultStart",
+      "input": {
+        "now": "2026-04-05T12:00:00",
+        "nowEpochMs": 1775352600000
+      },
+      "output": {
+        "date": "2026-04-05",
+        "startSlot": 22
+      }
+    },
+    {
+      "fn": "currentSlotInfo",
+      "input": {
+        "now": "2026-04-05T12:00:00",
+        "nowEpochMs": 1775352600000
+      },
+      "output": {
+        "date": "2026-04-05",
+        "slot": 24
+      }
+    },
+    {
+      "fn": "toDateKey",
+      "input": {
+        "now": "2026-04-05T12:00:00",
+        "nowEpochMs": 1775352600000
+      },
+      "output": "2026-04-05"
+    },
+    {
+      "fn": "lastHourWindow",
+      "input": {
+        "now": "2026-04-05T01:45:00",
+        "nowEpochMs": 1775313900000
+      },
+      "output": [
+        {
+          "date": "2026-04-05",
+          "slot": 2
+        },
+        {
+          "date": "2026-04-05",
+          "slot": 3
+        }
+      ]
+    },
+    {
+      "fn": "defaultStart",
+      "input": {
+        "now": "2026-04-05T01:45:00",
+        "nowEpochMs": 1775313900000
+      },
+      "output": {
+        "date": "2026-04-05",
+        "startSlot": 0
+      }
+    },
+    {
+      "fn": "currentSlotInfo",
+      "input": {
+        "now": "2026-04-05T01:45:00",
+        "nowEpochMs": 1775313900000
+      },
+      "output": {
+        "date": "2026-04-05",
+        "slot": 3
+      }
+    },
+    {
+      "fn": "toDateKey",
+      "input": {
+        "now": "2026-04-05T01:45:00",
+        "nowEpochMs": 1775313900000
+      },
+      "output": "2026-04-05"
+    },
+    {
+      "fn": "lastHourWindow",
+      "input": {
+        "now": "2026-10-04T02:45:00",
+        "nowEpochMs": 1791042300000
+      },
+      "output": [
+        {
+          "date": "2026-10-04",
+          "slot": 3
+        },
+        {
+          "date": "2026-10-04",
+          "slot": 5
+        }
+      ]
+    },
+    {
+      "fn": "defaultStart",
+      "input": {
+        "now": "2026-10-04T02:45:00",
+        "nowEpochMs": 1791042300000
+      },
+      "output": {
+        "date": "2026-10-04",
+        "startSlot": 2
+      }
+    },
+    {
+      "fn": "currentSlotInfo",
+      "input": {
+        "now": "2026-10-04T02:45:00",
+        "nowEpochMs": 1791042300000
+      },
+      "output": {
+        "date": "2026-10-04",
+        "slot": 5
+      }
+    },
+    {
+      "fn": "toDateKey",
+      "input": {
+        "now": "2026-10-04T02:45:00",
+        "nowEpochMs": 1791042300000
+      },
+      "output": "2026-10-04"
+    },
+    {
+      "fn": "lastHourWindow",
+      "input": {
+        "now": "2026-10-04T02:10:00",
+        "nowEpochMs": 1791042000000
+      },
+      "output": [
+        {
+          "date": "2026-10-04",
+          "slot": 2
+        },
+        {
+          "date": "2026-10-04",
+          "slot": 3
+        }
+      ]
+    },
+    {
+      "fn": "defaultStart",
+      "input": {
+        "now": "2026-10-04T02:10:00",
+        "nowEpochMs": 1791042000000
+      },
+      "output": {
+        "date": "2026-10-04",
+        "startSlot": 2
+      }
+    },
+    {
+      "fn": "currentSlotInfo",
+      "input": {
+        "now": "2026-10-04T02:10:00",
+        "nowEpochMs": 1791042000000
+      },
+      "output": {
+        "date": "2026-10-04",
+        "slot": 5
+      }
+    },
+    {
+      "fn": "toDateKey",
+      "input": {
+        "now": "2026-10-04T02:10:00",
+        "nowEpochMs": 1791042000000
+      },
+      "output": "2026-10-04"
+    },
+    {
+      "fn": "lastHourWindow",
+      "input": {
+        "now": "2026-03-29T12:00:00",
+        "nowEpochMs": 1774746000000
+      },
+      "output": [
+        {
+          "date": "2026-03-29",
+          "slot": 22
+        },
+        {
+          "date": "2026-03-29",
+          "slot": 23
+        }
+      ]
+    },
+    {
+      "fn": "defaultStart",
+      "input": {
+        "now": "2026-03-29T12:00:00",
+        "nowEpochMs": 1774746000000
+      },
+      "output": {
+        "date": "2026-03-29",
+        "startSlot": 22
+      }
+    },
+    {
+      "fn": "currentSlotInfo",
+      "input": {
+        "now": "2026-03-29T12:00:00",
+        "nowEpochMs": 1774746000000
+      },
+      "output": {
+        "date": "2026-03-29",
+        "slot": 24
+      }
+    },
+    {
+      "fn": "toDateKey",
+      "input": {
+        "now": "2026-03-29T12:00:00",
+        "nowEpochMs": 1774746000000
+      },
+      "output": "2026-03-29"
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 0
+      },
+      "output": "00:00"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "00:00"
+      },
+      "output": 0
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 1
+      },
+      "output": "00:30"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "00:30"
+      },
+      "output": 1
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 2
+      },
+      "output": "01:00"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "01:00"
+      },
+      "output": 2
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 3
+      },
+      "output": "01:30"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "01:30"
+      },
+      "output": 3
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 4
+      },
+      "output": "02:00"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "02:00"
+      },
+      "output": 4
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 5
+      },
+      "output": "02:30"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "02:30"
+      },
+      "output": 5
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 6
+      },
+      "output": "03:00"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "03:00"
+      },
+      "output": 6
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 7
+      },
+      "output": "03:30"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "03:30"
+      },
+      "output": 7
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 8
+      },
+      "output": "04:00"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "04:00"
+      },
+      "output": 8
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 9
+      },
+      "output": "04:30"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "04:30"
+      },
+      "output": 9
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 10
+      },
+      "output": "05:00"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "05:00"
+      },
+      "output": 10
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 11
+      },
+      "output": "05:30"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "05:30"
+      },
+      "output": 11
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 12
+      },
+      "output": "06:00"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "06:00"
+      },
+      "output": 12
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 13
+      },
+      "output": "06:30"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "06:30"
+      },
+      "output": 13
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 14
+      },
+      "output": "07:00"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "07:00"
+      },
+      "output": 14
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 15
+      },
+      "output": "07:30"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "07:30"
+      },
+      "output": 15
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 16
+      },
+      "output": "08:00"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "08:00"
+      },
+      "output": 16
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 17
+      },
+      "output": "08:30"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "08:30"
+      },
+      "output": 17
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 18
+      },
+      "output": "09:00"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "09:00"
+      },
+      "output": 18
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 19
+      },
+      "output": "09:30"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "09:30"
+      },
+      "output": 19
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 20
+      },
+      "output": "10:00"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "10:00"
+      },
+      "output": 20
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 21
+      },
+      "output": "10:30"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "10:30"
+      },
+      "output": 21
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 22
+      },
+      "output": "11:00"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "11:00"
+      },
+      "output": 22
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 23
+      },
+      "output": "11:30"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "11:30"
+      },
+      "output": 23
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 24
+      },
+      "output": "12:00"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "12:00"
+      },
+      "output": 24
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 25
+      },
+      "output": "12:30"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "12:30"
+      },
+      "output": 25
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 26
+      },
+      "output": "13:00"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "13:00"
+      },
+      "output": 26
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 27
+      },
+      "output": "13:30"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "13:30"
+      },
+      "output": 27
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 28
+      },
+      "output": "14:00"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "14:00"
+      },
+      "output": 28
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 29
+      },
+      "output": "14:30"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "14:30"
+      },
+      "output": 29
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 30
+      },
+      "output": "15:00"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "15:00"
+      },
+      "output": 30
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 31
+      },
+      "output": "15:30"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "15:30"
+      },
+      "output": 31
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 32
+      },
+      "output": "16:00"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "16:00"
+      },
+      "output": 32
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 33
+      },
+      "output": "16:30"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "16:30"
+      },
+      "output": 33
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 34
+      },
+      "output": "17:00"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "17:00"
+      },
+      "output": 34
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 35
+      },
+      "output": "17:30"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "17:30"
+      },
+      "output": 35
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 36
+      },
+      "output": "18:00"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "18:00"
+      },
+      "output": 36
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 37
+      },
+      "output": "18:30"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "18:30"
+      },
+      "output": 37
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 38
+      },
+      "output": "19:00"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "19:00"
+      },
+      "output": 38
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 39
+      },
+      "output": "19:30"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "19:30"
+      },
+      "output": 39
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 40
+      },
+      "output": "20:00"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "20:00"
+      },
+      "output": 40
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 41
+      },
+      "output": "20:30"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "20:30"
+      },
+      "output": 41
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 42
+      },
+      "output": "21:00"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "21:00"
+      },
+      "output": 42
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 43
+      },
+      "output": "21:30"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "21:30"
+      },
+      "output": 43
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 44
+      },
+      "output": "22:00"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "22:00"
+      },
+      "output": 44
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 45
+      },
+      "output": "22:30"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "22:30"
+      },
+      "output": 45
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 46
+      },
+      "output": "23:00"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "23:00"
+      },
+      "output": 46
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 47
+      },
+      "output": "23:30"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "23:30"
+      },
+      "output": 47
+    },
+    {
+      "fn": "slotToHHmm",
+      "input": {
+        "slot": 48
+      },
+      "output": "24:00"
+    },
+    {
+      "fn": "hhmmToSlot",
+      "input": {
+        "hhmm": "24:00"
+      },
+      "output": 48
+    },
+    {
+      "fn": "formatSlotRange",
+      "input": {
+        "start": 0,
+        "length": 1
+      },
+      "output": "00:00–00:30"
+    },
+    {
+      "fn": "formatSlotRange",
+      "input": {
+        "start": 26,
+        "length": 4
+      },
+      "output": "13:00–15:00"
+    },
+    {
+      "fn": "formatSlotRange",
+      "input": {
+        "start": 46,
+        "length": 2
+      },
+      "output": "23:00–24:00"
+    },
+    {
+      "fn": "formatSlotRange",
+      "input": {
+        "start": 0,
+        "length": 48
+      },
+      "output": "00:00–24:00"
+    },
+    {
+      "fn": "formatSlotRange",
+      "input": {
+        "start": 47,
+        "length": 1
+      },
+      "output": "23:30–24:00"
+    },
+    {
+      "fn": "splitAcrossDays",
+      "input": {
+        "date": "2026-10-18",
+        "startSlot": 10,
+        "length": 4
+      },
+      "output": [
+        {
+          "date": "2026-10-18",
+          "startSlot": 10,
+          "length": 4
+        }
+      ]
+    },
+    {
+      "fn": "isEntryInFuture",
+      "input": {
+        "date": "2026-10-18",
+        "startSlot": 10,
+        "length": 4,
+        "now": "2026-10-18T12:00:00",
+        "nowEpochMs": 1792285200000
+      },
+      "output": false
+    },
+    {
+      "fn": "isEntryInFuture",
+      "input": {
+        "date": "2026-10-18",
+        "startSlot": 10,
+        "length": 4,
+        "now": "2026-12-31T23:59:00",
+        "nowEpochMs": 1798721940000
+      },
+      "output": false
+    },
+    {
+      "fn": "splitAcrossDays",
+      "input": {
+        "date": "2026-10-18",
+        "startSlot": 46,
+        "length": 2
+      },
+      "output": [
+        {
+          "date": "2026-10-18",
+          "startSlot": 46,
+          "length": 2
+        }
+      ]
+    },
+    {
+      "fn": "isEntryInFuture",
+      "input": {
+        "date": "2026-10-18",
+        "startSlot": 46,
+        "length": 2,
+        "now": "2026-10-18T12:00:00",
+        "nowEpochMs": 1792285200000
+      },
+      "output": true
+    },
+    {
+      "fn": "isEntryInFuture",
+      "input": {
+        "date": "2026-10-18",
+        "startSlot": 46,
+        "length": 2,
+        "now": "2026-12-31T23:59:00",
+        "nowEpochMs": 1798721940000
+      },
+      "output": false
+    },
+    {
+      "fn": "splitAcrossDays",
+      "input": {
+        "date": "2026-10-18",
+        "startSlot": 47,
+        "length": 2
+      },
+      "output": [
+        {
+          "date": "2026-10-18",
+          "startSlot": 47,
+          "length": 1
+        },
+        {
+          "date": "2026-10-19",
+          "startSlot": 0,
+          "length": 1
+        }
+      ]
+    },
+    {
+      "fn": "isEntryInFuture",
+      "input": {
+        "date": "2026-10-18",
+        "startSlot": 47,
+        "length": 2,
+        "now": "2026-10-18T12:00:00",
+        "nowEpochMs": 1792285200000
+      },
+      "output": true
+    },
+    {
+      "fn": "isEntryInFuture",
+      "input": {
+        "date": "2026-10-18",
+        "startSlot": 47,
+        "length": 2,
+        "now": "2026-12-31T23:59:00",
+        "nowEpochMs": 1798721940000
+      },
+      "output": false
+    },
+    {
+      "fn": "splitAcrossDays",
+      "input": {
+        "date": "2026-10-18",
+        "startSlot": 47,
+        "length": 4
+      },
+      "output": [
+        {
+          "date": "2026-10-18",
+          "startSlot": 47,
+          "length": 1
+        },
+        {
+          "date": "2026-10-19",
+          "startSlot": 0,
+          "length": 3
+        }
+      ]
+    },
+    {
+      "fn": "isEntryInFuture",
+      "input": {
+        "date": "2026-10-18",
+        "startSlot": 47,
+        "length": 4,
+        "now": "2026-10-18T12:00:00",
+        "nowEpochMs": 1792285200000
+      },
+      "output": true
+    },
+    {
+      "fn": "isEntryInFuture",
+      "input": {
+        "date": "2026-10-18",
+        "startSlot": 47,
+        "length": 4,
+        "now": "2026-12-31T23:59:00",
+        "nowEpochMs": 1798721940000
+      },
+      "output": false
+    },
+    {
+      "fn": "splitAcrossDays",
+      "input": {
+        "date": "2026-12-31",
+        "startSlot": 46,
+        "length": 4
+      },
+      "output": [
+        {
+          "date": "2026-12-31",
+          "startSlot": 46,
+          "length": 2
+        },
+        {
+          "date": "2027-01-01",
+          "startSlot": 0,
+          "length": 2
+        }
+      ]
+    },
+    {
+      "fn": "isEntryInFuture",
+      "input": {
+        "date": "2026-12-31",
+        "startSlot": 46,
+        "length": 4,
+        "now": "2026-10-18T12:00:00",
+        "nowEpochMs": 1792285200000
+      },
+      "output": true
+    },
+    {
+      "fn": "isEntryInFuture",
+      "input": {
+        "date": "2026-12-31",
+        "startSlot": 46,
+        "length": 4,
+        "now": "2026-12-31T23:59:00",
+        "nowEpochMs": 1798721940000
+      },
+      "output": true
+    },
+    {
+      "fn": "splitAcrossDays",
+      "input": {
+        "date": "2026-12-31",
+        "startSlot": 47,
+        "length": 2
+      },
+      "output": [
+        {
+          "date": "2026-12-31",
+          "startSlot": 47,
+          "length": 1
+        },
+        {
+          "date": "2027-01-01",
+          "startSlot": 0,
+          "length": 1
+        }
+      ]
+    },
+    {
+      "fn": "isEntryInFuture",
+      "input": {
+        "date": "2026-12-31",
+        "startSlot": 47,
+        "length": 2,
+        "now": "2026-10-18T12:00:00",
+        "nowEpochMs": 1792285200000
+      },
+      "output": true
+    },
+    {
+      "fn": "isEntryInFuture",
+      "input": {
+        "date": "2026-12-31",
+        "startSlot": 47,
+        "length": 2,
+        "now": "2026-12-31T23:59:00",
+        "nowEpochMs": 1798721940000
+      },
+      "output": true
+    },
+    {
+      "fn": "splitAcrossDays",
+      "input": {
+        "date": "2028-02-28",
+        "startSlot": 40,
+        "length": 20
+      },
+      "output": [
+        {
+          "date": "2028-02-28",
+          "startSlot": 40,
+          "length": 8
+        },
+        {
+          "date": "2028-02-29",
+          "startSlot": 0,
+          "length": 12
+        }
+      ]
+    },
+    {
+      "fn": "isEntryInFuture",
+      "input": {
+        "date": "2028-02-28",
+        "startSlot": 40,
+        "length": 20,
+        "now": "2026-10-18T12:00:00",
+        "nowEpochMs": 1792285200000
+      },
+      "output": true
+    },
+    {
+      "fn": "isEntryInFuture",
+      "input": {
+        "date": "2028-02-28",
+        "startSlot": 40,
+        "length": 20,
+        "now": "2026-12-31T23:59:00",
+        "nowEpochMs": 1798721940000
+      },
+      "output": true
+    },
+    {
+      "fn": "splitAcrossDays",
+      "input": {
+        "date": "2028-02-28",
+        "startSlot": 0,
+        "length": 48
+      },
+      "output": [
+        {
+          "date": "2028-02-28",
+          "startSlot": 0,
+          "length": 48
+        }
+      ]
+    },
+    {
+      "fn": "isEntryInFuture",
+      "input": {
+        "date": "2028-02-28",
+        "startSlot": 0,
+        "length": 48,
+        "now": "2026-10-18T12:00:00",
+        "nowEpochMs": 1792285200000
+      },
+      "output": true
+    },
+    {
+      "fn": "isEntryInFuture",
+      "input": {
+        "date": "2028-02-28",
+        "startSlot": 0,
+        "length": 48,
+        "now": "2026-12-31T23:59:00",
+        "nowEpochMs": 1798721940000
+      },
+      "output": true
+    },
+    {
+      "fn": "splitAcrossDays",
+      "input": {
+        "date": "2026-10-18",
+        "startSlot": 20,
+        "length": 48
+      },
+      "output": [
+        {
+          "date": "2026-10-18",
+          "startSlot": 20,
+          "length": 28
+        },
+        {
+          "date": "2026-10-19",
+          "startSlot": 0,
+          "length": 20
+        }
+      ]
+    },
+    {
+      "fn": "isEntryInFuture",
+      "input": {
+        "date": "2026-10-18",
+        "startSlot": 20,
+        "length": 48,
+        "now": "2026-10-18T12:00:00",
+        "nowEpochMs": 1792285200000
+      },
+      "output": true
+    },
+    {
+      "fn": "isEntryInFuture",
+      "input": {
+        "date": "2026-10-18",
+        "startSlot": 20,
+        "length": 48,
+        "now": "2026-12-31T23:59:00",
+        "nowEpochMs": 1798721940000
+      },
+      "output": false
+    },
+    {
+      "fn": "splitAcrossDays",
+      "input": {
+        "date": "2026-03-07",
+        "startSlot": 44,
+        "length": 8
+      },
+      "output": [
+        {
+          "date": "2026-03-07",
+          "startSlot": 44,
+          "length": 4
+        },
+        {
+          "date": "2026-03-08",
+          "startSlot": 0,
+          "length": 4
+        }
+      ]
+    },
+    {
+      "fn": "isEntryInFuture",
+      "input": {
+        "date": "2026-03-07",
+        "startSlot": 44,
+        "length": 8,
+        "now": "2026-10-18T12:00:00",
+        "nowEpochMs": 1792285200000
+      },
+      "output": false
+    },
+    {
+      "fn": "isEntryInFuture",
+      "input": {
+        "date": "2026-03-07",
+        "startSlot": 44,
+        "length": 8,
+        "now": "2026-12-31T23:59:00",
+        "nowEpochMs": 1798721940000
+      },
+      "output": false
+    },
+    {
+      "fn": "splitAcrossDays",
+      "input": {
+        "date": "2026-03-08",
+        "startSlot": 44,
+        "length": 10
+      },
+      "output": [
+        {
+          "date": "2026-03-08",
+          "startSlot": 44,
+          "length": 4
+        },
+        {
+          "date": "2026-03-09",
+          "startSlot": 0,
+          "length": 6
+        }
+      ]
+    },
+    {
+      "fn": "isEntryInFuture",
+      "input": {
+        "date": "2026-03-08",
+        "startSlot": 44,
+        "length": 10,
+        "now": "2026-10-18T12:00:00",
+        "nowEpochMs": 1792285200000
+      },
+      "output": false
+    },
+    {
+      "fn": "isEntryInFuture",
+      "input": {
+        "date": "2026-03-08",
+        "startSlot": 44,
+        "length": 10,
+        "now": "2026-12-31T23:59:00",
+        "nowEpochMs": 1798721940000
+      },
+      "output": false
+    },
+    {
+      "fn": "splitAcrossDays",
+      "input": {
+        "date": "2026-10-31",
+        "startSlot": 47,
+        "length": 3
+      },
+      "output": [
+        {
+          "date": "2026-10-31",
+          "startSlot": 47,
+          "length": 1
+        },
+        {
+          "date": "2026-11-01",
+          "startSlot": 0,
+          "length": 2
+        }
+      ]
+    },
+    {
+      "fn": "isEntryInFuture",
+      "input": {
+        "date": "2026-10-31",
+        "startSlot": 47,
+        "length": 3,
+        "now": "2026-10-18T12:00:00",
+        "nowEpochMs": 1792285200000
+      },
+      "output": true
+    },
+    {
+      "fn": "isEntryInFuture",
+      "input": {
+        "date": "2026-10-31",
+        "startSlot": 47,
+        "length": 3,
+        "now": "2026-12-31T23:59:00",
+        "nowEpochMs": 1798721940000
+      },
+      "output": false
+    },
+    {
+      "fn": "nonexistentSlots",
+      "input": {
+        "date": "2026-03-08"
+      },
+      "output": []
+    },
+    {
+      "fn": "addDays",
+      "input": {
+        "date": "2026-03-08",
+        "n": 1
+      },
+      "output": "2026-03-09"
+    },
+    {
+      "fn": "addDays",
+      "input": {
+        "date": "2026-03-08",
+        "n": -1
+      },
+      "output": "2026-03-07"
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-03-08",
+        "slot": 0
+      },
+      "output": 1772888400000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-03-08",
+        "slot": 4
+      },
+      "output": 1772895600000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-03-08",
+        "slot": 5
+      },
+      "output": 1772897400000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-03-08",
+        "slot": 6
+      },
+      "output": 1772899200000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-03-08",
+        "slot": 7
+      },
+      "output": 1772901000000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-03-08",
+        "slot": 47
+      },
+      "output": 1772973000000
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-03-08",
+        "slot": 0,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-03-08",
+        "slot": 0,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-03-08",
+        "slot": 6,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-03-08",
+        "slot": 6,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-03-08",
+        "slot": 28,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-03-08",
+        "slot": 28,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-03-08",
+        "slot": 47,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-03-08",
+        "slot": 47,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-03-08",
+        "slot": 0,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-03-08",
+        "slot": 0,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-03-08",
+        "slot": 6,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-03-08",
+        "slot": 6,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-03-08",
+        "slot": 28,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-03-08",
+        "slot": 28,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-03-08",
+        "slot": 47,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-03-08",
+        "slot": 47,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-03-08",
+        "slot": 0,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-03-08",
+        "slot": 0,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-03-08",
+        "slot": 6,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-03-08",
+        "slot": 6,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-03-08",
+        "slot": 28,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-03-08",
+        "slot": 28,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-03-08",
+        "slot": 47,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-03-08",
+        "slot": 47,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "weekRange",
+      "input": {
+        "date": "2026-03-08",
+        "weekStart": "sun"
+      },
+      "output": [
+        "2026-03-08",
+        "2026-03-09",
+        "2026-03-10",
+        "2026-03-11",
+        "2026-03-12",
+        "2026-03-13",
+        "2026-03-14"
+      ]
+    },
+    {
+      "fn": "weekRange",
+      "input": {
+        "date": "2026-03-08",
+        "weekStart": "mon"
+      },
+      "output": [
+        "2026-03-02",
+        "2026-03-03",
+        "2026-03-04",
+        "2026-03-05",
+        "2026-03-06",
+        "2026-03-07",
+        "2026-03-08"
+      ]
+    },
+    {
+      "fn": "nonexistentSlots",
+      "input": {
+        "date": "2026-03-09"
+      },
+      "output": []
+    },
+    {
+      "fn": "addDays",
+      "input": {
+        "date": "2026-03-09",
+        "n": 1
+      },
+      "output": "2026-03-10"
+    },
+    {
+      "fn": "addDays",
+      "input": {
+        "date": "2026-03-09",
+        "n": -1
+      },
+      "output": "2026-03-08"
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-03-09",
+        "slot": 0
+      },
+      "output": 1772974800000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-03-09",
+        "slot": 4
+      },
+      "output": 1772982000000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-03-09",
+        "slot": 5
+      },
+      "output": 1772983800000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-03-09",
+        "slot": 6
+      },
+      "output": 1772985600000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-03-09",
+        "slot": 7
+      },
+      "output": 1772987400000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-03-09",
+        "slot": 47
+      },
+      "output": 1773059400000
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-03-09",
+        "slot": 0,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-03-09",
+        "slot": 0,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-03-09",
+        "slot": 6,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-03-09",
+        "slot": 6,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-03-09",
+        "slot": 28,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-03-09",
+        "slot": 28,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-03-09",
+        "slot": 47,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-03-09",
+        "slot": 47,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-03-09",
+        "slot": 0,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-03-09",
+        "slot": 0,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-03-09",
+        "slot": 6,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-03-09",
+        "slot": 6,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-03-09",
+        "slot": 28,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-03-09",
+        "slot": 28,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-03-09",
+        "slot": 47,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-03-09",
+        "slot": 47,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-03-09",
+        "slot": 0,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-03-09",
+        "slot": 0,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-03-09",
+        "slot": 6,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-03-09",
+        "slot": 6,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-03-09",
+        "slot": 28,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-03-09",
+        "slot": 28,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-03-09",
+        "slot": 47,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-03-09",
+        "slot": 47,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "weekRange",
+      "input": {
+        "date": "2026-03-09",
+        "weekStart": "sun"
+      },
+      "output": [
+        "2026-03-08",
+        "2026-03-09",
+        "2026-03-10",
+        "2026-03-11",
+        "2026-03-12",
+        "2026-03-13",
+        "2026-03-14"
+      ]
+    },
+    {
+      "fn": "weekRange",
+      "input": {
+        "date": "2026-03-09",
+        "weekStart": "mon"
+      },
+      "output": [
+        "2026-03-09",
+        "2026-03-10",
+        "2026-03-11",
+        "2026-03-12",
+        "2026-03-13",
+        "2026-03-14",
+        "2026-03-15"
+      ]
+    },
+    {
+      "fn": "nonexistentSlots",
+      "input": {
+        "date": "2026-11-01"
+      },
+      "output": []
+    },
+    {
+      "fn": "addDays",
+      "input": {
+        "date": "2026-11-01",
+        "n": 1
+      },
+      "output": "2026-11-02"
+    },
+    {
+      "fn": "addDays",
+      "input": {
+        "date": "2026-11-01",
+        "n": -1
+      },
+      "output": "2026-10-31"
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-11-01",
+        "slot": 0
+      },
+      "output": 1793451600000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-11-01",
+        "slot": 4
+      },
+      "output": 1793458800000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-11-01",
+        "slot": 5
+      },
+      "output": 1793460600000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-11-01",
+        "slot": 6
+      },
+      "output": 1793462400000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-11-01",
+        "slot": 7
+      },
+      "output": 1793464200000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-11-01",
+        "slot": 47
+      },
+      "output": 1793536200000
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-11-01",
+        "slot": 0,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-11-01",
+        "slot": 0,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-11-01",
+        "slot": 6,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-11-01",
+        "slot": 6,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-11-01",
+        "slot": 28,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-11-01",
+        "slot": 28,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-11-01",
+        "slot": 47,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-11-01",
+        "slot": 47,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-11-01",
+        "slot": 0,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-11-01",
+        "slot": 0,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-11-01",
+        "slot": 6,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-11-01",
+        "slot": 6,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-11-01",
+        "slot": 28,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-11-01",
+        "slot": 28,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-11-01",
+        "slot": 47,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-11-01",
+        "slot": 47,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-11-01",
+        "slot": 0,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-11-01",
+        "slot": 0,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-11-01",
+        "slot": 6,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-11-01",
+        "slot": 6,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-11-01",
+        "slot": 28,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-11-01",
+        "slot": 28,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-11-01",
+        "slot": 47,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-11-01",
+        "slot": 47,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "weekRange",
+      "input": {
+        "date": "2026-11-01",
+        "weekStart": "sun"
+      },
+      "output": [
+        "2026-11-01",
+        "2026-11-02",
+        "2026-11-03",
+        "2026-11-04",
+        "2026-11-05",
+        "2026-11-06",
+        "2026-11-07"
+      ]
+    },
+    {
+      "fn": "weekRange",
+      "input": {
+        "date": "2026-11-01",
+        "weekStart": "mon"
+      },
+      "output": [
+        "2026-10-26",
+        "2026-10-27",
+        "2026-10-28",
+        "2026-10-29",
+        "2026-10-30",
+        "2026-10-31",
+        "2026-11-01"
+      ]
+    },
+    {
+      "fn": "nonexistentSlots",
+      "input": {
+        "date": "2026-10-04"
+      },
+      "output": [
+        4
+      ]
+    },
+    {
+      "fn": "addDays",
+      "input": {
+        "date": "2026-10-04",
+        "n": 1
+      },
+      "output": "2026-10-05"
+    },
+    {
+      "fn": "addDays",
+      "input": {
+        "date": "2026-10-04",
+        "n": -1
+      },
+      "output": "2026-10-03"
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-10-04",
+        "slot": 0
+      },
+      "output": 1791034200000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-10-04",
+        "slot": 4
+      },
+      "output": 1791041400000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-10-04",
+        "slot": 5
+      },
+      "output": 1791041400000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-10-04",
+        "slot": 6
+      },
+      "output": 1791043200000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-10-04",
+        "slot": 7
+      },
+      "output": 1791045000000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-10-04",
+        "slot": 47
+      },
+      "output": 1791117000000
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-10-04",
+        "slot": 0,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-10-04",
+        "slot": 0,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-10-04",
+        "slot": 6,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-10-04",
+        "slot": 6,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-10-04",
+        "slot": 28,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-10-04",
+        "slot": 28,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-10-04",
+        "slot": 47,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-10-04",
+        "slot": 47,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-10-04",
+        "slot": 0,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-10-04",
+        "slot": 0,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-10-04",
+        "slot": 6,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-10-04",
+        "slot": 6,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-10-04",
+        "slot": 28,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-10-04",
+        "slot": 28,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-10-04",
+        "slot": 47,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-10-04",
+        "slot": 47,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-10-04",
+        "slot": 0,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-10-04",
+        "slot": 0,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-10-04",
+        "slot": 6,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-10-04",
+        "slot": 6,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-10-04",
+        "slot": 28,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-10-04",
+        "slot": 28,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-10-04",
+        "slot": 47,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-10-04",
+        "slot": 47,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "weekRange",
+      "input": {
+        "date": "2026-10-04",
+        "weekStart": "sun"
+      },
+      "output": [
+        "2026-10-04",
+        "2026-10-05",
+        "2026-10-06",
+        "2026-10-07",
+        "2026-10-08",
+        "2026-10-09",
+        "2026-10-10"
+      ]
+    },
+    {
+      "fn": "weekRange",
+      "input": {
+        "date": "2026-10-04",
+        "weekStart": "mon"
+      },
+      "output": [
+        "2026-09-28",
+        "2026-09-29",
+        "2026-09-30",
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-03",
+        "2026-10-04"
+      ]
+    },
+    {
+      "fn": "nonexistentSlots",
+      "input": {
+        "date": "2026-04-05"
+      },
+      "output": []
+    },
+    {
+      "fn": "addDays",
+      "input": {
+        "date": "2026-04-05",
+        "n": 1
+      },
+      "output": "2026-04-06"
+    },
+    {
+      "fn": "addDays",
+      "input": {
+        "date": "2026-04-05",
+        "n": -1
+      },
+      "output": "2026-04-04"
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-04-05",
+        "slot": 0
+      },
+      "output": 1775307600000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-04-05",
+        "slot": 4
+      },
+      "output": 1775316600000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-04-05",
+        "slot": 5
+      },
+      "output": 1775318400000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-04-05",
+        "slot": 6
+      },
+      "output": 1775320200000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-04-05",
+        "slot": 7
+      },
+      "output": 1775322000000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-04-05",
+        "slot": 47
+      },
+      "output": 1775394000000
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-04-05",
+        "slot": 0,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-04-05",
+        "slot": 0,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-04-05",
+        "slot": 6,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-04-05",
+        "slot": 6,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-04-05",
+        "slot": 28,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-04-05",
+        "slot": 28,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-04-05",
+        "slot": 47,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-04-05",
+        "slot": 47,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-04-05",
+        "slot": 0,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-04-05",
+        "slot": 0,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-04-05",
+        "slot": 6,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-04-05",
+        "slot": 6,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-04-05",
+        "slot": 28,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-04-05",
+        "slot": 28,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-04-05",
+        "slot": 47,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-04-05",
+        "slot": 47,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-04-05",
+        "slot": 0,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-04-05",
+        "slot": 0,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-04-05",
+        "slot": 6,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-04-05",
+        "slot": 6,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-04-05",
+        "slot": 28,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-04-05",
+        "slot": 28,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-04-05",
+        "slot": 47,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-04-05",
+        "slot": 47,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "weekRange",
+      "input": {
+        "date": "2026-04-05",
+        "weekStart": "sun"
+      },
+      "output": [
+        "2026-04-05",
+        "2026-04-06",
+        "2026-04-07",
+        "2026-04-08",
+        "2026-04-09",
+        "2026-04-10",
+        "2026-04-11"
+      ]
+    },
+    {
+      "fn": "weekRange",
+      "input": {
+        "date": "2026-04-05",
+        "weekStart": "mon"
+      },
+      "output": [
+        "2026-03-30",
+        "2026-03-31",
+        "2026-04-01",
+        "2026-04-02",
+        "2026-04-03",
+        "2026-04-04",
+        "2026-04-05"
+      ]
+    },
+    {
+      "fn": "nonexistentSlots",
+      "input": {
+        "date": "2026-03-29"
+      },
+      "output": []
+    },
+    {
+      "fn": "addDays",
+      "input": {
+        "date": "2026-03-29",
+        "n": 1
+      },
+      "output": "2026-03-30"
+    },
+    {
+      "fn": "addDays",
+      "input": {
+        "date": "2026-03-29",
+        "n": -1
+      },
+      "output": "2026-03-28"
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-03-29",
+        "slot": 0
+      },
+      "output": 1774702800000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-03-29",
+        "slot": 4
+      },
+      "output": 1774710000000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-03-29",
+        "slot": 5
+      },
+      "output": 1774711800000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-03-29",
+        "slot": 6
+      },
+      "output": 1774713600000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-03-29",
+        "slot": 7
+      },
+      "output": 1774715400000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-03-29",
+        "slot": 47
+      },
+      "output": 1774787400000
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-03-29",
+        "slot": 0,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-03-29",
+        "slot": 0,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-03-29",
+        "slot": 6,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-03-29",
+        "slot": 6,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-03-29",
+        "slot": 28,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-03-29",
+        "slot": 28,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-03-29",
+        "slot": 47,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-03-29",
+        "slot": 47,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-03-29",
+        "slot": 0,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-03-29",
+        "slot": 0,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-03-29",
+        "slot": 6,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-03-29",
+        "slot": 6,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-03-29",
+        "slot": 28,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-03-29",
+        "slot": 28,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-03-29",
+        "slot": 47,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-03-29",
+        "slot": 47,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-03-29",
+        "slot": 0,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-03-29",
+        "slot": 0,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-03-29",
+        "slot": 6,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-03-29",
+        "slot": 6,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-03-29",
+        "slot": 28,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-03-29",
+        "slot": 28,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-03-29",
+        "slot": 47,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-03-29",
+        "slot": 47,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "weekRange",
+      "input": {
+        "date": "2026-03-29",
+        "weekStart": "sun"
+      },
+      "output": [
+        "2026-03-29",
+        "2026-03-30",
+        "2026-03-31",
+        "2026-04-01",
+        "2026-04-02",
+        "2026-04-03",
+        "2026-04-04"
+      ]
+    },
+    {
+      "fn": "weekRange",
+      "input": {
+        "date": "2026-03-29",
+        "weekStart": "mon"
+      },
+      "output": [
+        "2026-03-23",
+        "2026-03-24",
+        "2026-03-25",
+        "2026-03-26",
+        "2026-03-27",
+        "2026-03-28",
+        "2026-03-29"
+      ]
+    },
+    {
+      "fn": "nonexistentSlots",
+      "input": {
+        "date": "2026-10-25"
+      },
+      "output": []
+    },
+    {
+      "fn": "addDays",
+      "input": {
+        "date": "2026-10-25",
+        "n": 1
+      },
+      "output": "2026-10-26"
+    },
+    {
+      "fn": "addDays",
+      "input": {
+        "date": "2026-10-25",
+        "n": -1
+      },
+      "output": "2026-10-24"
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-10-25",
+        "slot": 0
+      },
+      "output": 1792846800000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-10-25",
+        "slot": 4
+      },
+      "output": 1792854000000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-10-25",
+        "slot": 5
+      },
+      "output": 1792855800000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-10-25",
+        "slot": 6
+      },
+      "output": 1792857600000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-10-25",
+        "slot": 7
+      },
+      "output": 1792859400000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-10-25",
+        "slot": 47
+      },
+      "output": 1792931400000
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-10-25",
+        "slot": 0,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-10-25",
+        "slot": 0,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-10-25",
+        "slot": 6,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-10-25",
+        "slot": 6,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-10-25",
+        "slot": 28,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-10-25",
+        "slot": 28,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-10-25",
+        "slot": 47,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-10-25",
+        "slot": 47,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-10-25",
+        "slot": 0,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-10-25",
+        "slot": 0,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-10-25",
+        "slot": 6,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-10-25",
+        "slot": 6,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-10-25",
+        "slot": 28,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-10-25",
+        "slot": 28,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-10-25",
+        "slot": 47,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-10-25",
+        "slot": 47,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-10-25",
+        "slot": 0,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-10-25",
+        "slot": 0,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-10-25",
+        "slot": 6,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-10-25",
+        "slot": 6,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-10-25",
+        "slot": 28,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-10-25",
+        "slot": 28,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-10-25",
+        "slot": 47,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-10-25",
+        "slot": 47,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "weekRange",
+      "input": {
+        "date": "2026-10-25",
+        "weekStart": "sun"
+      },
+      "output": [
+        "2026-10-25",
+        "2026-10-26",
+        "2026-10-27",
+        "2026-10-28",
+        "2026-10-29",
+        "2026-10-30",
+        "2026-10-31"
+      ]
+    },
+    {
+      "fn": "weekRange",
+      "input": {
+        "date": "2026-10-25",
+        "weekStart": "mon"
+      },
+      "output": [
+        "2026-10-19",
+        "2026-10-20",
+        "2026-10-21",
+        "2026-10-22",
+        "2026-10-23",
+        "2026-10-24",
+        "2026-10-25"
+      ]
+    },
+    {
+      "fn": "nonexistentSlots",
+      "input": {
+        "date": "2026-10-18"
+      },
+      "output": []
+    },
+    {
+      "fn": "addDays",
+      "input": {
+        "date": "2026-10-18",
+        "n": 1
+      },
+      "output": "2026-10-19"
+    },
+    {
+      "fn": "addDays",
+      "input": {
+        "date": "2026-10-18",
+        "n": -1
+      },
+      "output": "2026-10-17"
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-10-18",
+        "slot": 0
+      },
+      "output": 1792242000000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-10-18",
+        "slot": 4
+      },
+      "output": 1792249200000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-10-18",
+        "slot": 5
+      },
+      "output": 1792251000000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-10-18",
+        "slot": 6
+      },
+      "output": 1792252800000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-10-18",
+        "slot": 7
+      },
+      "output": 1792254600000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-10-18",
+        "slot": 47
+      },
+      "output": 1792326600000
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-10-18",
+        "slot": 0,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-10-18",
+        "slot": 0,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-10-18",
+        "slot": 6,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-10-18",
+        "slot": 6,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-10-18",
+        "slot": 28,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-10-18",
+        "slot": 28,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-10-18",
+        "slot": 47,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-10-18",
+        "slot": 47,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-10-18",
+        "slot": 0,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-10-18",
+        "slot": 0,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-10-18",
+        "slot": 6,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-10-18",
+        "slot": 6,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-10-18",
+        "slot": 28,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-10-18",
+        "slot": 28,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-10-18",
+        "slot": 47,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-10-18",
+        "slot": 47,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-10-18",
+        "slot": 0,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-10-18",
+        "slot": 0,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-10-18",
+        "slot": 6,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-10-18",
+        "slot": 6,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-10-18",
+        "slot": 28,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-10-18",
+        "slot": 28,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-10-18",
+        "slot": 47,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-10-18",
+        "slot": 47,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "weekRange",
+      "input": {
+        "date": "2026-10-18",
+        "weekStart": "sun"
+      },
+      "output": [
+        "2026-10-18",
+        "2026-10-19",
+        "2026-10-20",
+        "2026-10-21",
+        "2026-10-22",
+        "2026-10-23",
+        "2026-10-24"
+      ]
+    },
+    {
+      "fn": "weekRange",
+      "input": {
+        "date": "2026-10-18",
+        "weekStart": "mon"
+      },
+      "output": [
+        "2026-10-12",
+        "2026-10-13",
+        "2026-10-14",
+        "2026-10-15",
+        "2026-10-16",
+        "2026-10-17",
+        "2026-10-18"
+      ]
+    },
+    {
+      "fn": "nonexistentSlots",
+      "input": {
+        "date": "2026-12-31"
+      },
+      "output": []
+    },
+    {
+      "fn": "addDays",
+      "input": {
+        "date": "2026-12-31",
+        "n": 1
+      },
+      "output": "2027-01-01"
+    },
+    {
+      "fn": "addDays",
+      "input": {
+        "date": "2026-12-31",
+        "n": -1
+      },
+      "output": "2026-12-30"
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-12-31",
+        "slot": 0
+      },
+      "output": 1798635600000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-12-31",
+        "slot": 4
+      },
+      "output": 1798642800000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-12-31",
+        "slot": 5
+      },
+      "output": 1798644600000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-12-31",
+        "slot": 6
+      },
+      "output": 1798646400000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-12-31",
+        "slot": 7
+      },
+      "output": 1798648200000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2026-12-31",
+        "slot": 47
+      },
+      "output": 1798720200000
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-12-31",
+        "slot": 0,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-12-31",
+        "slot": 0,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-12-31",
+        "slot": 6,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-12-31",
+        "slot": 6,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-12-31",
+        "slot": 28,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-12-31",
+        "slot": 28,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-12-31",
+        "slot": 47,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-12-31",
+        "slot": 47,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-12-31",
+        "slot": 0,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-12-31",
+        "slot": 0,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-12-31",
+        "slot": 6,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-12-31",
+        "slot": 6,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-12-31",
+        "slot": 28,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-12-31",
+        "slot": 28,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-12-31",
+        "slot": 47,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-12-31",
+        "slot": 47,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-12-31",
+        "slot": 0,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-12-31",
+        "slot": 0,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-12-31",
+        "slot": 6,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-12-31",
+        "slot": 6,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-12-31",
+        "slot": 28,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-12-31",
+        "slot": 28,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2026-12-31",
+        "slot": 47,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2026-12-31",
+        "slot": 47,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "weekRange",
+      "input": {
+        "date": "2026-12-31",
+        "weekStart": "sun"
+      },
+      "output": [
+        "2026-12-27",
+        "2026-12-28",
+        "2026-12-29",
+        "2026-12-30",
+        "2026-12-31",
+        "2027-01-01",
+        "2027-01-02"
+      ]
+    },
+    {
+      "fn": "weekRange",
+      "input": {
+        "date": "2026-12-31",
+        "weekStart": "mon"
+      },
+      "output": [
+        "2026-12-28",
+        "2026-12-29",
+        "2026-12-30",
+        "2026-12-31",
+        "2027-01-01",
+        "2027-01-02",
+        "2027-01-03"
+      ]
+    },
+    {
+      "fn": "nonexistentSlots",
+      "input": {
+        "date": "2027-01-01"
+      },
+      "output": []
+    },
+    {
+      "fn": "addDays",
+      "input": {
+        "date": "2027-01-01",
+        "n": 1
+      },
+      "output": "2027-01-02"
+    },
+    {
+      "fn": "addDays",
+      "input": {
+        "date": "2027-01-01",
+        "n": -1
+      },
+      "output": "2026-12-31"
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2027-01-01",
+        "slot": 0
+      },
+      "output": 1798722000000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2027-01-01",
+        "slot": 4
+      },
+      "output": 1798729200000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2027-01-01",
+        "slot": 5
+      },
+      "output": 1798731000000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2027-01-01",
+        "slot": 6
+      },
+      "output": 1798732800000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2027-01-01",
+        "slot": 7
+      },
+      "output": 1798734600000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2027-01-01",
+        "slot": 47
+      },
+      "output": 1798806600000
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2027-01-01",
+        "slot": 0,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2027-01-01",
+        "slot": 0,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2027-01-01",
+        "slot": 6,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2027-01-01",
+        "slot": 6,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2027-01-01",
+        "slot": 28,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2027-01-01",
+        "slot": 28,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2027-01-01",
+        "slot": 47,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2027-01-01",
+        "slot": 47,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2027-01-01",
+        "slot": 0,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2027-01-01",
+        "slot": 0,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2027-01-01",
+        "slot": 6,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2027-01-01",
+        "slot": 6,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2027-01-01",
+        "slot": 28,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2027-01-01",
+        "slot": 28,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2027-01-01",
+        "slot": 47,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2027-01-01",
+        "slot": 47,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2027-01-01",
+        "slot": 0,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2027-01-01",
+        "slot": 0,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2027-01-01",
+        "slot": 6,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2027-01-01",
+        "slot": 6,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2027-01-01",
+        "slot": 28,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2027-01-01",
+        "slot": 28,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2027-01-01",
+        "slot": 47,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2027-01-01",
+        "slot": 47,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "weekRange",
+      "input": {
+        "date": "2027-01-01",
+        "weekStart": "sun"
+      },
+      "output": [
+        "2026-12-27",
+        "2026-12-28",
+        "2026-12-29",
+        "2026-12-30",
+        "2026-12-31",
+        "2027-01-01",
+        "2027-01-02"
+      ]
+    },
+    {
+      "fn": "weekRange",
+      "input": {
+        "date": "2027-01-01",
+        "weekStart": "mon"
+      },
+      "output": [
+        "2026-12-28",
+        "2026-12-29",
+        "2026-12-30",
+        "2026-12-31",
+        "2027-01-01",
+        "2027-01-02",
+        "2027-01-03"
+      ]
+    },
+    {
+      "fn": "nonexistentSlots",
+      "input": {
+        "date": "2028-02-28"
+      },
+      "output": []
+    },
+    {
+      "fn": "addDays",
+      "input": {
+        "date": "2028-02-28",
+        "n": 1
+      },
+      "output": "2028-02-29"
+    },
+    {
+      "fn": "addDays",
+      "input": {
+        "date": "2028-02-28",
+        "n": -1
+      },
+      "output": "2028-02-27"
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2028-02-28",
+        "slot": 0
+      },
+      "output": 1835269200000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2028-02-28",
+        "slot": 4
+      },
+      "output": 1835276400000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2028-02-28",
+        "slot": 5
+      },
+      "output": 1835278200000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2028-02-28",
+        "slot": 6
+      },
+      "output": 1835280000000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2028-02-28",
+        "slot": 7
+      },
+      "output": 1835281800000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2028-02-28",
+        "slot": 47
+      },
+      "output": 1835353800000
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2028-02-28",
+        "slot": 0,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2028-02-28",
+        "slot": 0,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2028-02-28",
+        "slot": 6,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2028-02-28",
+        "slot": 6,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2028-02-28",
+        "slot": 28,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2028-02-28",
+        "slot": 28,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2028-02-28",
+        "slot": 47,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2028-02-28",
+        "slot": 47,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2028-02-28",
+        "slot": 0,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2028-02-28",
+        "slot": 0,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2028-02-28",
+        "slot": 6,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2028-02-28",
+        "slot": 6,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2028-02-28",
+        "slot": 28,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2028-02-28",
+        "slot": 28,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2028-02-28",
+        "slot": 47,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2028-02-28",
+        "slot": 47,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2028-02-28",
+        "slot": 0,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2028-02-28",
+        "slot": 0,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2028-02-28",
+        "slot": 6,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2028-02-28",
+        "slot": 6,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2028-02-28",
+        "slot": 28,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2028-02-28",
+        "slot": 28,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2028-02-28",
+        "slot": 47,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2028-02-28",
+        "slot": 47,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "weekRange",
+      "input": {
+        "date": "2028-02-28",
+        "weekStart": "sun"
+      },
+      "output": [
+        "2028-02-27",
+        "2028-02-28",
+        "2028-02-29",
+        "2028-03-01",
+        "2028-03-02",
+        "2028-03-03",
+        "2028-03-04"
+      ]
+    },
+    {
+      "fn": "weekRange",
+      "input": {
+        "date": "2028-02-28",
+        "weekStart": "mon"
+      },
+      "output": [
+        "2028-02-28",
+        "2028-02-29",
+        "2028-03-01",
+        "2028-03-02",
+        "2028-03-03",
+        "2028-03-04",
+        "2028-03-05"
+      ]
+    },
+    {
+      "fn": "nonexistentSlots",
+      "input": {
+        "date": "2028-02-29"
+      },
+      "output": []
+    },
+    {
+      "fn": "addDays",
+      "input": {
+        "date": "2028-02-29",
+        "n": 1
+      },
+      "output": "2028-03-01"
+    },
+    {
+      "fn": "addDays",
+      "input": {
+        "date": "2028-02-29",
+        "n": -1
+      },
+      "output": "2028-02-28"
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2028-02-29",
+        "slot": 0
+      },
+      "output": 1835355600000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2028-02-29",
+        "slot": 4
+      },
+      "output": 1835362800000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2028-02-29",
+        "slot": 5
+      },
+      "output": 1835364600000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2028-02-29",
+        "slot": 6
+      },
+      "output": 1835366400000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2028-02-29",
+        "slot": 7
+      },
+      "output": 1835368200000
+    },
+    {
+      "fn": "slotStartDate",
+      "input": {
+        "date": "2028-02-29",
+        "slot": 47
+      },
+      "output": 1835440200000
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2028-02-29",
+        "slot": 0,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2028-02-29",
+        "slot": 0,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2028-02-29",
+        "slot": 6,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2028-02-29",
+        "slot": 6,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2028-02-29",
+        "slot": 28,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2028-02-29",
+        "slot": 28,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2028-02-29",
+        "slot": 47,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2028-02-29",
+        "slot": 47,
+        "now": "2026-03-08T03:10:00",
+        "nowEpochMs": 1772899800000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2028-02-29",
+        "slot": 0,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2028-02-29",
+        "slot": 0,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2028-02-29",
+        "slot": 6,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2028-02-29",
+        "slot": 6,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2028-02-29",
+        "slot": 28,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2028-02-29",
+        "slot": 28,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2028-02-29",
+        "slot": 47,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2028-02-29",
+        "slot": 47,
+        "now": "2026-10-18T14:20:00",
+        "nowEpochMs": 1792293600000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2028-02-29",
+        "slot": 0,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2028-02-29",
+        "slot": 0,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2028-02-29",
+        "slot": 6,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2028-02-29",
+        "slot": 6,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2028-02-29",
+        "slot": 28,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2028-02-29",
+        "slot": 28,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "isFutureSlot",
+      "input": {
+        "date": "2028-02-29",
+        "slot": 47,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": true
+    },
+    {
+      "fn": "isSlotPast",
+      "input": {
+        "date": "2028-02-29",
+        "slot": 47,
+        "now": "2027-01-01T00:00:00",
+        "nowEpochMs": 1798722000000
+      },
+      "output": false
+    },
+    {
+      "fn": "weekRange",
+      "input": {
+        "date": "2028-02-29",
+        "weekStart": "sun"
+      },
+      "output": [
+        "2028-02-27",
+        "2028-02-28",
+        "2028-02-29",
+        "2028-03-01",
+        "2028-03-02",
+        "2028-03-03",
+        "2028-03-04"
+      ]
+    },
+    {
+      "fn": "weekRange",
+      "input": {
+        "date": "2028-02-29",
+        "weekStart": "mon"
+      },
+      "output": [
+        "2028-02-28",
+        "2028-02-29",
+        "2028-03-01",
+        "2028-03-02",
+        "2028-03-03",
+        "2028-03-04",
+        "2028-03-05"
+      ]
+    },
+    {
+      "fn": "monthRange",
+      "input": {
+        "year": 2026,
+        "month0": 1
+      },
+      "output": {
+        "start": "2026-02-01",
+        "end": "2026-02-28"
+      }
+    },
+    {
+      "fn": "monthRange",
+      "input": {
+        "year": 2028,
+        "month0": 1
+      },
+      "output": {
+        "start": "2028-02-01",
+        "end": "2028-02-29"
+      }
+    },
+    {
+      "fn": "monthRange",
+      "input": {
+        "year": 2026,
+        "month0": 11
+      },
+      "output": {
+        "start": "2026-12-01",
+        "end": "2026-12-31"
+      }
+    },
+    {
+      "fn": "monthRange",
+      "input": {
+        "year": 2026,
+        "month0": 2
+      },
+      "output": {
+        "start": "2026-03-01",
+        "end": "2026-03-31"
+      }
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 0,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 1,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 2,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 3,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 4,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 5,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 6,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 7,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 8,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 9,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 10,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 11,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 12,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 13,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 14,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 15,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 16,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 17,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 18,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 19,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 20,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 21,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 22,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 23,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 24,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 25,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 26,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 27,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 28,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 29,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 30,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 31,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 32,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 33,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 34,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 35,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 36,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 37,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 38,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 39,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 40,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 41,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 42,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 43,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 44,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 45,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 46,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 47,
+        "sleep": {
+          "start": "23:00",
+          "end": "07:00"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 0,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 1,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 2,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 3,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 4,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 5,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 6,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 7,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 8,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 9,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 10,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 11,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 12,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 13,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 14,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 15,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 16,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 17,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 18,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 19,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 20,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 21,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 22,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 23,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 24,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 25,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 26,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 27,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 28,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 29,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 30,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 31,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 32,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 33,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 34,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 35,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 36,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 37,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 38,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 39,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 40,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 41,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 42,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 43,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 44,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 45,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 46,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 47,
+        "sleep": {
+          "start": "22:30",
+          "end": "06:30"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 0,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 1,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 2,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 3,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 4,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 5,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 6,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 7,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 8,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 9,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 10,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 11,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 12,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 13,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 14,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 15,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 16,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 17,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": true
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 18,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 19,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 20,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 21,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 22,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 23,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 24,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 25,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 26,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 27,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 28,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 29,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 30,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 31,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 32,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 33,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 34,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 35,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 36,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 37,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 38,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 39,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 40,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 41,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 42,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 43,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 44,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 45,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 46,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 47,
+        "sleep": {
+          "start": "01:00",
+          "end": "09:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 0,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 1,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 2,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 3,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 4,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 5,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 6,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 7,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 8,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 9,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 10,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 11,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 12,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 13,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 14,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 15,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 16,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 17,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 18,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 19,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 20,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 21,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 22,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 23,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 24,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 25,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 26,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 27,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 28,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 29,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 30,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 31,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 32,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 33,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 34,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 35,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 36,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 37,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 38,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 39,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 40,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 41,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 42,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 43,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 44,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 45,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 46,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 47,
+        "sleep": {
+          "start": "00:00",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 0,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 1,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 2,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 3,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 4,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 5,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 6,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 7,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 8,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 9,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 10,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 11,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 12,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 13,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 14,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 15,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 16,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 17,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 18,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 19,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 20,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 21,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 22,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 23,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 24,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 25,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 26,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 27,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 28,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 29,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 30,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 31,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 32,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 33,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 34,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 35,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 36,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 37,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 38,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 39,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 40,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 41,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 42,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 43,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 44,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 45,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 46,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 47,
+        "sleep": {
+          "start": "08:00",
+          "end": "08:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 0,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 1,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 2,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 3,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 4,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 5,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 6,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 7,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 8,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 9,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 10,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 11,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 12,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 13,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 14,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 15,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 16,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 17,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 18,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 19,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 20,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 21,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 22,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 23,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 24,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 25,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 26,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 27,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 28,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 29,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 30,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 31,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 32,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 33,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 34,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 35,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 36,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 37,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 38,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 39,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 40,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 41,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 42,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 43,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 44,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 45,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 46,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": false
+    },
+    {
+      "fn": "isInSleepWindow",
+      "input": {
+        "slot": 47,
+        "sleep": {
+          "start": "23:30",
+          "end": "00:00"
+        }
+      },
+      "output": true
+    }
+  ]
+}
