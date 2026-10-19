@@ -1,0 +1,7 @@
+Config/GoogleService-Info.plist
+.build/
+**/.build/
+.swiftpm/
+DerivedData/
+*.xcuserstate
+xcuserdata/
