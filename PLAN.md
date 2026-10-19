@@ -151,6 +151,8 @@ Plain styling only: system fonts, basic layout, and SVG circles for marbles.
 | 3.2 | Share jar image (P6) | Draw the jar to a canvas (directly, not via an SVG-to-image step), build the PNG blob before the tap, then use `navigator.share({files})` or fall back to a download. Day and week variants. |
 | 3.3 | Reminders, Tier 1 (P7) | While the app is open: a banner like "N unlogged hours" plus an optional hourly `Notification`. Best effort, since phones pause background tabs. |
 | 3.4 | Reminders, Tier 2 (P7) | Download an `.ics` file with an hourly repeating event (inside waking hours) that links to the app. Works on iOS without installing. |
+| 3.5 | Hour numbers on marbles | Each Day-jar marble shows its hour in 24-hour format (0–23), legible on every color in both themes. Mini jars stay unnumbered. |
+| 3.6 | Per-day sleep edit | Tap the Sleep chip on the Day view to open a sheet that edits that day's `sleep` snapshot, with an "Also make this my default" checkbox. No schema change: the rules already validate `sleep`. |
 
 ---
 
