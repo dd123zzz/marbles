@@ -117,6 +117,9 @@ function Day({ param }: { param: string | undefined }) {
     },
     [],
   );
+  // The drop toast belongs to this view; leaving it must not leave Undo over another screen.
+  const { dismissKey } = toast;
+  useEffect(() => () => dismissKey(DROP_TOAST_KEY), [dismissKey]);
   useEffect(() => {
     if (dropDelay === 0) return;
     const t = setTimeout(() => setDropDelay(0), 2000);

@@ -104,6 +104,11 @@ function currentScreenAngle(): number {
   return ((angle % 360) + 360) % 360;
 }
 
+/** Desktop browsers expose DeviceOrientationEvent too, but only touch devices can be tilted. */
+function hasCoarsePointer(): boolean {
+  return typeof window.matchMedia === 'function' && window.matchMedia('(pointer: coarse)').matches;
+}
+
 /**
  * Device tilt as gravity for the Loose jar.
  *
@@ -113,7 +118,7 @@ function currentScreenAngle(): number {
  * On iOS a stored "on" waits for a fresh `enable()` call, so `enabled` is false until then.
  */
 export function useDeviceTilt(enabledPref: boolean): DeviceTilt {
-  const supported = typeof DeviceOrientationEvent !== 'undefined';
+  const supported = typeof DeviceOrientationEvent !== 'undefined' && hasCoarsePointer();
   const needsPermission = hasPermissionApi();
   const [on, setOn] = useState(readStoredOn);
   const [granted, setGranted] = useState(false);

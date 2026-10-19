@@ -42,6 +42,8 @@ export interface ToastApi {
   show: (message: string, kindOrOptions?: ToastKind | ToastOptions) => void;
   success: (message: string, options?: Omit<ToastOptions, 'kind'>) => void;
   error: (message: string, options?: Omit<ToastOptions, 'kind'>) => void;
+  /** Removes the toast on screen with this key, if any. */
+  dismissKey: (key: string) => void;
 }
 
 export const TOAST_MS = 5000;
@@ -78,13 +80,20 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
+  const dismissKey = useCallback((key: string) => {
+    setToasts((list) =>
+      list.some((t) => t.key === key) ? list.filter((t) => t.key !== key) : list,
+    );
+  }, []);
+
   const api = useMemo<ToastApi>(
     () => ({
       show,
       success: (m, options) => show(m, { ...options, kind: 'success' }),
       error: (m, options) => show(m, { ...options, kind: 'error' }),
+      dismissKey,
     }),
-    [show],
+    [show, dismissKey],
   );
 
   const errors = toasts.filter((t) => t.kind === 'error');

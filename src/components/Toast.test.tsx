@@ -215,6 +215,37 @@ describe('Toast key replacement', () => {
   });
 });
 
+describe('Toast dismissKey', () => {
+  it('removes only the toast with that key', () => {
+    renderWith((t) => {
+      t.show('Plain');
+      t.show('Keyed', { key: 'drop', action: { label: 'Undo', onAction: vi.fn() } });
+      t.show('Other', { key: 'other' });
+      t.dismissKey('drop');
+    });
+    trigger();
+    expect(screen.getByText('Plain')).toBeTruthy();
+    expect(screen.getByText('Other')).toBeTruthy();
+    expect(screen.queryByText('Keyed')).toBeNull();
+  });
+
+  it('is a no-op when nothing has the key, and later toasts with it still show', () => {
+    let calls = 0;
+    renderWith((t) => {
+      if (calls++ === 0) {
+        t.show('Kept');
+        t.dismissKey('drop');
+      } else {
+        t.show('Again', { key: 'drop' });
+      }
+    });
+    trigger();
+    expect(screen.getByText('Kept')).toBeTruthy();
+    trigger();
+    expect(screen.getByText('Again')).toBeTruthy();
+  });
+});
+
 describe('Toast backward-compatible show()', () => {
   it('still accepts a kind string as the second argument', () => {
     renderWith((t) => t.show('Oops', 'error'));

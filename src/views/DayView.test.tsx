@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { act, cleanup, fireEvent, render, screen, within } from '@testing-library/react';
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { Link, MemoryRouter, Route, Routes } from 'react-router-dom';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { AuthProvider } from '../auth/AuthProvider.tsx';
 import type { AuthBackend } from '../auth/types.ts';
@@ -576,6 +576,32 @@ describe('DayView drag-to-drop tray', () => {
     expect(screen.queryByRole('dialog')).toBeNull();
   });
 
+  it('dismisses the drop toast when the Day view unmounts', async () => {
+    const { repo } = fakeRepo();
+    render(
+      <MemoryRouter initialEntries={['/']}>
+        <AuthProvider backend={auth}>
+          <RepoProvider repo={repo}>
+            <ToastProvider>
+              <Link to="/elsewhere">Leave</Link>
+              <Routes>
+                <Route path="/" element={<DayView />} />
+                <Route path="/elsewhere" element={<p>Elsewhere</p>} />
+              </Routes>
+            </ToastProvider>
+          </RepoProvider>
+        </AuthProvider>
+      </MemoryRouter>,
+    );
+    await writable();
+    await dragOut('Wanted');
+    expect(screen.getByRole('button', { name: 'Undo' })).toBeTruthy();
+    fireEvent.click(screen.getByRole('link', { name: 'Leave' }));
+    await screen.findByText('Elsewhere');
+    expect(screen.queryByRole('button', { name: 'Undo' })).toBeNull();
+    expect(screen.queryByText('Logged 13:30–14:30 as Wanted')).toBeNull();
+  });
+
   it('overwrites logged time and Undo restores it', async () => {
     const doc: DayDoc = {
       ...base,
@@ -823,13 +849,33 @@ describe('DayView Loose jar', () => {
 
   describe('tilt', () => {
     const tiltBtn = () => screen.queryByRole('button', { name: /^(Enable tilt|Tilt on)$/ });
-    const stubTilt = () => vi.stubGlobal('DeviceOrientationEvent', class {});
+    const stubTilt = (coarse = true) => {
+      vi.stubGlobal('DeviceOrientationEvent', class {});
+      vi.stubGlobal(
+        'matchMedia',
+        vi.fn((query: string) => ({
+          matches: coarse && query === '(pointer: coarse)',
+          media: query,
+          addEventListener: () => {},
+          removeEventListener: () => {},
+        })),
+      );
+    };
 
     it('is hidden in Grid, even where tilt is supported', async () => {
       stubTilt();
       const { repo } = fakeRepo();
       renderDay(repo);
       await toggle();
+      expect(tiltBtn()).toBeNull();
+    });
+
+    it('is hidden in Loose on a device with a fine primary pointer (desktop)', async () => {
+      stubTilt(false);
+      localStorage.setItem(JAR_STYLE_KEY, 'loose');
+      const { repo } = fakeRepo();
+      renderDay(repo);
+      await screen.findByTestId('physics-jar');
       expect(tiltBtn()).toBeNull();
     });
 

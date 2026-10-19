@@ -6,6 +6,7 @@ import { emptySlots } from '../lib/entries';
 import { computeMarbles } from '../lib/jar';
 import * as physics from '../lib/physics';
 import type { Marble } from '../types';
+import { JAR_COLLIDERS, MARBLE_RADIUS } from './jarLayout';
 import PhysicsJar, { type PhysicsJarHandle } from './PhysicsJar.tsx';
 
 vi.mock('../lib/physics', async (importOriginal) => {
@@ -377,6 +378,82 @@ describe('PhysicsJar dropAt', () => {
     const ref = createRef<PhysicsJarHandle>();
     render(<PhysicsJar ref={ref} marbles={at1420} date={DATE} />);
     expect(ref.current?.getRect()?.width).toBe(376);
+  });
+});
+
+function insideJar(x: number, y: number): boolean {
+  let inside = false;
+  for (const c of JAR_COLLIDERS) {
+    if (c.y1 > y !== c.y2 > y && x < c.x1 + ((y - c.y1) * (c.x2 - c.x1)) / (c.y2 - c.y1)) {
+      inside = !inside;
+    }
+  }
+  return inside;
+}
+
+describe('PhysicsJar bulk spawn', () => {
+  const lid = JAR_COLLIDERS[JAR_COLLIDERS.length - 1];
+  const neckMin = Math.min(lid.x1, lid.x2);
+  const neckMax = Math.max(lid.x1, lid.x2);
+
+  it.each([
+    [8, 7, 20],
+    [12, 11, 20],
+    [24, 23, 50],
+  ])('spawns %i marbles at once inside the glass and lets the world sleep', (count, h, min) => {
+    const { container, rerender } = render(<PhysicsJar marbles={[]} date={DATE} />);
+    rerender(<PhysicsJar marbles={marblesAt(h, min)} date={DATE} />);
+    expect(bodies(container)).toHaveLength(count);
+    for (const hour of hoursOf(container)) {
+      const p = pos(container, hour);
+      expect(p.x).toBeGreaterThanOrEqual(neckMin + MARBLE_RADIUS - 1e-6);
+      expect(p.x).toBeLessThanOrEqual(neckMax - MARBLE_RADIUS + 1e-6);
+      expect(insideJar(p.x, p.y)).toBe(true);
+    }
+    const frames = runToRest(1500);
+    expect(frames).toBeLessThan(1500);
+    expect(queue.size).toBe(0);
+    for (const hour of hoursOf(container)) {
+      const p = pos(container, hour);
+      expect(insideJar(p.x, p.y)).toBe(true);
+      expect(p.y).toBeLessThan(311);
+    }
+  });
+
+  it('spawns a burst on top of an already settled jar and still rests', () => {
+    const { container, rerender } = render(<PhysicsJar marbles={marblesAt(7, 20)} date={DATE} />);
+    runToRest();
+    rerender(<PhysicsJar marbles={marblesAt(23, 50)} date={DATE} />);
+    expect(runToRest(1500)).toBeLessThan(1500);
+    expect(bodies(container)).toHaveLength(24);
+    for (const hour of hoursOf(container)) {
+      const p = pos(container, hour);
+      expect(insideJar(p.x, p.y)).toBe(true);
+    }
+  });
+
+  it('re-homes a body that escaped the glass so the world can sleep', () => {
+    const { container } = render(<PhysicsJar marbles={at1420} date={DATE} />);
+    runToRest();
+    const world = vi.mocked(physics.createWorld).mock.results[0].value as physics.World;
+    world.add('5', { x: -400, y: 900, r: MARBLE_RADIUS });
+    act(() => setHidden(false));
+    expect(queue.size).toBe(1);
+    expect(runToRest(1500)).toBeLessThan(1500);
+    expect(queue.size).toBe(0);
+    const p = pos(container, 5);
+    expect(insideJar(p.x, p.y)).toBe(true);
+  });
+
+  it('re-homes an escaped body in the static reduced-motion layout', () => {
+    const { container, rerender } = render(<PhysicsJar marbles={[]} date={DATE} reducedMotion />);
+    rerender(<PhysicsJar marbles={at1420} date={DATE} reducedMotion />);
+    const world = vi.mocked(physics.createWorld).mock.results[0].value as physics.World;
+    world.add('3', { x: 900, y: -500, r: MARBLE_RADIUS });
+    rerender(<PhysicsJar marbles={marblesAt(15, 5, logged)} date={DATE} reducedMotion />);
+    expect(rafCalls).toBe(0);
+    const p = pos(container, 3);
+    expect(insideJar(p.x, p.y)).toBe(true);
   });
 });
 

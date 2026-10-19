@@ -78,13 +78,28 @@ function fire(beta: number | null, gamma: number | null) {
   });
 }
 
+/** Makes `(pointer: coarse)` match (a phone) or not (a desktop with a mouse). */
+function stubPointer(coarse: boolean) {
+  vi.stubGlobal(
+    'matchMedia',
+    vi.fn((query: string) => ({
+      matches: coarse && query === '(pointer: coarse)',
+      media: query,
+      addEventListener: () => {},
+      removeEventListener: () => {},
+    })),
+  );
+}
+
 /** Android-like: no permission prompt. */
 function stubAndroid() {
+  stubPointer(true);
   vi.stubGlobal('DeviceOrientationEvent', class {});
 }
 
 /** iOS 13+: requestPermission exists and resolves to the given result. */
 function stubIOS(result: string | Error = 'granted') {
+  stubPointer(true);
   const requestPermission = vi.fn(() =>
     result instanceof Error ? Promise.reject(result) : Promise.resolve(result),
   );
@@ -127,6 +142,26 @@ describe('useDeviceTilt', () => {
     expect(ok).toBe(false);
     expect(result.current.enabled).toBe(false);
     expect(localStorage.getItem(TILT_STORAGE_KEY)).toBeNull();
+  });
+
+  it('is unsupported where the primary pointer is not coarse, even with DeviceOrientationEvent', async () => {
+    vi.stubGlobal('DeviceOrientationEvent', class {});
+    stubPointer(false);
+    const { result } = mount();
+    expect(result.current.supported).toBe(false);
+    let ok = true;
+    await act(async () => {
+      ok = await result.current.enable();
+    });
+    expect(ok).toBe(false);
+    expect(result.current.enabled).toBe(false);
+    expect(localStorage.getItem(TILT_STORAGE_KEY)).toBeNull();
+  });
+
+  it('is unsupported when matchMedia is missing', () => {
+    vi.stubGlobal('DeviceOrientationEvent', class {});
+    vi.stubGlobal('matchMedia', undefined);
+    expect(mount().result.current.supported).toBe(false);
   });
 
   it('is off by default and starts listening on Android once enabled', async () => {

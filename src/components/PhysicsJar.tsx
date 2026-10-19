@@ -54,6 +54,59 @@ const NECK_MIN_X = Math.min(LID.x1, LID.x2);
 const NECK_MAX_X = Math.max(LID.x1, LID.x2);
 const FLOOR_Y = Math.max(...JAR_COLLIDERS.map((c) => Math.max(c.y1, c.y2)));
 const SPAWN_Y = LID_Y + R + 2;
+const SPAWN_STEP = 2 * R + 2;
+// Spawn columns stay inside the neck, so a marble never starts beyond the glass
+const SPAWN_SPAN = NECK_MAX_X - NECK_MIN_X - 2 * R;
+const SPAWN_PER_ROW = Math.max(1, Math.floor(SPAWN_SPAN / SPAWN_STEP) + 1);
+const SPAWN_MAX_Y = FLOOR_Y - R - 1;
+const BOUNDS = {
+  minX: Math.min(...JAR_COLLIDERS.flatMap((c) => [c.x1, c.x2])),
+  maxX: Math.max(...JAR_COLLIDERS.flatMap((c) => [c.x1, c.x2])),
+  minY: Math.min(...JAR_COLLIDERS.flatMap((c) => [c.y1, c.y2])),
+  maxY: FLOOR_Y,
+};
+
+/** `count` points inside the neck: rows of marbles centred on the jar, wrapping downward. */
+function spawnPoints(count: number): { x: number; y: number }[] {
+  const pts: { x: number; y: number }[] = [];
+  for (let i = 0; i < count; i++) {
+    const row = Math.floor(i / SPAWN_PER_ROW);
+    const inRow = Math.min(SPAWN_PER_ROW, count - row * SPAWN_PER_ROW);
+    const x = JAR_WIDTH / 2 + ((i % SPAWN_PER_ROW) - (inRow - 1) / 2) * SPAWN_STEP;
+    pts.push({
+      x: Math.min(Math.max(x, NECK_MIN_X + R), NECK_MAX_X - R),
+      y: Math.min(SPAWN_Y + row * SPAWN_STEP, SPAWN_MAX_Y),
+    });
+  }
+  return pts;
+}
+
+/** Safety net: a body whose centre is more than a radius outside the glass is put back at the neck. */
+function rehomeEscaped(world: World): boolean {
+  const lost: string[] = [];
+  for (const [id, p] of world.positions()) {
+    if (
+      p.x < BOUNDS.minX - R ||
+      p.x > BOUNDS.maxX + R ||
+      p.y < BOUNDS.minY - R ||
+      p.y > BOUNDS.maxY + R ||
+      !Number.isFinite(p.x + p.y)
+    ) {
+      lost.push(id);
+    }
+  }
+  const pts = spawnPoints(lost.length);
+  lost.forEach((id, i) => world.add(id, { x: pts[i].x, y: pts[i].y, r: R }));
+  return lost.length > 0;
+}
+
+/** Settles a world with no live loop, re-homing anything that escapes. */
+function settleStatic(world: World, steps: number): void {
+  for (let pass = 0; pass < 3; pass++) {
+    world.stepFixed(steps);
+    if (!rehomeEscaped(world)) return;
+  }
+}
 
 /** Every hour that has started, gray ones too; future hours and DST gaps are absent. */
 function isStarted(m: Marble): boolean {
@@ -82,6 +135,7 @@ function createController(world: World) {
     raf = null;
     const now = performance.now();
     world.step((now - last) / 1000);
+    rehomeEscaped(world);
     last = now;
     apply();
     if (canRun()) raf = requestAnimationFrame(frame);
@@ -192,14 +246,20 @@ function PhysicsJarDay({
     for (const id of [...world.positions().keys()]) {
       if (!hours.has(Number(id))) world.remove(id);
     }
-    const fresh = started.filter((m) => !world.has(String(m.hour)));
-    fresh.forEach((m, i) => {
-      const p = pending.current.get(m.hour);
-      pending.current.delete(m.hour);
-      const placed = p && now - p.at < DROP_GRACE_MS ? p : null;
-      world.add(String(m.hour), {
-        x: placed?.x ?? JAR_WIDTH / 2 + (i - (fresh.length - 1) / 2) * (2 * R + 2),
-        y: placed?.y ?? SPAWN_Y,
+    const fresh = started
+      .filter((m) => !world.has(String(m.hour)))
+      .map((m) => {
+        const p = pending.current.get(m.hour);
+        pending.current.delete(m.hour);
+        return { hour: m.hour, placed: p && now - p.at < DROP_GRACE_MS ? p : null };
+      });
+    const spawns = spawnPoints(fresh.filter((f) => !f.placed).length);
+    let next = 0;
+    fresh.forEach(({ hour, placed }) => {
+      const at = placed ?? spawns[next++];
+      world.add(String(hour), {
+        x: at.x,
+        y: at.y,
         vx: placed?.vx,
         vy: placed?.vy,
         r: R,
@@ -220,7 +280,7 @@ function PhysicsJarDay({
     }
     prevColors.current = colors;
 
-    if (reduced) world.stepFixed(STATIC_SETTLE_STEPS);
+    if (reduced) settleStatic(world, STATIC_SETTLE_STEPS);
     ctrl.apply();
     ctrl.start();
   }, [world, ctrl, started, reduced]);
@@ -281,7 +341,7 @@ function PhysicsJarDay({
         }
         world.remove(id);
         world.add(id, { x: place.x, y: place.y, vx: place.vx, vy: place.vy, r: R });
-        if (reduced) world.stepFixed(STATIC_SETTLE_STEPS);
+        if (reduced) settleStatic(world, STATIC_SETTLE_STEPS);
         ctrl.apply();
         ctrl.start();
       },
