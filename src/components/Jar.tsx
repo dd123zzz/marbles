@@ -11,6 +11,8 @@ interface JarProps {
   label?: string;
   /** day shown; changing it (or the label, if omitted) resets animations */
   date?: DateKey;
+  /** postpones the entrance animations of marbles that change, e.g. until a dragged marble lands */
+  dropDelayMs?: number;
 }
 
 interface Tracked {
@@ -19,7 +21,13 @@ interface Tracked {
   anims: ReadonlyMap<number, MarbleAnim>;
 }
 
-export default function Jar({ marbles, onSelect, label = 'Day jar', date }: JarProps) {
+export default function Jar({
+  marbles,
+  onSelect,
+  label = 'Day jar',
+  date,
+  dropDelayMs = 0,
+}: JarProps) {
   const key = date ?? label;
   const [tracked, setTracked] = useState<Tracked>({ key, marbles, anims: new Map() });
 
@@ -29,7 +37,7 @@ export default function Jar({ marbles, onSelect, label = 'Day jar', date }: JarP
     current = { key, marbles, anims: new Map() };
     setTracked(current);
   } else if (tracked.marbles !== marbles) {
-    const fresh = diffAnims(tracked.marbles, marbles);
+    const fresh = diffAnims(tracked.marbles, marbles, dropDelayMs);
     const anims = fresh.size > 0 ? new Map([...tracked.anims, ...fresh]) : tracked.anims;
     current = { key, marbles, anims };
     setTracked(current);

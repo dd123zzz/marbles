@@ -180,3 +180,28 @@ describe('MiniJar', () => {
     );
   });
 });
+
+describe('Jar dropDelayMs', () => {
+  const doc = (slots: string) => computeMarbles({ date: '2026-10-14', slots, sleep, now });
+  const delayOf = (container: HTMLElement) =>
+    [...container.querySelectorAll<SVGElement>('.marble-anim')].map((el) =>
+      el.style.getPropertyValue('--marble-delay'),
+    );
+
+  it('postpones the entrance animation of marbles that change', () => {
+    const before = doc(emptySlots());
+    const after = doc(emptySlots().slice(0, 26) + 'gg' + emptySlots().slice(28));
+    const { container, rerender } = render(<Jar marbles={before} date="2026-10-14" />);
+    expect(delayOf(container)).toEqual([]);
+    rerender(<Jar marbles={after} date="2026-10-14" dropDelayMs={180} />);
+    expect(delayOf(container)).toEqual(['180ms']);
+  });
+
+  it('adds no delay by default', () => {
+    const before = doc(emptySlots());
+    const after = doc(emptySlots().slice(0, 26) + 'gg' + emptySlots().slice(28));
+    const { container, rerender } = render(<Jar marbles={before} date="2026-10-14" />);
+    rerender(<Jar marbles={after} date="2026-10-14" />);
+    expect(delayOf(container)).toEqual(['0ms']);
+  });
+});

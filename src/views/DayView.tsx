@@ -1,21 +1,66 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../auth/AuthProvider.tsx';
 import { PlusIcon } from '../components/icons.tsx';
 import Jar from '../components/Jar.tsx';
+import MarbleTray from '../components/MarbleTray.tsx';
 import SummaryChips from '../components/SummaryChips.tsx';
-import { useDays, useSettings } from '../data/RepoProvider.tsx';
+import { useToast } from '../components/Toast.tsx';
+import {
+  FLY_MS,
+  prefersReducedMotion,
+  type DropInfo,
+  type DropResult,
+} from '../components/useMarbleDrag.ts';
+import { useDays, useRepo, useSettings } from '../data/RepoProvider.tsx';
 import { useNow } from '../hooks/useNow';
 import { fullDate, weekdayMonthDay } from '../lib/dateLabels';
-import { logicalEntriesForDay, logicalEntryAt } from '../lib/entries';
+import {
+  logicalEntriesForDay,
+  logicalEntryAt,
+  planDrop,
+  undoDrop,
+  type DropUndo,
+} from '../lib/entries';
 import { CATEGORY_LABEL, computeMarbles } from '../lib/jar';
-import { addDays, isFutureSlot, isValidDateKey, parseDateKey, toDateKey } from '../lib/time';
+import {
+  addDays,
+  isFutureSlot,
+  isValidDateKey,
+  lastHourWindow,
+  parseDateKey,
+  slotToHHmm,
+  toDateKey,
+} from '../lib/time';
+import { SLOTS_PER_DAY, type Category, type DateKey, type DayDoc, type SlotRef } from '../types';
 import ShareButton from '../share/ShareButton.tsx';
 import LogSheet, { type SheetMode } from './LogSheet.tsx';
 import Reflection from './Reflection.tsx';
 import SleepSheet from './SleepSheet.tsx';
 import { defaultStartFor, formatEntryRange } from './logSheetLogic';
+import { useWriteGate, writeErrorMessage } from './useWriteGate';
 import './day.css';
+
+const DROP_TOAST_KEY = 'drop';
+
+const follows = (a: SlotRef, b: SlotRef): boolean =>
+  b.date === a.date
+    ? b.slot === a.slot + 1
+    : a.slot === SLOTS_PER_DAY - 1 && b.slot === 0 && b.date === addDays(a.date, 1);
+
+/** "13:30–14:30", "23:30–00:30", or "yesterday 23:00–24:00" when no slot falls on today. */
+function windowLabel(window: SlotRef[], today: DateKey): string {
+  const runs: SlotRef[][] = [];
+  for (const ref of window) {
+    const run = runs[runs.length - 1];
+    if (run && follows(run[run.length - 1], ref)) run.push(ref);
+    else runs.push([ref]);
+  }
+  const text = runs
+    .map((r) => `${slotToHHmm(r[0].slot)}–${slotToHHmm(r[r.length - 1].slot + 1)}`)
+    .join(', ');
+  return window.every((r) => r.date < today) ? `yesterday ${text}` : text;
+}
 
 export default function DayView() {
   const { date: param } = useParams();
@@ -35,6 +80,29 @@ function Day({ param }: { param: string | undefined }) {
   const { days, loading, fromCache, error } = useDays(uid, addDays(date, -1), addDays(date, 1));
   const [sheet, setSheet] = useState<{ mode: SheetMode; id: number } | null>(null);
   const [sleepOpen, setSleepOpen] = useState(false);
+  const repo = useRepo();
+  const toast = useToast();
+  const { writable } = useWriteGate({ loading, fromCache, settingsLoading });
+  const jarRef = useRef<HTMLDivElement>(null);
+  const prevRef = useRef<HTMLAnchorElement>(null);
+  const view = useRef<{ date: DateKey; days: Record<DateKey, DayDoc> } | null>(null);
+  const [armed, setArmed] = useState<Category | null>(null);
+  const [dropDelay, setDropDelay] = useState(0);
+
+  useEffect(() => {
+    view.current = { date, days };
+  });
+  useEffect(
+    () => () => {
+      view.current = null;
+    },
+    [],
+  );
+  useEffect(() => {
+    if (dropDelay === 0) return;
+    const t = setTimeout(() => setDropDelay(0), 2000);
+    return () => clearTimeout(t);
+  }, [dropDelay]);
 
   const doc = days[date];
   const sleep = doc?.sleep ?? { start: settings.sleepStart, end: settings.sleepEnd };
@@ -54,6 +122,66 @@ function Day({ param }: { param: string | undefined }) {
     }
   };
 
+  const showTray = !!uid && date === today && !loading;
+  const trayLabel = windowLabel(lastHourWindow(now), today);
+  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const onWriteError = (e: unknown) => toast.error(writeErrorMessage(e));
+
+  // Undo works from the latest snapshot while this view still covers the dropped days,
+  // and otherwise (the user navigated away) from a fresh read.
+  const undo = async (info: DropUndo) => {
+    if (!uid) return;
+    try {
+      const dates = info.slots.map((s) => s.date).sort();
+      const first = dates[0];
+      const last = dates[dates.length - 1];
+      const v = view.current;
+      const covered = v && first >= addDays(v.date, -1) && last <= addDays(v.date, 1);
+      const current = covered ? v.days : await repo.getDays(uid, first, last);
+      const changed = undoDrop(current, info);
+      if (Object.keys(changed).length > 0) await repo.writeDays(uid, changed);
+    } catch (e) {
+      onWriteError(e);
+    }
+  };
+
+  const handleDrop = (category: Category, info: DropInfo): DropResult => {
+    if (!uid || !writable) return { accepted: false };
+    const at = new Date();
+    const targets = lastHourWindow(at);
+    if (targets.some((t) => t.date < addDays(date, -1) || t.date > addDays(date, 1))) {
+      return { accepted: false };
+    }
+    const label = windowLabel(targets, toDateKey(at));
+    const name = CATEGORY_LABEL[category];
+    const plan = planDrop({
+      days,
+      targets,
+      category,
+      sleep: { start: settings.sleepStart, end: settings.sleepEnd },
+      tz,
+      now: at,
+    });
+    if (plan.noop) {
+      toast.show(`${label} is already ${name}`, { key: DROP_TOAST_KEY });
+      return { accepted: false };
+    }
+    const flies = info.source === 'pointer' && !prefersReducedMotion();
+    setDropDelay(flies ? FLY_MS : 0);
+    // not awaited: the local cache updates immediately and the write syncs when online
+    repo.writeDays(uid, plan.changed).catch(onWriteError);
+    toast.success(`Logged ${label} as ${name}`, {
+      key: DROP_TOAST_KEY,
+      action: { label: 'Undo', onAction: () => void undo(plan.undo) },
+    });
+    if (info.source === 'keyboard') return { accepted: true, flyTo: 'none' };
+    const yesterdayOnly = targets.every((t) => t.date < toDateKey(at));
+    return {
+      accepted: true,
+      flyTo: yesterdayOnly ? prevRef.current?.getBoundingClientRect() : undefined,
+    };
+  };
+
   const emptyText = isFuture
     ? 'This day is still ahead, so there is nothing to log yet.'
     : date === today
@@ -64,7 +192,12 @@ function Day({ param }: { param: string | undefined }) {
     <div className="stack">
       <header className="card date-card">
         <div className="date-nav">
-          <Link className="icon-btn" to={`/day/${addDays(date, -1)}`} aria-label="Previous day">
+          <Link
+            ref={prevRef}
+            className="icon-btn"
+            to={`/day/${addDays(date, -1)}`}
+            aria-label="Previous day"
+          >
             ‹
           </Link>
           <div className="date-title">
@@ -113,16 +246,28 @@ function Day({ param }: { param: string | undefined }) {
         <p className="loading">Loading…</p>
       ) : (
         <section className="card jar-card" aria-label="Jar">
+          {showTray && (
+            <MarbleTray
+              rangeLabel={trayLabel}
+              writable={writable}
+              onDrop={handleDrop}
+              onArmedChange={setArmed}
+              getDropTargetRect={() => jarRef.current?.getBoundingClientRect() ?? null}
+            />
+          )}
+          <div ref={jarRef} className={`jar-slot${armed ? ` jar-armed jar-armed-${armed}` : ''}`}>
+            <Jar
+              marbles={marbles}
+              label={`Jar for ${weekdayMonthDay(date)}`}
+              date={date}
+              dropDelayMs={dropDelay}
+              onSelect={(slot, m) => selectSlot(slot, slot % 2 === 0 ? m.left : m.right)}
+            />
+          </div>
           <SummaryChips
             marbles={marbles}
             dateLabel={weekdayMonthDay(date)}
             onEditSleep={uid ? () => setSleepOpen(true) : undefined}
-          />
-          <Jar
-            marbles={marbles}
-            label={`Jar for ${weekdayMonthDay(date)}`}
-            date={date}
-            onSelect={(slot, m) => selectSlot(slot, slot % 2 === 0 ? m.left : m.right)}
           />
         </section>
       )}

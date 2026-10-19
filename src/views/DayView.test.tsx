@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { act, cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { act, cleanup, fireEvent, render, screen, within } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { AuthProvider } from '../auth/AuthProvider.tsx';
@@ -24,12 +24,17 @@ const auth: AuthBackend = {
 
 function fakeRepo(
   initial: Record<string, DayDoc> = {},
-  opts: { cacheOnly?: boolean; holdSettings?: boolean } = {},
+  opts: { cacheOnly?: boolean; holdSettings?: boolean; applyWrites?: boolean } = {},
 ) {
+  const store: Record<string, DayDoc> = { ...initial };
   const dayListeners = new Set<() => void>();
   let fromCache = opts.cacheOnly ?? false;
   let settingsCb: ((s: typeof DEFAULT_SETTINGS) => void) | null = null;
-  const writeDays = vi.fn<Repo['writeDays']>(async () => {});
+  const writeDays = vi.fn<Repo['writeDays']>(async (_uid, docs) => {
+    if (!opts.applyWrites) return;
+    Object.assign(store, docs);
+    dayListeners.forEach((f) => f());
+  });
   const repo: Repo = {
     subscribeSettings(_uid, cb) {
       if (opts.holdSettings) settingsCb = cb;
@@ -39,7 +44,7 @@ function fakeRepo(
     saveSettings: async () => {},
     subscribeDays(_uid, start, end, cb) {
       const emit = () =>
-        cb(Object.fromEntries(Object.entries(initial).filter(([k]) => k >= start && k <= end)), {
+        cb(Object.fromEntries(Object.entries(store).filter(([k]) => k >= start && k <= end)), {
           fromCache,
         });
       dayListeners.add(emit);
@@ -50,6 +55,7 @@ function fakeRepo(
     },
     getDays: async () => ({}),
     writeDays,
+    deleteAllData: async () => ({ deletedDays: 0 }),
   };
   return {
     repo,
@@ -222,7 +228,7 @@ describe('DayView', () => {
     renderDay(repo);
     await openLogSheet();
     const wanted = (await screen.findByRole('button', { name: 'Wanted' })) as HTMLButtonElement;
-    expect(await screen.findByText('Syncing…')).toBeTruthy();
+    expect(await within(await screen.findByRole('dialog')).findByText('Syncing…')).toBeTruthy();
     expect(wanted.disabled).toBe(true);
     serverArrives();
     await vi.waitFor(() => expect(wanted.disabled).toBe(false));
@@ -455,5 +461,194 @@ describe('DayView sleep and share', () => {
     const { repo } = fakeRepo();
     renderDay(repo);
     expect(await screen.findByRole('button', { name: 'Share day image' })).toBeTruthy();
+  });
+});
+
+describe('DayView drag-to-drop tray', () => {
+  const PTR = { pointerId: 1, isPrimary: true, button: 0, pointerType: 'touch' };
+  const base = {
+    sleep: { start: '23:00', end: '07:00' },
+    tz: 'America/Los_Angeles',
+    v: 1,
+  } as const;
+
+  beforeEach(() => {
+    vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockReturnValue({
+      left: 100,
+      top: 300,
+      width: 52,
+      height: 52,
+      right: 152,
+      bottom: 352,
+      x: 100,
+      y: 300,
+      toJSON: () => ({}),
+    } as DOMRect);
+    Object.defineProperty(HTMLElement.prototype, 'setPointerCapture', {
+      configurable: true,
+      value: vi.fn(),
+    });
+  });
+
+  const marble = (name: string) =>
+    screen.findByRole('button', { name: new RegExp(`^Log .* as ${name}$`) });
+
+  async function dragOut(name: string) {
+    const btn = await marble(name);
+    fireEvent.pointerDown(btn, { ...PTR, clientX: 126, clientY: 326 });
+    fireEvent.pointerMove(btn, { ...PTR, clientX: 126, clientY: 200 });
+    fireEvent.pointerUp(btn, { ...PTR, clientX: 126, clientY: 200 });
+  }
+
+  const writable = () => vi.waitFor(() => expect(screen.queryByText('Syncing…')).toBeNull());
+
+  it('shows the tray with the live window only on today', async () => {
+    const { repo } = fakeRepo();
+    renderDay(repo);
+    expect(await screen.findByText('Drag into the jar to log 13:30–14:30')).toBeTruthy();
+    expect(await marble('Unwanted')).toBeTruthy();
+    cleanup();
+    renderDay(repo, '/day/2026-10-13');
+    await screen.findByLabelText('Jar for Tue Oct 13');
+    expect(screen.queryByRole('group', { name: /Marbles to log/ })).toBeNull();
+    cleanup();
+    renderDay(repo, '/day/2026-10-20');
+    await screen.findByLabelText('Jar for Tue Oct 20');
+    expect(screen.queryByRole('group', { name: /Marbles to log/ })).toBeNull();
+  });
+
+  it('puts the summary chips under the jar, on every day', async () => {
+    const { repo } = fakeRepo();
+    for (const path of ['/', '/day/2026-10-13']) {
+      renderDay(repo, path);
+      const chips = await screen.findByRole('list', { name: 'Summary' });
+      const jar = document.querySelector('.jar-slot')!;
+      expect(jar.compareDocumentPosition(chips) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+      expect(screen.getByRole('button', { name: /^Edit sleep for/ }).closest('.chips')).toBe(chips);
+      cleanup();
+    }
+  });
+
+  it('logs the last hour as the dropped category and offers Undo', async () => {
+    const { repo, writeDays } = fakeRepo();
+    renderDay(repo);
+    await writable();
+    await dragOut('Wanted');
+
+    expect(writeDays).toHaveBeenCalledTimes(1);
+    const [uid, docs] = writeDays.mock.calls[0];
+    expect(uid).toBe('u1');
+    expect(Object.keys(docs)).toEqual(['2026-10-14']);
+    expect(docs['2026-10-14'].slots.slice(24, 32)).toBe('...gg...');
+    expect(screen.getByText('Logged 13:30–14:30 as Wanted')).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Undo' })).toBeTruthy();
+    expect(screen.queryByRole('dialog')).toBeNull();
+  });
+
+  it('overwrites logged time and Undo restores it', async () => {
+    const doc: DayDoc = {
+      ...base,
+      slots: '.'.repeat(26) + 'rbb' + '.'.repeat(19),
+      notes: { '26': 'old note' },
+    };
+    const { repo, writeDays } = fakeRepo({ '2026-10-14': doc }, { applyWrites: true });
+    renderDay(repo);
+    await writable();
+    await dragOut('Wanted');
+    expect(writeDays.mock.calls[0][1]['2026-10-14'].slots.slice(26, 30)).toBe('rgg.');
+    // slot 26 stays unwanted (outside the window); 27 and 28 become wanted
+
+    // the snapshot with the drop arrives, then Undo
+    await vi.waitFor(() => expect(screen.getByLabelText('13:30–14:00 Wanted')).toBeTruthy());
+    fireEvent.click(screen.getByRole('button', { name: 'Undo' }));
+    await vi.waitFor(() => expect(writeDays).toHaveBeenCalledTimes(2));
+    const restored = writeDays.mock.calls[1][1]['2026-10-14'];
+    expect(restored.slots).toBe(doc.slots);
+    expect(restored.notes).toEqual(doc.notes);
+  });
+
+  it('shows "already" and writes nothing when the window holds that category', async () => {
+    const doc: DayDoc = { ...base, slots: '.'.repeat(27) + 'gg' + '.'.repeat(19), notes: {} };
+    const { repo, writeDays } = fakeRepo({ '2026-10-14': doc });
+    renderDay(repo);
+    await writable();
+    await dragOut('Wanted');
+    expect(writeDays).not.toHaveBeenCalled();
+    expect(screen.getByText('13:30–14:30 is already Wanted')).toBeTruthy();
+    expect(screen.queryByRole('button', { name: 'Undo' })).toBeNull();
+  });
+
+  it('logs on Enter without opening a sheet', async () => {
+    const { repo, writeDays } = fakeRepo();
+    renderDay(repo);
+    await writable();
+    const btn = await marble('Wasted');
+    btn.focus();
+    fireEvent.click(btn, { detail: 0 });
+    expect(writeDays).toHaveBeenCalledTimes(1);
+    expect(writeDays.mock.calls[0][1]['2026-10-14'].slots.slice(27, 29)).toBe('bb');
+    expect(document.activeElement).toBe(btn);
+    expect(screen.getByText('Logged 13:30–14:30 as Wasted')).toBeTruthy();
+  });
+
+  it('does not log on a tap', async () => {
+    const { repo, writeDays } = fakeRepo();
+    renderDay(repo);
+    await writable();
+    const btn = await marble('Wanted');
+    fireEvent.pointerDown(btn, { ...PTR, clientX: 126, clientY: 326 });
+    fireEvent.pointerUp(btn, { ...PTR, clientX: 127, clientY: 326 });
+    expect(writeDays).not.toHaveBeenCalled();
+  });
+
+  it('writes nothing until the data is writable, then works', async () => {
+    const { repo, writeDays, serverArrives } = fakeRepo({}, { cacheOnly: true });
+    renderDay(repo);
+    expect(await screen.findByText('Syncing…')).toBeTruthy();
+    const btn = await marble('Wanted');
+    expect(btn.getAttribute('aria-disabled')).toBe('true');
+    await dragOut('Wanted');
+    fireEvent.click(btn, { detail: 0 });
+    expect(writeDays).not.toHaveBeenCalled();
+
+    serverArrives();
+    await vi.waitFor(() => expect(btn.getAttribute('aria-disabled')).toBeNull());
+    await dragOut('Wanted');
+    expect(writeDays).toHaveBeenCalledTimes(1);
+  });
+
+  it('shows an error toast when the write is rejected', async () => {
+    const { repo, writeDays } = fakeRepo();
+    writeDays.mockRejectedValueOnce(new Error('permission-denied'));
+    renderDay(repo);
+    await writable();
+    await dragOut('Wanted');
+    const toast = await screen.findByRole('alert');
+    expect(toast.textContent).toContain('Could not save your changes: permission-denied');
+  });
+
+  it('writes both days in one batch for a window that crosses midnight', async () => {
+    vi.setSystemTime(new Date(2026, 9, 14, 0, 20));
+    const { repo, writeDays } = fakeRepo();
+    renderDay(repo);
+    await writable();
+    await dragOut('Wanted');
+    expect(writeDays).toHaveBeenCalledTimes(1);
+    const docs = writeDays.mock.calls[0][1];
+    expect(Object.keys(docs).sort()).toEqual(['2026-10-13', '2026-10-14']);
+    expect(docs['2026-10-13'].slots.slice(46)).toBe('.g');
+    expect(docs['2026-10-14'].slots.slice(0, 2)).toBe('g.');
+    expect(screen.getByText('Logged 23:30–00:30 as Wanted')).toBeTruthy();
+  });
+
+  it('logs yesterday only just after midnight and says so', async () => {
+    vi.setSystemTime(new Date(2026, 9, 14, 0, 5));
+    const { repo, writeDays } = fakeRepo();
+    renderDay(repo);
+    await writable();
+    expect(await screen.findByText('Drag into the jar to log yesterday 23:00–24:00')).toBeTruthy();
+    await dragOut('Wanted');
+    expect(Object.keys(writeDays.mock.calls[0][1])).toEqual(['2026-10-13']);
+    expect(screen.getByText('Logged yesterday 23:00–24:00 as Wanted')).toBeTruthy();
   });
 });
