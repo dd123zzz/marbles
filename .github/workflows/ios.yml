@@ -5,10 +5,22 @@ on:
     paths:
       - 'ios/**'
       - '.github/workflows/ios.yml'
+      - 'scripts/golden/**'
+      - 'src/lib/**'
+      - 'src/types.ts'
+      - 'src/components/jarLayout.ts'
+      - 'src/views/*Logic.ts'
+      - 'package.json'
   pull_request:
     paths:
       - 'ios/**'
       - '.github/workflows/ios.yml'
+      - 'scripts/golden/**'
+      - 'src/lib/**'
+      - 'src/types.ts'
+      - 'src/components/jarLayout.ts'
+      - 'src/views/*Logic.ts'
+      - 'package.json'
 
 concurrency:
   group: ios-${{ github.ref }}
@@ -34,3 +46,5 @@ jobs:
       - run: npm ci
       - run: npm run golden
       - run: git diff --exit-code ios/Fixtures/golden
+      - name: No new untracked fixtures
+        run: test -z "$(git status --porcelain ios/Fixtures/golden)"
