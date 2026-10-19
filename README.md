@@ -1,6 +1,8 @@
 # Marbles
 
-A daily time-awareness tracker: log each 30-minute slot as Wanted, Neutral or Regret and see the day as a jar of marbles. React 19 + Vite + TypeScript SPA hosted on GitHub Pages, with Firebase Auth and Firestore (Spark plan, no Functions) for sync. See [SPEC.md](./SPEC.md) and [PLAN.md](./PLAN.md).
+A daily time-awareness tracker: log blocks of time in 30-minute steps as Wanted (green), Wasted (black) or Unwanted (red) and see the day as a jar of marbles. React 19 + Vite + TypeScript SPA hosted on GitHub Pages, with Firebase Auth and Firestore (Spark plan, no Functions) for sync. See [SPEC.md](./SPEC.md) and [PLAN.md](./PLAN.md).
+
+Live app: https://dd123zzz.github.io/marbles/
 
 ## Local development
 
