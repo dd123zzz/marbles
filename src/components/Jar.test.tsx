@@ -15,26 +15,53 @@ const slots = emptySlots().slice(0, 26) + 'gb' + emptySlots().slice(28);
 const marbles = computeMarbles({ date: '2026-10-14', slots, sleep, now });
 
 describe('Jar', () => {
-  it('renders 24 accessible marble buttons', () => {
+  it('renders marble buttons: one per full marble, two per half marble', () => {
     render(<Jar marbles={marbles} onSelect={() => {}} />);
     const buttons = screen.getAllByRole('button');
-    expect(buttons).toHaveLength(24);
+    // 22 full marbles, plus the split 13:00 and 14:00 (now) marbles with 2 targets each
+    expect(buttons).toHaveLength(26);
     for (const b of buttons) expect(b.getAttribute('aria-label')).toBeTruthy();
-    expect(screen.getByLabelText('13:00–13:30 Wanted, 13:30–14:00 Wasted')).toBeTruthy();
     expect(screen.getByLabelText('03:00–04:00 Sleep')).toBeTruthy();
+    expect(
+      screen.getByRole('group', { name: '13:00–13:30 Wanted, 13:30–14:00 Wasted' }),
+    ).toBeTruthy();
   });
 
-  it('selects the tapped half and supports the keyboard', () => {
+  it('exposes both halves of a half marble as separate focusable targets', () => {
     const onSelect = vi.fn();
-    const { container } = render(<Jar marbles={marbles} onSelect={onSelect} />);
-    const split = screen.getByLabelText('13:00–13:30 Wanted, 13:30–14:00 Wasted');
-    fireEvent.click(split.querySelector('[data-half="1"]')!);
-    expect(onSelect).toHaveBeenLastCalledWith(27, marbles[13]);
-    fireEvent.click(split.querySelector('[data-half="0"]')!);
+    render(<Jar marbles={marbles} onSelect={onSelect} />);
+    const left = screen.getByRole('button', { name: '13:00–13:30 Wanted' });
+    const right = screen.getByRole('button', { name: '13:30–14:00 Wasted' });
+    expect(left.getAttribute('tabindex')).toBe('0');
+    expect(right.getAttribute('tabindex')).toBe('0');
+
+    fireEvent.keyDown(left, { key: 'Enter' });
     expect(onSelect).toHaveBeenLastCalledWith(26, marbles[13]);
-    fireEvent.keyDown(screen.getByLabelText('03:00–04:00 Sleep'), { key: 'Enter' });
+    fireEvent.keyDown(right, { key: ' ' });
+    expect(onSelect).toHaveBeenLastCalledWith(27, marbles[13]);
+    expect(onSelect).toHaveBeenCalledTimes(2);
+    fireEvent.keyDown(right, { key: 'a' });
+    expect(onSelect).toHaveBeenCalledTimes(2);
+  });
+
+  it('keeps a full marble as one target, selectable by click and keyboard', () => {
+    const onSelect = vi.fn();
+    render(<Jar marbles={marbles} onSelect={onSelect} />);
+    const sleep = screen.getByRole('button', { name: '03:00–04:00 Sleep' });
+    expect(screen.queryByRole('button', { name: '03:00–03:30 Sleep' })).toBeNull();
+    fireEvent.keyDown(sleep, { key: 'Enter' });
     expect(onSelect).toHaveBeenLastCalledWith(6, marbles[3]);
-    expect(container.querySelectorAll('li')).toHaveLength(5);
+    fireEvent.click(sleep);
+    expect(onSelect).toHaveBeenLastCalledWith(6, marbles[3]);
+  });
+
+  it('selects the clicked half', () => {
+    const onSelect = vi.fn();
+    render(<Jar marbles={marbles} onSelect={onSelect} />);
+    fireEvent.click(screen.getByRole('button', { name: '13:30–14:00 Wasted' }));
+    expect(onSelect).toHaveBeenLastCalledWith(27, marbles[13]);
+    fireEvent.click(screen.getByRole('button', { name: '13:00–13:30 Wanted' }));
+    expect(onSelect).toHaveBeenLastCalledWith(26, marbles[13]);
   });
 
   it('has no buttons without onSelect', () => {

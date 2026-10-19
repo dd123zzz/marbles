@@ -1,0 +1,102 @@
+.jar {
+  /* sized to the viewport so the whole jar stays on screen, up to 360px wide */
+  width: min(100%, 360px, calc(50vh * 188 / 314));
+  margin: 0 auto;
+}
+
+.jar-svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.jar-outline {
+  stroke: var(--glass-stroke);
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+}
+
+.jar-rim {
+  fill: var(--glass-rim);
+  stroke: var(--glass-stroke);
+  stroke-width: 2;
+}
+
+.jar-shine {
+  fill: none;
+  stroke: var(--glass-shine);
+  stroke-width: 5;
+  stroke-linecap: round;
+}
+
+.jar-shine-soft {
+  stroke-width: 3;
+  opacity: 0.6;
+}
+
+.marble {
+  stroke: rgba(0, 0, 0, 0.14);
+  stroke-width: 0.75;
+}
+
+/* Wasted marbles are near black: a light edge keeps them visible, and a glow in dark mode */
+.marble-b {
+  stroke: var(--marble-b-ring);
+  stroke-width: 1.4;
+}
+
+:root[data-theme='dark'] .marble-b {
+  filter: drop-shadow(0 0 2.5px var(--marble-b-glow));
+}
+
+.marble-unlogged {
+  stroke-width: 0.5;
+}
+
+.marble-empty {
+  fill: none;
+  stroke: var(--marble-empty);
+  stroke-width: 1.5;
+  stroke-dasharray: 3 3;
+}
+
+.marble-na {
+  fill: var(--marble-na);
+  stroke: var(--marble-empty);
+  stroke-width: 1;
+}
+
+.marble-na-text {
+  fill: var(--marble-na-text);
+}
+
+.marble-gloss {
+  fill: var(--marble-gloss);
+  pointer-events: none;
+}
+
+.marble-target {
+  cursor: pointer;
+}
+
+.marble-target:focus {
+  outline: none;
+}
+
+.focus-ring {
+  fill: none;
+  stroke: var(--focus);
+  stroke-width: 3;
+  stroke-linejoin: round;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.marble-target:focus-visible .focus-ring {
+  opacity: 1;
+}
+
+.marble-target:hover .marble {
+  filter: brightness(1.08);
+}

@@ -1,27 +1,31 @@
-import type { KeyboardEvent, MouseEvent } from 'react';
+import { useId } from 'react';
 import type { Marble } from '../types';
 import {
+  JAR_BODY_PATH,
   JAR_HEIGHT,
   JAR_OUTLINE_PATH,
+  JAR_RIM,
+  JAR_SHINE_LEFT,
+  JAR_SHINE_NECK,
+  JAR_SHINE_RIGHT,
   JAR_WIDTH,
   MARBLE_RADIUS,
   marblePosition,
 } from './jarLayout';
 import MarbleShape from './MarbleShape.tsx';
+import { GRADIENT_COLORS } from './marbleUtils';
+import './jar.css';
 
 export interface JarSvgProps {
   marbles: Marble[];
-  /** Called with the tapped slot (hour*2, or hour*2+1 for a tapped right half). Makes marbles buttons. */
+  /**
+   * Called with the selected slot (hour*2 for the :00–:30 half or a full marble, hour*2+1 for
+   * the :30–:60 half). Makes each full marble, and each half of a split marble, a button.
+   */
   onSelect?: (slot: number, marble: Marble) => void;
   width?: number | string;
   label?: string;
   showText?: boolean;
-}
-
-function slotFor(marble: Marble, target: EventTarget): number {
-  const half =
-    !marble.full && target instanceof Element && target.getAttribute('data-half') === '1' ? 1 : 0;
-  return marble.hour * 2 + half;
 }
 
 /** Shared drawing for the day jar and the mini jars. */
@@ -32,40 +36,62 @@ export default function JarSvg({
   label,
   showText,
 }: JarSvgProps) {
+  const gradId = `jar${useId().replace(/[^a-zA-Z0-9]/g, '')}`;
+  const r = MARBLE_RADIUS;
   return (
     <svg
+      className="jar-svg"
       viewBox={`0 0 ${JAR_WIDTH} ${JAR_HEIGHT}`}
       width={width}
-      style={{ maxWidth: '100%', height: 'auto', display: 'block' }}
       role={onSelect ? 'group' : 'img'}
       aria-label={label}
     >
-      <path d={JAR_OUTLINE_PATH} fill="none" stroke="#9ca3af" strokeWidth={2.5} />
+      <defs>
+        {GRADIENT_COLORS.map((c) => (
+          <radialGradient
+            key={c}
+            id={`${gradId}-${c}`}
+            gradientUnits="userSpaceOnUse"
+            cx={-r * 0.35}
+            cy={-r * 0.4}
+            fx={-r * 0.4}
+            fy={-r * 0.45}
+            r={r * 1.5}
+          >
+            <stop offset="0" style={{ stopColor: `var(--marble-${c}-hi)` }} />
+            <stop offset="0.42" style={{ stopColor: `var(--marble-${c})` }} />
+            <stop offset="1" style={{ stopColor: `var(--marble-${c}-lo)` }} />
+          </radialGradient>
+        ))}
+        <linearGradient id={`${gradId}-glass`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" style={{ stopColor: 'var(--glass-top)' }} />
+          <stop offset="1" style={{ stopColor: 'var(--glass-bottom)' }} />
+        </linearGradient>
+      </defs>
+
+      <path d={JAR_BODY_PATH} fill={`url(#${gradId}-glass)`} />
       {marbles.map((marble) => {
         const { cx, cy } = marblePosition(marble.hour);
-        const shape = (
-          <MarbleShape marble={marble} cx={cx} cy={cy} r={MARBLE_RADIUS} showText={showText} />
-        );
-        if (!onSelect) return <g key={marble.hour}>{shape}</g>;
         return (
-          <g
+          <MarbleShape
             key={marble.hour}
-            role="button"
-            tabIndex={0}
-            aria-label={marble.label}
-            style={{ cursor: 'pointer' }}
-            onClick={(e: MouseEvent<SVGGElement>) => onSelect(slotFor(marble, e.target), marble)}
-            onKeyDown={(e: KeyboardEvent<SVGGElement>) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                onSelect(marble.hour * 2, marble);
-              }
-            }}
-          >
-            {shape}
-          </g>
+            marble={marble}
+            cx={cx}
+            cy={cy}
+            r={r}
+            gradId={gradId}
+            showText={showText}
+            onSelect={onSelect}
+          />
         );
       })}
+      <g className="jar-glass" pointerEvents="none">
+        <path className="jar-outline" d={JAR_OUTLINE_PATH} fill="none" />
+        <path className="jar-shine" d={JAR_SHINE_LEFT} />
+        <path className="jar-shine jar-shine-soft" d={JAR_SHINE_RIGHT} />
+        <path className="jar-shine jar-shine-soft" d={JAR_SHINE_NECK} />
+        <rect className="jar-rim" {...JAR_RIM} />
+      </g>
     </svg>
   );
 }
