@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { useNow } from '../hooks/useNow';
 import { toDateKey } from '../lib/time';
+import Reminders from '../reminders/Reminders.tsx';
 import ThemeSync from '../theme/ThemeSync.tsx';
 import { DayIcon, MonthIcon, SettingsIcon, StatsIcon, WeekIcon } from './icons.tsx';
 import './layout.css';
@@ -36,6 +37,7 @@ export default function Layout() {
   return (
     <div className="app">
       <ThemeSync />
+      <Reminders showBanner={pathname === '/' || pathname === `/day/${today}`} />
       <main>
         <Outlet />
       </main>

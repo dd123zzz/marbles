@@ -1,0 +1,41 @@
+.reminder-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding: 4px 4px 4px 16px;
+  border-radius: var(--radius);
+  background: var(--accent-soft);
+  color: var(--accent-soft-text);
+  font-weight: 600;
+}
+
+.reminder-banner .icon-btn {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.switch-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: var(--tap);
+  font-weight: 500;
+}
+
+.switch-row input {
+  width: 22px;
+  height: 22px;
+  flex: none;
+  accent-color: var(--accent);
+}
+
+.reminders-section .btn {
+  margin-top: 8px;
+}
+
+.reminders-section .muted + .muted,
+.reminders-section .muted + .btn {
+  margin-top: 8px;
+}

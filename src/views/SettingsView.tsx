@@ -4,6 +4,7 @@ import { useAuth } from '../auth/AuthProvider.tsx';
 import SegmentedControl from '../components/SegmentedControl.tsx';
 import { useToast } from '../components/Toast.tsx';
 import { useRepo, useSettings } from '../data/RepoProvider.tsx';
+import RemindersSection from '../reminders/RemindersSection.tsx';
 import { applyTheme } from '../theme/theme';
 import type { Settings, ThemePref, WeekStart } from '../types';
 import { startOptions } from './logSheetLogic';
@@ -34,6 +35,7 @@ export default function SettingsView() {
         <>
           <ThemeSection uid={user.uid} theme={settings.theme} />
           <SettingsForm uid={user.uid} initial={settings} />
+          <RemindersSection settings={settings} />
         </>
       )}
       <section className="card">

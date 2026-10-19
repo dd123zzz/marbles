@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { AuthProvider } from '../auth/AuthProvider.tsx';
@@ -50,6 +50,7 @@ function setup(saveSettings: Repo['saveSettings'] = async () => {}) {
 
 afterEach(() => {
   cleanup();
+  vi.unstubAllGlobals();
   document.documentElement.removeAttribute('data-theme');
   localStorage.clear();
 });
@@ -84,5 +85,73 @@ describe('SettingsView', () => {
       weekStart: 'mon',
     });
     expect(screen.getByRole('status').textContent).toContain('Settings saved');
+  });
+
+  describe('reminders', () => {
+    const stubNotification = (permission: NotificationPermission) => {
+      const requestPermission = vi.fn(async () => permission);
+      vi.stubGlobal('Notification', { permission: 'default', requestPermission });
+      return requestPermission;
+    };
+
+    it('is off by default', async () => {
+      stubNotification('granted');
+      setup();
+      const toggle = (await screen.findByRole('switch', {
+        name: 'Hourly notification while app is open',
+      })) as HTMLInputElement;
+      expect(toggle.checked).toBe(false);
+      expect(screen.getByText(/phones may pause background tabs/)).toBeTruthy();
+    });
+
+    it('turns on when permission is granted and persists the choice locally', async () => {
+      const request = stubNotification('granted');
+      (globalThis.Notification as { permission: string }).permission = 'granted';
+      const save = setup();
+      const toggle = (await screen.findByRole('switch')) as HTMLInputElement;
+      fireEvent.click(toggle);
+      expect(request).toHaveBeenCalledTimes(1);
+      await waitFor(() => expect(toggle.checked).toBe(true));
+      expect(localStorage.getItem('marbles-hourly-notify')).toBe('1');
+      expect(save).not.toHaveBeenCalled();
+      fireEvent.click(toggle);
+      await waitFor(() => expect(toggle.checked).toBe(false));
+      expect(localStorage.getItem('marbles-hourly-notify')).toBeNull();
+    });
+
+    it('stays off and explains when permission is denied', async () => {
+      stubNotification('denied');
+      setup();
+      const toggle = (await screen.findByRole('switch')) as HTMLInputElement;
+      fireEvent.click(toggle);
+      expect((await screen.findByRole('alert')).textContent).toContain('blocked');
+      expect(toggle.checked).toBe(false);
+      expect(localStorage.getItem('marbles-hourly-notify')).toBeNull();
+    });
+
+    it('stays off and explains when notifications are unsupported', async () => {
+      vi.stubGlobal('Notification', undefined);
+      setup();
+      const toggle = (await screen.findByRole('switch')) as HTMLInputElement;
+      fireEvent.click(toggle);
+      expect((await screen.findByRole('alert')).textContent).toContain("doesn't support");
+      expect(toggle.checked).toBe(false);
+    });
+
+    it('downloads an .ics file from the calendar button', async () => {
+      stubNotification('default');
+      const createObjectURL = vi.fn(() => 'blob:x');
+      vi.stubGlobal('URL', Object.assign(URL, { createObjectURL, revokeObjectURL: vi.fn() }));
+      const click = vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => {});
+      setup();
+      fireEvent.click(
+        await screen.findByRole('button', { name: 'Add hourly reminders to calendar (.ics)' }),
+      );
+      expect(createObjectURL).toHaveBeenCalledTimes(1);
+      const blob = (createObjectURL.mock.calls[0] as unknown as [Blob])[0];
+      expect(blob.type).toContain('text/calendar');
+      expect(click).toHaveBeenCalled();
+      click.mockRestore();
+    });
   });
 });
