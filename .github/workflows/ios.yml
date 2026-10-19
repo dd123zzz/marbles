@@ -34,6 +34,7 @@ jobs:
       - run: xcodebuild -version
       - run: swift test --package-path ios/Packages/MarblesCore
       - run: swift test --package-path ios/Packages/MarblesPhysics
+      - run: swift test --package-path ios/Packages/MarblesData
 
   golden:
     runs-on: ubuntu-latest
