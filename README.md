@@ -25,6 +25,10 @@ npm run dev        # http://localhost:5173/marbles/
 | `npm test`            | Unit tests (Vitest, `TZ=America/Los_Angeles`)                         |
 | `npm run test:rules`  | Firestore security-rules tests in the emulator (needs Java 21+)       |
 
+## Install as app
+
+Marbles is an installable PWA (service worker only in production builds, not `npm run dev`). On Android/desktop Chrome use the install button; on iOS Safari use Share → Add to Home Screen. New versions show a "Reload" banner. Regenerate icons from `public/icon.svg` with `npm run generate-pwa-assets`.
+
 ## CI / deployment
 
 `.github/workflows/ci.yml` runs lint, format, typecheck, tests and build, the rules tests, and on `main` deploys `dist/` to GitHub Pages. On `main`, its `deploy-rules` job deploys `firestore.rules` only after the checks and rules tests pass and only when `firestore.rules` or `firebase.json` changed. `deploy-rules.yml` is a manual (`workflow_dispatch`) fallback.
