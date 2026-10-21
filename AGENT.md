@@ -15,9 +15,10 @@ This file is the main agent's own role card. The repo-wide rules in [AGENTS.md](
 - Prefer one Opus pass per lead per phase. Follow-ups go to Sonnet unless they need judgment.
 - The PM itself reads only what it needs to route work; deep reading is delegated.
 
-## Current stage: plan only, no new app code
-- Allowed: planning docs, throwaway mockups under `design/mockups/` (not built or shipped), and tiny read-only experiments or scratch tests that are deleted or never committed.
-- Not allowed: changes under `src/`, `tests/`, `ios/`, rules, or CI.
+## Current stage: Stage 5 build (started 2026-10-20)
+- Workers write the code, following PLAN.md Stage 5 and `docs/stage5/*.md`. The PM writes none, verifies after every worker, and edits docs.
+- Haiku 5.5 isn't available in this environment, so tasks planned for Haiku go to Sonnet 5.5.
+- `ios/` is out of scope (deferred).
 
 ## Path ownership (planning phase)
 | Owner | Paths |
@@ -28,7 +29,7 @@ This file is the main agent's own role card. The repo-wide rules in [AGENTS.md](
 | Mockup worker (Sonnet) | `design/mockups/**` |
 
 ## Handoffs
-- Append a row to the Progress table in [HANDOFF.md](./HANDOFF.md) **about every 5 minutes of work** or at each phase change, whichever comes first: what was done, what's next, cumulative credits.
+- Append a row to the Progress table in [HANDOFF.md](./HANDOFF.md) **about every 75 estimated credits** (user, 2026-10-20; was every 5 minutes): what was done, what's next, cumulative credits. A phase change also gets a row.
 - Record user decisions in the HANDOFF Decisions list as soon as they're made.
 - Commit doc-only changes with Conventional Commits and the trailer from AGENTS.md. Never push without asking.
 
