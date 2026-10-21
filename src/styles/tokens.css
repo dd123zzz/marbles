@@ -1,126 +1,183 @@
-/* Design tokens. The theme is chosen with data-theme on <html> (light is the default). */
+/* Design tokens (Sorbet). The theme is chosen with data-theme on <html> (light is the default). */
 :root,
 :root[data-theme='light'] {
   color-scheme: light;
 
-  --bg: #faf7f2;
+  --bg: #fff8f3;
   --surface: #ffffff;
-  --surface-2: #f4efe7;
-  --border: #e6ddd0;
-  --text: #2b2620;
-  --text-muted: #675e53;
-  --accent: #b45309;
-  --accent-hover: #92400e;
-  --accent-contrast: #ffffff;
-  --accent-soft: #fdecd3;
-  --accent-soft-text: #7c3a06;
-  --focus: #1d4ed8;
-  --danger: #b91c1c;
-  --danger-soft: #fdeaea;
-  --shadow-1: 0 1px 2px rgba(60, 40, 20, 0.06), 0 2px 8px rgba(60, 40, 20, 0.06);
-  --shadow-2: 0 6px 24px rgba(60, 40, 20, 0.16);
-  --backdrop: rgba(43, 38, 32, 0.45);
-  --toast-bg: #2b2620;
+  --surface-2: #fdf0e8;
+  --border: #f0dfd3;
+  --text: #2e2a36;
+  --text-muted: #6b6378;
+  --accent: #ffb870;
+  --accent-hover: #ffa755;
+  --accent-contrast: #3b2414;
+  --accent-text: #a4500f;
+  --accent-soft: #ffe7cf;
+  --accent-soft-text: #a4500f;
+  --focus: #4f5bd5;
+  --danger: #c0392b;
+  --danger-soft: #fdeae7;
+  --shadow-1: 0 1px 2px rgba(120, 70, 40, 0.06), 0 4px 14px rgba(120, 70, 40, 0.07);
+  --shadow-2: 0 10px 30px rgba(120, 70, 40, 0.16);
+  --shadow-lift: 0 12px 24px rgba(120, 70, 40, 0.28);
+  --backdrop: rgba(46, 42, 54, 0.45);
+  --toast-bg: #2e2a36;
   --toast-text: #ffffff;
-  --toast-error-bg: #7f1d1d;
+  --toast-error-bg: #9b2c20;
 
-  /* category buttons and bars (white text sits on these) */
-  --cat-g: #15803d;
-  --cat-b: #1f2937;
-  --cat-r: #b91c1c;
+  /* category buttons and bars (pastel fills with dark ink; Wasted uses white ink) */
+  --cat-g: var(--marble-g);
+  --cat-b: var(--marble-b);
+  --cat-r: var(--marble-r);
   --cat-b-ring: transparent;
+  --cat-ink: #1f1d2b;
+  --cat-b-ink: #ffffff;
 
   /* marbles: base color plus highlight and shade for the glossy gradient */
-  --marble-g: #16a34a;
-  --marble-g-hi: #bbf7d0;
-  --marble-g-lo: #14532d;
-  --marble-b: #1f2937;
-  --marble-b-hi: #9ca3af;
-  --marble-b-lo: #030712;
-  --marble-r: #dc2626;
-  --marble-r-hi: #fecaca;
-  --marble-r-lo: #7f1d1d;
-  --marble-sleep: #4f46e5;
-  --marble-sleep-hi: #c7d2fe;
-  --marble-sleep-lo: #312e81;
-  --marble-unlogged: #a8a29e;
-  --marble-unlogged-hi: #d6d3d1;
-  --marble-unlogged-lo: #78716c;
-  --marble-na: #e7e5e4;
-  --marble-na-text: #57534e;
-  --marble-empty: #b8ad9d;
-  --marble-b-ring: rgba(255, 255, 255, 0);
+  --marble-g: #8fe6bb;
+  --marble-g-hi: #e3fbef;
+  --marble-g-lo: #4fb98a;
+  --marble-b: #6e6a8e;
+  --marble-b-hi: #c9c6dd;
+  --marble-b-lo: #45415f;
+  --marble-r: #f08070;
+  --marble-r-hi: #ffe1db;
+  --marble-r-lo: #c95647;
+  --marble-sleep: #9aa6f4;
+  --marble-sleep-hi: #e6e9ff;
+  --marble-sleep-lo: #6470c9;
+  /* unlogged is matte: hi and lo equal the base so it reads flat */
+  --marble-unlogged: #ebe6e1;
+  --marble-unlogged-hi: #ebe6e1;
+  --marble-unlogged-lo: #ebe6e1;
+  --marble-na: #e2dde6;
+  --marble-na-text: #5c5566;
+  --marble-empty: #c9b9ab;
+  --marble-b-ring: rgba(46, 42, 54, 0.12);
   --marble-b-glow: transparent;
-  --marble-gloss: rgba(255, 255, 255, 0.75);
+  --marble-gloss: rgba(255, 255, 255, 0.85);
+  --marble-stroke: rgba(46, 42, 54, 0.12);
+
+  /* hour numbers: dark ink with a light halo; Wasted is white with a dark halo */
+  --marble-ink: #1f1d2b;
+  --marble-ink-halo: rgba(255, 255, 255, 0.6);
+  --marble-b-ink: #ffffff;
+  --marble-b-ink-halo: rgba(30, 25, 50, 0.55);
+  --marble-unlogged-ink: #5c5566;
 
   /* glass jar */
-  --glass-top: rgba(255, 255, 255, 0.85);
-  --glass-bottom: rgba(214, 232, 240, 0.55);
-  --glass-stroke: #a9b9c2;
-  --glass-shine: rgba(255, 255, 255, 0.9);
-  --glass-rim: rgba(255, 255, 255, 0.95);
-  --today-bg: #fff4e0;
-  --weekend-bg: #f7f1e8;
+  --glass-top: rgba(255, 255, 255, 0.9);
+  --glass-bottom: rgba(255, 228, 214, 0.45);
+  --glass-stroke: #e2c9b8;
+  --glass-shine: rgba(255, 255, 255, 0.95);
+  --glass-rim: rgba(255, 255, 255, 0.98);
+  --today-bg: #fff0e0;
+  --weekend-bg: #fdf4ee;
 
-  --radius-sm: 10px;
-  --radius: 16px;
-  --radius-lg: 24px;
+  --radius-sm: 12px;
+  --radius: 20px;
+  --radius-lg: 28px;
+  --radius-pill: 999px;
   --tap: 44px;
   --tabbar-h: 64px;
   --font:
     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
     sans-serif;
+
+  /* motion (transform and opacity only) */
+  --ease-out: cubic-bezier(0.2, 0.8, 0.3, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-spring: var(--ease-bounce);
+  --dur-fast: 120ms;
+  --dur: 220ms;
+  --dur-slow: 420ms;
+}
+
+@supports (transition-timing-function: linear(0, 1)) {
+  :root {
+    --ease-spring: linear(
+      0,
+      0.009,
+      0.035 2.1%,
+      0.141 4.4%,
+      0.723 12.9%,
+      0.938 16.7%,
+      1.017 19.4%,
+      1.067,
+      1.099 24.3%,
+      1.108 26%,
+      1.097,
+      1.064 31.9%,
+      1.009 37.1%,
+      0.98 41.9%,
+      0.977 44.2%,
+      0.982 48.1%,
+      1.004 58.4%,
+      1
+    );
+  }
 }
 
 :root[data-theme='dark'] {
   color-scheme: dark;
 
-  --bg: #1c1a17;
-  --surface: #27241f;
-  --surface-2: #322e28;
-  --border: #433e36;
-  --text: #f3ede3;
-  --text-muted: #b8ad9d;
-  --accent: #f59e0b;
-  --accent-hover: #fbbf24;
-  --accent-contrast: #1c1410;
-  --accent-soft: #3d2f17;
-  --accent-soft-text: #fcd9a0;
-  --focus: #93c5fd;
-  --danger: #fca5a5;
-  --danger-soft: #3f1d1d;
-  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.25);
-  --shadow-2: 0 6px 24px rgba(0, 0, 0, 0.55);
-  --backdrop: rgba(0, 0, 0, 0.6);
-  --toast-bg: #f3ede3;
-  --toast-text: #1c1a17;
-  --toast-error-bg: #fecaca;
+  --bg: #1d1a2b;
+  --surface: #27233a;
+  --surface-2: #312c47;
+  --border: #423c5c;
+  --text: #f4eefb;
+  --text-muted: #b9b0cc;
+  --accent: #ffc28a;
+  --accent-hover: #ffd0a3;
+  --accent-contrast: #2a1a0c;
+  --accent-text: #ffc28a;
+  --accent-soft: #3e3049;
+  --accent-soft-text: #ffc28a;
+  --focus: #a9b4ff;
+  --danger: #ffb4a8;
+  --danger-soft: #45232b;
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.35), 0 4px 14px rgba(0, 0, 0, 0.35);
+  --shadow-2: 0 10px 30px rgba(0, 0, 0, 0.55);
+  --shadow-lift: 0 12px 24px rgba(0, 0, 0, 0.55);
+  --backdrop: rgba(10, 8, 20, 0.62);
+  --toast-bg: #f4eefb;
+  --toast-text: #1d1a2b;
+  --toast-error-bg: #ffb4a8;
 
-  --cat-g: #15803d;
-  --cat-b: #111111;
-  --cat-r: #b91c1c;
-  --cat-b-ring: #e7e0d4;
+  --cat-b-ring: rgba(244, 238, 251, 0.55);
 
-  --marble-g: #22c55e;
-  --marble-r: #ef4444;
-  --marble-b: #0b0b0c;
-  --marble-b-hi: #6b7280;
-  --marble-unlogged: #7c756b;
-  --marble-unlogged-hi: #a8a095;
-  --marble-unlogged-lo: #544f47;
-  --marble-na: #3a352e;
-  --marble-na-text: #d6cdbf;
-  --marble-empty: #6f675b;
-  /* Wasted marbles are near black, so they get a light ring and a soft glow */
-  --marble-b-ring: #ece5d8;
-  --marble-b-glow: rgba(236, 229, 216, 0.55);
+  --marble-g: #86dfb2;
+  --marble-g-hi: #e0f8ec;
+  --marble-g-lo: #3f9f74;
+  --marble-b: #716c99;
+  --marble-b-hi: #c3bfdc;
+  --marble-b-lo: #46415f;
+  --marble-r: #f4978a;
+  --marble-r-hi: #ffe4de;
+  --marble-r-lo: #c4605a;
+  --marble-sleep: #a5aef7;
+  --marble-sleep-hi: #e8ebff;
+  --marble-sleep-lo: #6871c4;
+  --marble-unlogged: #4d4a55;
+  --marble-unlogged-hi: #4d4a55;
+  --marble-unlogged-lo: #4d4a55;
+  --marble-na: #3a3649;
+  --marble-na-text: #e6e0ee;
+  --marble-empty: #6c6582;
+  /* Wasted marbles are the darkest category, so they get a light ring on the dark surface */
+  --marble-b-ring: rgba(244, 238, 251, 0.55);
+  --marble-b-glow: rgba(244, 238, 251, 0.3);
   --marble-gloss: rgba(255, 255, 255, 0.6);
+  --marble-stroke: rgba(0, 0, 0, 0.25);
 
-  --glass-top: rgba(255, 255, 255, 0.1);
-  --glass-bottom: rgba(150, 190, 215, 0.12);
-  --glass-stroke: #6f8591;
-  --glass-shine: rgba(255, 255, 255, 0.28);
-  --glass-rim: rgba(255, 255, 255, 0.22);
-  --today-bg: #3d2f17;
-  --weekend-bg: #2d2923;
+  --marble-unlogged-ink: #e6e0ee;
+
+  --glass-top: rgba(255, 255, 255, 0.08);
+  --glass-bottom: rgba(255, 194, 138, 0.1);
+  --glass-stroke: #6c6582;
+  --glass-shine: rgba(255, 255, 255, 0.25);
+  --glass-rim: rgba(255, 255, 255, 0.2);
+  --today-bg: #3e3049;
+  --weekend-bg: #2b2740;
 }
