@@ -30,7 +30,7 @@ import {
   addDays,
   isFutureSlot,
   isValidDateKey,
-  lastHourWindow,
+  nextDropWindow,
   parseDateKey,
   slotToHHmm,
   toDateKey,
@@ -145,7 +145,15 @@ function Day({ param }: { param: string | undefined }) {
   };
 
   const showTray = !!uid && date === today && !loading;
-  const trayLabel = windowLabel(lastHourWindow(now), today);
+  const settingsSleep = { start: settings.sleepStart, end: settings.sleepEnd };
+  const trayLabel = windowLabel(
+    nextDropWindow({
+      slots: days[today]?.slots,
+      sleep: days[today]?.sleep ?? settingsSleep,
+      now,
+    }).targets,
+    today,
+  );
   const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
   const onWriteError = (e: unknown) => toast.error(writeErrorMessage(e));
 
@@ -170,7 +178,12 @@ function Day({ param }: { param: string | undefined }) {
   const handleDrop = (category: Category, info: DropInfo): DropResult => {
     if (!uid || !writable) return { accepted: false };
     const at = new Date();
-    const targets = lastHourWindow(at);
+    const atDoc = days[toDateKey(at)];
+    const { targets } = nextDropWindow({
+      slots: atDoc?.slots,
+      sleep: atDoc?.sleep ?? settingsSleep,
+      now: at,
+    });
     if (targets.some((t) => t.date < addDays(date, -1) || t.date > addDays(date, 1))) {
       return { accepted: false };
     }
@@ -180,7 +193,7 @@ function Day({ param }: { param: string | undefined }) {
       days,
       targets,
       category,
-      sleep: { start: settings.sleepStart, end: settings.sleepEnd },
+      sleep: settingsSleep,
       tz,
       now: at,
     });

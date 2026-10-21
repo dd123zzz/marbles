@@ -536,7 +536,8 @@ describe('DayView drag-to-drop tray', () => {
   it('shows the tray with the live window only on today', async () => {
     const { repo } = fakeRepo();
     renderDay(repo);
-    expect(await screen.findByText('Drag into the jar to log 13:30–14:30')).toBeTruthy();
+    // empty day, sleep until 07:00: the catch-up window starts at wake-up, not at the last hour
+    expect(await screen.findByText('Drag into the jar to log 07:00–08:00')).toBeTruthy();
     expect(await marble('Unwanted')).toBeTruthy();
     cleanup();
     renderDay(repo, '/day/2026-10-13');
@@ -560,7 +561,7 @@ describe('DayView drag-to-drop tray', () => {
     }
   });
 
-  it('logs the last hour as the dropped category and offers Undo', async () => {
+  it('logs the first gap as the dropped category and offers Undo', async () => {
     const { repo, writeDays } = fakeRepo();
     renderDay(repo);
     await writable();
@@ -570,8 +571,8 @@ describe('DayView drag-to-drop tray', () => {
     const [uid, docs] = writeDays.mock.calls[0];
     expect(uid).toBe('u1');
     expect(Object.keys(docs)).toEqual(['2026-10-14']);
-    expect(docs['2026-10-14'].slots.slice(24, 32)).toBe('...gg...');
-    expect(screen.getByText('Logged 13:30–14:30 as Wanted')).toBeTruthy();
+    expect(docs['2026-10-14'].slots.slice(12, 20)).toBe('..gg....');
+    expect(screen.getByText('Logged 07:00–08:00 as Wanted')).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Undo' })).toBeTruthy();
     expect(screen.queryByRole('dialog')).toBeNull();
   });
@@ -599,7 +600,7 @@ describe('DayView drag-to-drop tray', () => {
     fireEvent.click(screen.getByRole('link', { name: 'Leave' }));
     await screen.findByText('Elsewhere');
     expect(screen.queryByRole('button', { name: 'Undo' })).toBeNull();
-    expect(screen.queryByText('Logged 13:30–14:30 as Wanted')).toBeNull();
+    expect(screen.queryByText('Logged 07:00–08:00 as Wanted')).toBeNull();
   });
 
   it('overwrites logged time and Undo restores it', async () => {
@@ -643,9 +644,9 @@ describe('DayView drag-to-drop tray', () => {
     btn.focus();
     fireEvent.click(btn, { detail: 0 });
     expect(writeDays).toHaveBeenCalledTimes(1);
-    expect(writeDays.mock.calls[0][1]['2026-10-14'].slots.slice(27, 29)).toBe('bb');
+    expect(writeDays.mock.calls[0][1]['2026-10-14'].slots.slice(14, 16)).toBe('bb');
     expect(document.activeElement).toBe(btn);
-    expect(screen.getByText('Logged 13:30–14:30 as Wasted')).toBeTruthy();
+    expect(screen.getByText('Logged 07:00–08:00 as Wasted')).toBeTruthy();
   });
 
   it('does not log on a tap', async () => {
@@ -707,6 +708,125 @@ describe('DayView drag-to-drop tray', () => {
     await dragOut('Wanted');
     expect(Object.keys(writeDays.mock.calls[0][1])).toEqual(['2026-10-13']);
     expect(screen.getByText('Logged yesterday 23:00–24:00 as Wanted')).toBeTruthy();
+  });
+
+  describe('catch-up drops', () => {
+    // 07:00–13:00 Wanted; at 14:20 the window ends at 14:30 (slot 29)
+    const caughtThrough13: DayDoc = {
+      ...base,
+      slots: '.'.repeat(14) + 'g'.repeat(12) + '.'.repeat(22),
+      notes: {},
+    };
+    // 07:00–14:30 Wanted: nothing left to catch up
+    const caughtUp: DayDoc = {
+      ...base,
+      slots: '.'.repeat(14) + 'g'.repeat(15) + '.'.repeat(19),
+      notes: {},
+    };
+    const entryLines = () =>
+      Array.from(document.querySelectorAll('.entries li')).map((li) => li.textContent ?? '');
+
+    it('writes the gap after the latest logged slot, not the last hour', async () => {
+      const { repo, writeDays } = fakeRepo({ '2026-10-14': caughtThrough13 });
+      renderDay(repo);
+      await writable();
+      expect(await screen.findByText('Drag into the jar to log 13:00–14:00')).toBeTruthy();
+      await dragOut('Wasted');
+      const slots = writeDays.mock.calls[0][1]['2026-10-14'].slots;
+      expect(slots.slice(24, 30)).toBe('ggbb..');
+      expect(screen.getByText('Logged 13:00–14:00 as Wasted')).toBeTruthy();
+    });
+
+    it('logs two consecutive drops of the same category as two Entries lines', async () => {
+      const { repo, writeDays } = fakeRepo({}, { applyWrites: true });
+      renderDay(repo);
+      await writable();
+      await dragOut('Wanted');
+      await vi.waitFor(() => expect(entryLines()).toHaveLength(1));
+      await vi.waitFor(() =>
+        expect(screen.getByText('Drag into the jar to log 08:00–09:00')).toBeTruthy(),
+      );
+      await dragOut('Wanted');
+      await vi.waitFor(() => expect(entryLines()).toHaveLength(2));
+      expect(writeDays).toHaveBeenCalledTimes(2);
+      expect(writeDays.mock.calls[1][1]['2026-10-14'].slots.slice(14, 18)).toBe('gggg');
+      const [first, second] = entryLines();
+      expect(first).toContain('07:00–08:00 · Wanted');
+      expect(second).toContain('08:00–09:00 · Wanted');
+    });
+
+    it('advances to the next gap when the second drop has a different category', async () => {
+      const { repo, writeDays } = fakeRepo({}, { applyWrites: true });
+      renderDay(repo);
+      await writable();
+      await dragOut('Wanted');
+      await vi.waitFor(() => expect(entryLines()).toHaveLength(1));
+      await dragOut('Wasted');
+      await vi.waitFor(() => expect(writeDays).toHaveBeenCalledTimes(2));
+      expect(writeDays.mock.calls[1][1]['2026-10-14'].slots.slice(14, 18)).toBe('ggbb');
+      expect(screen.getByText('Logged 08:00–09:00 as Wasted')).toBeTruthy();
+      await vi.waitFor(() => expect(entryLines()).toHaveLength(2));
+    });
+
+    it('restores slots and breaks on Undo, and the next drop targets the same gap', async () => {
+      const { repo, writeDays } = fakeRepo(
+        { '2026-10-14': caughtThrough13 },
+        { applyWrites: true },
+      );
+      renderDay(repo);
+      await writable();
+      await dragOut('Wanted');
+      const dropped = writeDays.mock.calls[0][1]['2026-10-14'];
+      expect(dropped.slots.slice(24, 30)).toBe('gggg..');
+      expect(dropped.breaks?.[26]).toBe('|');
+      await vi.waitFor(() => expect(entryLines()).toHaveLength(2));
+
+      fireEvent.click(screen.getByRole('button', { name: 'Undo' }));
+      await vi.waitFor(() => expect(writeDays).toHaveBeenCalledTimes(2));
+      const restored = writeDays.mock.calls[1][1]['2026-10-14'];
+      expect(restored.slots).toBe(caughtThrough13.slots);
+      expect(restored.breaks).toBeUndefined();
+      await vi.waitFor(() => expect(entryLines()).toHaveLength(1));
+      expect(await screen.findByText('Drag into the jar to log 13:00–14:00')).toBeTruthy();
+
+      await dragOut('Wanted');
+      expect(writeDays).toHaveBeenCalledTimes(3);
+      expect(writeDays.mock.calls[2][1]['2026-10-14'].slots).toBe(dropped.slots);
+      expect(screen.getByText('Logged 13:00–14:00 as Wanted')).toBeTruthy();
+    });
+
+    it('falls back to the last hour when caught up, and says "already" for the same category', async () => {
+      const { repo, writeDays } = fakeRepo({ '2026-10-14': caughtUp });
+      renderDay(repo);
+      await writable();
+      expect(await screen.findByText('Drag into the jar to log 13:30–14:30')).toBeTruthy();
+      await dragOut('Wanted');
+      expect(writeDays).not.toHaveBeenCalled();
+      expect(screen.getByText('13:30–14:30 is already Wanted')).toBeTruthy();
+    });
+
+    it('recolors the last hour when caught up and the category differs', async () => {
+      const { repo, writeDays } = fakeRepo({ '2026-10-14': caughtUp });
+      renderDay(repo);
+      await writable();
+      await dragOut('Wasted');
+      expect(writeDays.mock.calls[0][1]['2026-10-14'].slots.slice(26, 31)).toBe('gbb..');
+      expect(screen.getByText('Logged 13:30–14:30 as Wasted')).toBeTruthy();
+    });
+
+    it('uses the day doc sleep, not the settings sleep, to find where the gap starts', async () => {
+      // the day was saved with sleep until 09:00; settings say 07:00
+      const doc: DayDoc = {
+        ...base,
+        slots: '.'.repeat(48),
+        notes: {},
+        sleep: { start: '23:00', end: '09:00' },
+      };
+      const { repo } = fakeRepo({ '2026-10-14': doc });
+      renderDay(repo);
+      await writable();
+      expect(await screen.findByText('Drag into the jar to log 09:00–10:00')).toBeTruthy();
+    });
   });
 });
 
@@ -789,14 +909,14 @@ describe('DayView Loose jar', () => {
     await dragOut('Wanted');
 
     expect(writeDays).toHaveBeenCalledTimes(1);
-    // 13:30–14:30 touches hours 13 and 14
-    expect(physics.dropAt.mock.calls.map((c) => c[0])).toEqual([13, 14]);
+    // the first gap, 07:00–08:00, is one hour
+    expect(physics.dropAt.mock.calls.map((c) => c[0])).toEqual([7]);
     for (const [, x, y, vx, vy] of physics.dropAt.mock.calls) {
       expect([x, y]).toEqual([126, 200]);
       expect(Number.isFinite(vx) && Number.isFinite(vy)).toBe(true);
     }
     expect(animate).not.toHaveBeenCalled();
-    expect(screen.getByText('Logged 13:30–14:30 as Wanted')).toBeTruthy();
+    expect(screen.getByText('Logged 07:00–08:00 as Wanted')).toBeTruthy();
   });
 
   it('drops a keyboard log at the neck', async () => {
@@ -806,7 +926,7 @@ describe('DayView Loose jar', () => {
     await screen.findByTestId('physics-jar');
     await writable();
     fireEvent.click(await marble('Wasted'), { detail: 0 });
-    expect(physics.dropAt).toHaveBeenCalledTimes(2);
+    expect(physics.dropAt).toHaveBeenCalledTimes(1);
     const [, x, y, vx, vy] = physics.dropAt.mock.calls[0];
     expect(x).toBe(-Infinity);
     expect(y).toBe(-Infinity);
