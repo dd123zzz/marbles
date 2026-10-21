@@ -28,9 +28,10 @@ service cloud.firestore {
 
     function validDay(id, d) {
       return id.matches('^\\d{4}-\\d{2}-\\d{2}$')
-        && d.keys().hasOnly(['slots', 'notes', 'sleep', 'tz', 'reflection', 'updatedAt', 'v'])
+        && d.keys().hasOnly(['slots', 'notes', 'sleep', 'tz', 'reflection', 'breaks', 'updatedAt', 'v'])
         && d.keys().hasAll(['slots', 'notes', 'sleep', 'tz', 'v'])
         && d.slots is string && d.slots.matches('^[gbr.]{48}$')
+        && (!('breaks' in d) || (d.breaks is string && d.breaks.matches('^[.|]{48}$')))
         && d.notes is map && d.notes.size() <= 48
         && d.sleep is map
         && d.sleep.keys().hasOnly(['start', 'end'])

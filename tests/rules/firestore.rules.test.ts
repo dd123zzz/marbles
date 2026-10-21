@@ -186,6 +186,50 @@ describe('users/{uid}/days/{date}', () => {
     await assertFails(setDoc(ref(alice()), data));
   });
 
+  describe('breaks mask', () => {
+    const MASK = '|' + '.'.repeat(47);
+
+    it('accepts a day without breaks', async () => {
+      await assertSucceeds(setDoc(ref(alice()), day()));
+    });
+
+    it('accepts a create with a valid breaks mask', async () => {
+      await assertSucceeds(setDoc(ref(alice()), day({ breaks: MASK })));
+      await assertSucceeds(
+        setDoc(ref(alice(), ALICE, '2026-03-15'), day({ breaks: '.'.repeat(48) })),
+      );
+    });
+
+    it('accepts an update that adds breaks to an existing day', async () => {
+      await seed(['users', ALICE, 'days', DATE], { ...day(), updatedAt: new Date() });
+      await assertSucceeds(setDoc(ref(alice()), day({ breaks: MASK })));
+    });
+
+    it('accepts an update that drops breaks again', async () => {
+      await seed(['users', ALICE, 'days', DATE], {
+        ...day({ breaks: MASK }),
+        updatedAt: new Date(),
+      });
+      await assertSucceeds(setDoc(ref(alice()), day()));
+    });
+
+    it.each([
+      ['breaks length 47', { breaks: '.'.repeat(47) }],
+      ['breaks length 49', { breaks: '.'.repeat(49) }],
+      ['breaks invalid char', { breaks: 'g' + '.'.repeat(47) }],
+      ['breaks not a string', { breaks: 42 }],
+      ['breaks a list', { breaks: ['|', '.'] }],
+      ['breaks null', { breaks: null }],
+    ])('denies invalid day: %s', async (_name, over) => {
+      await assertFails(setDoc(ref(alice()), day(over)));
+    });
+
+    it('denies an update that sets an invalid breaks mask', async () => {
+      await seed(['users', ALICE, 'days', DATE], { ...day(), updatedAt: new Date() });
+      await assertFails(setDoc(ref(alice()), day({ breaks: '|'.repeat(49) })));
+    });
+  });
+
   it('denies a missing required field', async () => {
     const data = day() as Record<string, unknown>;
     delete data.tz;
