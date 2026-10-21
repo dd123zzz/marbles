@@ -6,7 +6,7 @@ nav.segmented .segment {
   justify-content: center;
   gap: 6px;
   min-height: 40px;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   color: var(--text-muted);
   text-decoration: none;
   font-size: 0.9rem;
@@ -52,7 +52,7 @@ nav.segmented .segment[aria-current='page']::before {
 .stats-bar-track {
   display: block;
   height: 12px;
-  border-radius: 6px;
+  border-radius: var(--radius-pill);
   background: var(--surface-2);
   border: 1px solid var(--border);
   overflow: hidden;
@@ -61,8 +61,52 @@ nav.segmented .segment[aria-current='page']::before {
 .stats-bar {
   display: block;
   height: 100%;
-  border-radius: 6px;
+  border-radius: var(--radius-pill);
   background: var(--base);
+  transform-origin: left center;
+}
+
+/* Motion #14: bars grow from the left, staggered by 40ms (transform only) */
+@media (prefers-reduced-motion: no-preference) {
+  .stats-bar {
+    animation: stats-bar-grow 500ms var(--ease-spring) backwards;
+  }
+
+  .stats-bar-row:nth-child(2) .stats-bar {
+    animation-delay: 40ms;
+  }
+
+  .stats-bar-row:nth-child(3) .stats-bar {
+    animation-delay: 80ms;
+  }
+
+  .stats-bar-row:nth-child(4) .stats-bar {
+    animation-delay: 120ms;
+  }
+
+  .stats-bar-row:nth-child(5) .stats-bar {
+    animation-delay: 160ms;
+  }
+
+  .stats-bar-row:nth-child(6) .stats-bar {
+    animation-delay: 200ms;
+  }
+}
+
+@keyframes stats-bar-grow {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stats-bar {
+    animation: none;
+  }
 }
 
 .stats-bar-g {
@@ -70,8 +114,8 @@ nav.segmented .segment[aria-current='page']::before {
 }
 
 .stats-bar-b {
-  --base: var(--cat-b);
-  box-shadow: inset 0 0 0 1.5px var(--cat-b-ring);
+  --base: var(--marble-b);
+  box-shadow: inset 0 0 0 1.5px var(--marble-b-ring);
 }
 
 .stats-bar-r {
