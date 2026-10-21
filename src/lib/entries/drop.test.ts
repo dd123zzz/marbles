@@ -144,11 +144,12 @@ describe('planDrop', () => {
     expect(drop({}, refs(T, 40), 'g', now).noop).toBe(true);
   });
 
-  it('merges with an adjacent same-category run and folds its note, undoable', () => {
+  it('next to a same-category entry it stays its own entry, undoable', () => {
     const days = { [T]: mk(range(29, 32, 'g'), { '29': 'later' }) };
     const plan = drop(days, refs(T, 27, 28), 'g');
     expect(plan.changed[T]!.slots).toBe(mk(range(27, 32, 'g')).slots);
-    expect(plan.changed[T]!.notes).toEqual({ '27': 'later' });
+    expect(plan.changed[T]!.notes).toEqual({ '29': 'later' });
+    expect(plan.changed[T]!.breaks).toBe(mk({ 29: '|' }).slots);
     const undone = undoDrop(merge(days, plan.changed), plan.undo);
     expect(undone[T]).toEqual(days[T]);
   });

@@ -80,6 +80,26 @@ describe('toCsv', () => {
     expect(rows.map((r) => r.date)).toEqual(['2026-06-01', '2026-06-02', '2026-06-03']);
   });
 
+  it('writes one row per entry when same-category entries are adjacent', () => {
+    const d = {
+      ...doc({ 20: 'g', 21: 'g', 22: 'g', 23: 'g' }, { '20': 'one', '22': 'two' }),
+      breaks: '.'.repeat(22) + '|' + '.'.repeat(25),
+    };
+    const rows = exportRows({ '2026-06-01': d }, R);
+    expect(rows.map((r) => [r.start, r.end, r.note])).toEqual([
+      ['2026-06-01T10:00:00-07:00', '2026-06-01T11:00:00-07:00', 'one'],
+      ['2026-06-01T11:00:00-07:00', '2026-06-01T12:00:00-07:00', 'two'],
+    ]);
+    expect(exportCounts({ '2026-06-01': d }, R).entries).toBe(2);
+  });
+
+  it('ignores a stale break between different categories or on a gap', () => {
+    const d = { ...doc({ 20: 'g', 21: 'b' }), breaks: '.'.repeat(21) + '|' + '.'.repeat(26) };
+    expect(exportRows({ '2026-06-01': d }, R)).toHaveLength(2);
+    const gap = { ...doc({ 20: 'g', 22: 'g' }), breaks: '.'.repeat(22) + '|' + '.'.repeat(25) };
+    expect(exportRows({ '2026-06-01': gap }, R)).toHaveLength(2);
+  });
+
   it('orders rows within a day by start time', () => {
     const rows = exportRows({ '2026-06-01': doc({ 30: 'g', 2: 'b', 10: 'r' }) }, R);
     expect(rows.map((r) => r.category)).toEqual(['wasted', 'unwanted', 'wanted']);
@@ -107,6 +127,7 @@ describe('toJson', () => {
       reflection: 'good day',
     });
     expect('reflection' in parsed.days[1]).toBe(false);
+    expect('breaks' in parsed.days[0]).toBe(false);
     expect(parsed.entries).toEqual([
       {
         date: '2026-06-01',
@@ -117,6 +138,26 @@ describe('toJson', () => {
         note: 'hi',
       },
     ]);
+  });
+});
+
+describe('toJson breaks', () => {
+  it('includes the sanitized mask when present and still lists one entry per line', () => {
+    const mask = '.'.repeat(21) + '|' + '.'.repeat(26);
+    const d = { ...doc({ 20: 'g', 21: 'g', 22: 'b' }), breaks: mask + '' };
+    const parsed = JSON.parse(
+      toJson({ '2026-06-01': d }, R, { exportedAt: 'x', timezone: 'America/Los_Angeles' }),
+    );
+    expect(parsed.days[0].breaks).toBe(mask);
+    expect(parsed.entries).toHaveLength(3);
+  });
+
+  it('omits a mask with no surviving breaks', () => {
+    const d = { ...doc({ 20: 'g' }), breaks: '.'.repeat(5) + '|' + '.'.repeat(42) };
+    const parsed = JSON.parse(
+      toJson({ '2026-06-01': d }, R, { exportedAt: 'x', timezone: 'America/Los_Angeles' }),
+    );
+    expect('breaks' in parsed.days[0]).toBe(false);
   });
 });
 

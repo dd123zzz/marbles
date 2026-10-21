@@ -1,5 +1,5 @@
 import type { Category, DateKey, DayDoc, SleepWindow } from '../../types';
-import { entriesFromDay } from '../entries';
+import { entriesFromDay, normalizeBreaks } from '../entries';
 import { slotStartDate } from '../time';
 
 export interface DateRange {
@@ -25,6 +25,8 @@ export interface ExportDay {
   date: DateKey;
   slots: string;
   notes: Record<string, string>;
+  /** Entry boundary mask; present only when the day has one. */
+  breaks?: string;
   sleep: SleepWindow;
   tz: string;
   reflection?: string;
@@ -65,7 +67,8 @@ function datesIn(days: Record<DateKey, DayDoc | undefined>, range: DateRange): D
 }
 
 /**
- * One row per entry run per day, ordered by date then start. Entries are stored
+ * One row per entry per day (a log next to a same-category log is its own row),
+ * ordered by date then start. Entries are stored
  * per day, so a midnight-crossing entry appears as two rows: one ending at
  * 24:00 (next day 00:00) and one starting at 00:00.
  */
@@ -121,6 +124,8 @@ export function toJson(
         sleep: d.sleep,
         tz: d.tz,
       };
+      const breaks = normalizeBreaks(d.slots, d.breaks);
+      if (breaks) day.breaks = breaks;
       if (d.reflection !== undefined) day.reflection = d.reflection;
       return day;
     }),

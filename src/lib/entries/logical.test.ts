@@ -198,9 +198,10 @@ describe('editing a joined entry', () => {
 
 describe('joined entries with differing notes', () => {
   it('keeps both notes when edited', () => {
-    let days: Record<DateKey, DayDoc> = {};
-    days = { ...days, ...applyEntry(days, e(D1, 46, 4, 'g', 'late'), OPTS) };
-    days = { ...days, ...applyEntry(days, e(D2, 2, 2, 'g', 'extra'), OPTS) };
+    const days = {
+      [D1]: doc(run(46, 48, 'g'), { '46': 'late' }),
+      [D2]: doc(run(0, 2, 'g'), { '0': 'extra' }),
+    };
     const joined = logicalEntryAt(days, D1, 47)!;
     expect(joined.note).toBe('late · extra');
     const out = applyEntry(days, { ...joined, category: 'b' }, { ...OPTS, replace: joined });

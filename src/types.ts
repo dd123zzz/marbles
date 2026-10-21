@@ -15,6 +15,11 @@ export interface DayDoc {
   slots: string;
   /** note for the entry starting at that slot index (key is the slot index as a string) */
   notes: Record<string, string>;
+  /**
+   * 48 chars of [.|]: '|' at i means an entry starts at slot i inside a same-category run
+   * (at slot 0, "do not join yesterday's tail"). Left out when it has no '|'.
+   */
+  breaks?: string;
   /** sleep window snapshot taken when the day doc was first created */
   sleep: SleepWindow;
   tz: string;

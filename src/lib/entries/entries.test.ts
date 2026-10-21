@@ -187,45 +187,62 @@ describe('applyEntry (create)', () => {
   });
 });
 
-describe('applyEntry (merging and notes)', () => {
-  it('merges with a preceding same-category run, keeping the run start note', () => {
+describe('applyEntry (adjacent entries stay separate)', () => {
+  it('a following same-category entry is its own entry with its own note', () => {
     const days = { [D1]: doc(run(26, 28, 'g'), { '26': 'first' }) };
     const out = applyEntry(days, e(D1, 28, 2, 'g'), OPTS);
     expect(out[D1]!.slots).toBe(slotsOf(run(26, 30, 'g')));
+    expect(out[D1]!.breaks).toBe(slotsOf({ 28: '|' }));
     expect(out[D1]!.notes).toEqual({ '26': 'first' });
+    expect(entriesFromDay(D1, out[D1])).toEqual([e(D1, 26, 2, 'g', 'first'), e(D1, 28, 2, 'g')]);
   });
-  it('merges with a following run; the new entry start has no note so the merged-in note moves to run start', () => {
+  it('a preceding same-category entry keeps its start note', () => {
     const days = { [D1]: doc(run(28, 30, 'g'), { '28': 'later' }) };
     const out = applyEntry(days, e(D1, 26, 2, 'g'), OPTS);
     expect(out[D1]!.slots).toBe(slotsOf(run(26, 30, 'g')));
-    expect(out[D1]!.notes).toEqual({ '26': 'later' });
+    expect(out[D1]!.breaks).toBe(slotsOf({ 28: '|' }));
+    expect(out[D1]!.notes).toEqual({ '28': 'later' });
   });
-  it('moves the new entry note to the run start when the preceding run has none', () => {
+  it('the new entry note stays on the new entry', () => {
     const days = { [D1]: doc(run(26, 28, 'g')) };
     const out = applyEntry(days, e(D1, 28, 2, 'g', 'new'), OPTS);
-    expect(out[D1]!.notes).toEqual({ '26': 'new' });
+    expect(out[D1]!.notes).toEqual({ '28': 'new' });
   });
-  it('joins both notes with " · "', () => {
+  it('both notes are kept, one per entry', () => {
     const days = { [D1]: doc(run(26, 28, 'g'), { '26': 'A' }) };
     const out = applyEntry(days, e(D1, 28, 2, 'g', 'B'), OPTS);
-    expect(out[D1]!.notes).toEqual({ '26': 'A · B' });
+    expect(out[D1]!.notes).toEqual({ '26': 'A', '28': 'B' });
   });
-  it('joins in slot order when merging on both sides', () => {
+  it('an entry between two same-category entries marks both edges', () => {
     const days = {
       [D1]: doc({ ...run(20, 22, 'g'), ...run(24, 26, 'g') }, { '20': 'A', '24': 'C' }),
     };
     const out = applyEntry(days, e(D1, 22, 2, 'g', 'B'), OPTS);
     expect(out[D1]!.slots).toBe(slotsOf(run(20, 26, 'g')));
-    expect(out[D1]!.notes).toEqual({ '20': 'A · B · C' });
+    expect(out[D1]!.breaks).toBe(slotsOf({ 22: '|', 24: '|' }));
+    expect(out[D1]!.notes).toEqual({ '20': 'A', '22': 'B', '24': 'C' });
   });
-  it('truncates joined notes to 200 chars', () => {
-    const a = 'a'.repeat(150);
-    const b = 'b'.repeat(150);
-    const days = { [D1]: doc(run(26, 28, 'g'), { '26': a }) };
-    const out = applyEntry(days, e(D1, 28, 2, 'g', b), OPTS);
-    const note = out[D1]!.notes['26']!;
+  it('legacy merged runs still fold stray notes into the run start when no breaks exist', () => {
+    const days = { [D1]: doc(run(20, 26, 'g'), { '20': 'A', '24': 'C' }) };
+    const out = applyEntry(days, e(D1, 2, 1, 'b'), OPTS);
+    expect(out[D1]!.notes).toEqual({ '20': 'A · C' });
+    expect(out[D1]!.breaks).toBeUndefined();
+  });
+  it('legacy fold truncates to 200 chars', () => {
+    const days = { [D1]: doc(run(26, 30, 'g'), { '26': 'a'.repeat(150), '28': 'b'.repeat(150) }) };
+    const note = applyEntry(days, e(D1, 2, 1, 'b'), OPTS)[D1]!.notes['26']!;
     expect(note).toHaveLength(200);
-    expect(note.startsWith(a + ' · ')).toBe(true);
+    expect(note.startsWith('a'.repeat(150) + ' · ')).toBe(true);
+  });
+  it('splits a legacy merged run when a same-category entry lands inside it', () => {
+    const days = { [D1]: doc(run(26, 32, 'g'), { '26': 'whole' }) };
+    const out = applyEntry(days, e(D1, 28, 2, 'g', 'mid'), OPTS);
+    expect(out[D1]!.breaks).toBe(slotsOf({ 28: '|', 30: '|' }));
+    expect(entriesFromDay(D1, out[D1])).toEqual([
+      e(D1, 26, 2, 'g', 'whole'),
+      e(D1, 28, 2, 'g', 'mid'),
+      e(D1, 30, 2, 'g'),
+    ]);
   });
   it('does not merge different categories', () => {
     const days = { [D1]: doc(run(26, 28, 'g'), { '26': 'A' }) };
@@ -299,13 +316,14 @@ describe('applyEntry (replace / edit)', () => {
   it('replacing with an identical entry changes nothing', () => {
     expect(applyEntry(base, { ...orig }, { ...OPTS, replace: orig })).toEqual({});
   });
-  it('merging a moved entry with a neighbour keeps the neighbour start note', () => {
+  it('moving an entry next to a neighbour keeps both entries and notes', () => {
     const days = {
       [D1]: doc({ ...run(26, 29, 'g'), ...run(32, 34, 'g') }, { '26': 'orig', '32': 'nbr' }),
     };
     const out = applyEntry(days, e(D1, 30, 2, 'g', 'orig'), { ...OPTS, replace: orig });
     expect(out[D1]!.slots).toBe(slotsOf(run(30, 34, 'g')));
-    expect(out[D1]!.notes).toEqual({ '30': 'orig · nbr' });
+    expect(out[D1]!.notes).toEqual({ '30': 'orig', '32': 'nbr' });
+    expect(out[D1]!.breaks).toBe(slotsOf({ 32: '|' }));
   });
   it('only returns changed days', () => {
     const days = { [D1]: base[D1], [D2]: doc({ 3: 'b' }, { '3': 'keep' }) };

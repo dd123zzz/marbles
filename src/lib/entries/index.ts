@@ -25,7 +25,32 @@ interface Run {
   category: Category;
 }
 
-function runsOf(slots: string): Run[] {
+/**
+ * Sanitizes a boundary mask: a '|' survives only where the slot is logged and either
+ * sits at slot 0 ("do not join yesterday") or follows a slot of the same category
+ * (between different categories a break is redundant). Returns undefined when nothing
+ * is left, so the field can be omitted.
+ */
+export function normalizeBreaks(slots: string, breaks?: string): string | undefined {
+  if (!breaks) return undefined;
+  let out = '';
+  let any = false;
+  for (let i = 0; i < SLOTS_PER_DAY; i++) {
+    const ch = slots.charAt(i);
+    const keep =
+      breaks.charAt(i) === '|' &&
+      ch !== '' &&
+      ch !== '.' &&
+      (i === 0 || slots.charAt(i - 1) === ch);
+    out += keep ? '|' : '.';
+    if (keep) any = true;
+  }
+  return any ? out : undefined;
+}
+
+/** Runs of the same category, also split at each (sanitized) boundary mark. */
+export function entriesOf(slots: string, breaks?: string): Run[] {
+  const mask = normalizeBreaks(slots, breaks);
   const runs: Run[] = [];
   let i = 0;
   while (i < slots.length) {
@@ -35,7 +60,7 @@ function runsOf(slots: string): Run[] {
       continue;
     }
     let j = i + 1;
-    while (j < slots.length && slots[j] === ch) j++;
+    while (j < slots.length && slots[j] === ch && mask?.charAt(j) !== '|') j++;
     runs.push({ start: i, length: j - i, category: ch as Category });
     i = j;
   }
@@ -46,10 +71,10 @@ const truncate = (s: string): string => s.slice(0, MAX_NOTE_LENGTH);
 
 export function entriesFromDay(
   k: DateKey,
-  doc: Pick<DayDoc, 'slots' | 'notes'> | undefined,
+  doc: Pick<DayDoc, 'slots' | 'notes' | 'breaks'> | undefined,
 ): Entry[] {
   if (!doc) return [];
-  return runsOf(doc.slots).map((r) => {
+  return entriesOf(doc.slots, doc.breaks).map((r) => {
     const entry: Entry = { date: k, startSlot: r.start, length: r.length, category: r.category };
     const note = doc.notes[String(r.start)];
     if (note) entry.note = note;
@@ -59,7 +84,7 @@ export function entriesFromDay(
 
 export function entryAt(
   k: DateKey,
-  doc: Pick<DayDoc, 'slots' | 'notes'> | undefined,
+  doc: Pick<DayDoc, 'slots' | 'notes' | 'breaks'> | undefined,
   slot: number,
 ): Entry | null {
   return (
@@ -110,15 +135,15 @@ function setSlots(slots: string, start: number, length: number, ch: string): str
 }
 
 /**
- * Keeps notes only at run starts. A note found inside a run (left over from a
- * run that was merged in) is folded into the run start's note.
+ * Keeps notes only at entry starts. A note found inside an entry (left over from a
+ * run that was merged in) is folded into the entry start's note.
  */
 function normalizeNotes(doc: DayDoc): void {
   const notes: Record<string, string> = {};
   const keys = Object.keys(doc.notes)
     .filter((key) => /^\d+$/.test(key))
     .sort((a, b) => Number(a) - Number(b));
-  for (const run of runsOf(doc.slots)) {
+  for (const run of entriesOf(doc.slots, doc.breaks)) {
     const parts: string[] = [];
     for (const key of keys) {
       const slot = Number(key);
@@ -130,15 +155,50 @@ function normalizeNotes(doc: DayDoc): void {
   doc.notes = notes;
 }
 
-function sameDoc(a: DayDoc | undefined, b: DayDoc): boolean {
-  return a !== undefined && JSON.stringify(a) === JSON.stringify(b);
+/** JSON with object keys sorted, so equal docs compare equal whatever order their fields were set in. */
+function stable(value: unknown): string {
+  return JSON.stringify(value, (_key, v: unknown) =>
+    v && typeof v === 'object' && !Array.isArray(v)
+      ? Object.fromEntries(Object.entries(v).sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0)))
+      : v,
+  );
 }
+
+function sameDoc(a: DayDoc | undefined, b: DayDoc): boolean {
+  return a !== undefined && stable(a) === stable(b);
+}
+
+const NO_BREAKS = '.'.repeat(SLOTS_PER_DAY);
+
+/** The doc's mask as 48 chars of [.|] (no sanitizing), for editing. */
+function maskOf(doc: Pick<DayDoc, 'breaks'>): string[] {
+  return Array.from({ length: SLOTS_PER_DAY }, (_, i) =>
+    doc.breaks?.charAt(i) === '|' ? '|' : '.',
+  );
+}
+
+function setMask(doc: DayDoc, set: (mask: string[]) => void): void {
+  const mask = maskOf(doc);
+  set(mask);
+  doc.breaks = mask.join('');
+}
+
+/** The sanitized mask as a full 48-char string. */
+const fullMask = (doc: Pick<DayDoc, 'slots' | 'breaks'> | undefined): string =>
+  (doc && normalizeBreaks(doc.slots, doc.breaks)) ?? NO_BREAKS;
 
 function dropNotesInRange(doc: DayDoc, start: number, length: number): void {
   for (const key of Object.keys(doc.notes)) {
     const slot = Number(key);
     if (slot >= start && slot < start + length) delete doc.notes[key];
   }
+}
+
+function clearBreaksInRange(doc: DayDoc, start: number, length: number): void {
+  if (!doc.breaks) return;
+  setMask(doc, (m) => {
+    for (let i = start; i < start + length; i++) m[i] = '.';
+  });
 }
 
 function clearParts(work: Map<DateKey, DayDoc>, days: DayMap, parts: Part[]): void {
@@ -148,6 +208,7 @@ function clearParts(work: Map<DateKey, DayDoc>, days: DayMap, parts: Part[]): vo
     const doc = work.get(p.date) ?? cloneDoc(base);
     doc.slots = setSlots(doc.slots, p.startSlot, p.length, '.');
     dropNotesInRange(doc, p.startSlot, p.length);
+    clearBreaksInRange(doc, p.startSlot, p.length);
     work.set(p.date, doc);
   }
 }
@@ -155,6 +216,9 @@ function clearParts(work: Map<DateKey, DayDoc>, days: DayMap, parts: Part[]): vo
 function collectChanged(work: Map<DateKey, DayDoc>, days: DayMap): Record<DateKey, DayDoc> {
   const changed: Record<DateKey, DayDoc> = {};
   for (const [date, doc] of work) {
+    const breaks = normalizeBreaks(doc.slots, doc.breaks);
+    if (breaks) doc.breaks = breaks;
+    else delete doc.breaks;
     normalizeNotes(doc);
     if (!sameDoc(days[date], doc)) changed[date] = doc;
   }
@@ -176,7 +240,7 @@ export function applyEntry(
   if (opts.replace) clearParts(work, days, splitAcrossDays(opts.replace));
 
   const note = e.note ? truncate(e.note) : undefined;
-  for (const p of parts) {
+  for (const [index, p] of parts.entries()) {
     let doc = work.get(p.date);
     if (!doc) {
       const existing = days[p.date];
@@ -188,6 +252,28 @@ export function applyEntry(
     doc.slots = setSlots(doc.slots, p.startSlot, p.length, e.category);
     dropNotesInRange(doc, p.startSlot, p.length);
     if (note) doc.notes[String(p.startSlot)] = note;
+    const isFirst = index === 0;
+    const isLast = index === parts.length - 1;
+    setMask(doc, (m) => {
+      for (let i = p.startSlot; i < p.startSlot + p.length; i++) m[i] = '.';
+      if (isFirst) m[p.startSlot] = '|';
+      const after = p.startSlot + p.length;
+      if (isLast && after < SLOTS_PER_DAY) m[after] = '|';
+    });
+  }
+
+  // An entry ending at midnight must not join a logged head on the next day.
+  const lastPart = parts[parts.length - 1];
+  if (lastPart.startSlot + lastPart.length === SLOTS_PER_DAY) {
+    const nextDate = addDays(lastPart.date, 1);
+    const base = work.get(nextDate) ?? days[nextDate];
+    if (base && base.slots.charAt(0) !== '.' && base.slots.charAt(0) !== '') {
+      const nextDoc = work.get(nextDate) ?? cloneDoc(base);
+      setMask(nextDoc, (m) => {
+        m[0] = '|';
+      });
+      work.set(nextDate, nextDoc);
+    }
   }
   return collectChanged(work, days);
 }
@@ -232,11 +318,14 @@ function joinNotes(first: string | undefined, second: string | undefined): strin
 
 /**
  * `tail` is an entry on `date` that ends at midnight. Returns it merged with the
- * next day's head run when they share a category and fit in one 24h entry.
+ * next day's head entry when they share a category, fit in one 24h entry, and the
+ * next day has no break at slot 0.
  */
 function joinWithNext(days: DayMap, date: DateKey, tail: Entry): Entry | null {
-  const head = entriesFromDay(addDays(date, 1), days[addDays(date, 1)])[0];
+  const nextDoc = days[addDays(date, 1)];
+  const head = entriesFromDay(addDays(date, 1), nextDoc)[0];
   if (!head || head.startSlot !== 0) return null;
+  if (fullMask(nextDoc).charAt(0) === '|') return null;
   if (head.category !== tail.category || tail.length + head.length > SLOTS_PER_DAY) return null;
   const joined: Entry = { ...tail, length: tail.length + head.length };
   const note = joinNotes(tail.note, head.note);
@@ -314,6 +403,8 @@ export interface DropUndo {
   removedNotes: NoteRef[];
   /** Notes the drop wrote (e.g. a note folded into a merged run start). */
   addedNotes: NoteRef[];
+  /** Every boundary-mask char the drop changed, with its value before and after. */
+  breaks: Array<SlotRef & { prev: '.' | '|'; next: '.' | '|' }>;
 }
 
 export interface DropPlan {
@@ -362,6 +453,20 @@ function diffNotes(
   return { removedNotes, addedNotes };
 }
 
+function diffBreaks(before: DayMap, changed: Record<DateKey, DayDoc>): DropUndo['breaks'] {
+  const out: DropUndo['breaks'] = [];
+  for (const [date, after] of Object.entries(changed)) {
+    const old = fullMask(before[date]);
+    const now = fullMask(after);
+    for (let slot = 0; slot < SLOTS_PER_DAY; slot++) {
+      if (old[slot] !== now[slot]) {
+        out.push({ date, slot, prev: old[slot] as '.' | '|', next: now[slot] as '.' | '|' });
+      }
+    }
+  }
+  return out;
+}
+
 /**
  * Plans a drag-to-drop log: every target slot gets `category` (overwriting logged
  * slots and dropping their notes). Targets that are still in the future relative
@@ -382,7 +487,13 @@ export function planDrop(args: {
     .filter((t) => !seen.has(slotId(t.date, t.slot)) && seen.add(slotId(t.date, t.slot)))
     .sort(cmpSlotRef);
 
-  const undo: DropUndo = { category, slots: [], removedNotes: [], addedNotes: [] };
+  const undo: DropUndo = {
+    category,
+    slots: [],
+    removedNotes: [],
+    addedNotes: [],
+    breaks: [],
+  };
   if (targets.every((t) => days[t.date]?.slots.charAt(t.slot) === category)) {
     return { changed: {}, undo, noop: true };
   }
@@ -400,6 +511,7 @@ export function planDrop(args: {
     current = { ...current, ...next };
   }
   Object.assign(undo, diffNotes(days, changed));
+  undo.breaks = diffBreaks(days, changed);
   return { changed, undo, noop: false };
 }
 
@@ -420,11 +532,24 @@ export function undoDrop(days: DayMap, undo: DropUndo): Record<DateKey, DayDoc> 
     return copy;
   };
 
+  const edited = new Set<string>();
   for (const s of undo.slots) {
     const doc = docFor(s.date);
     if (doc && doc.slots.charAt(s.slot) === undo.category) {
       doc.slots = setSlots(doc.slots, s.slot, 1, s.prev);
+    } else {
+      edited.add(slotId(s.date, s.slot));
     }
+  }
+  // A mark is restored only if it still has the value the drop gave it and the
+  // slots on both sides of it were not changed since the drop.
+  for (const b of undo.breaks ?? []) {
+    const doc = docFor(b.date);
+    if (!doc || fullMask(doc).charAt(b.slot) !== b.next) continue;
+    if (edited.has(slotId(b.date, b.slot)) || edited.has(slotId(b.date, b.slot - 1))) continue;
+    setMask(doc, (m) => {
+      m[b.slot] = b.prev;
+    });
   }
   for (const n of undo.addedNotes) {
     const doc = docFor(n.date);
