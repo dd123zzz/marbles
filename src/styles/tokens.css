@@ -1,79 +1,19 @@
 /* Design tokens (Sorbet). The theme is chosen with data-theme on <html> (light is the default). */
-:root,
-:root[data-theme='light'] {
-  color-scheme: light;
 
-  --bg: #fff8f3;
-  --surface: #ffffff;
-  --surface-2: #fdf0e8;
-  --border: #f0dfd3;
-  --text: #2e2a36;
-  --text-muted: #6b6378;
-  --accent: #ffb870;
-  --accent-hover: #ffa755;
-  --accent-contrast: #3b2414;
-  --accent-text: #a4500f;
-  --accent-soft: #ffe7cf;
-  --accent-soft-text: #a4500f;
-  --focus: #4f5bd5;
-  --danger: #c0392b;
-  --danger-soft: #fdeae7;
-  --shadow-1: 0 1px 2px rgba(120, 70, 40, 0.06), 0 4px 14px rgba(120, 70, 40, 0.07);
-  --shadow-2: 0 10px 30px rgba(120, 70, 40, 0.16);
-  --shadow-lift: 0 12px 24px rgba(120, 70, 40, 0.28);
-  --backdrop: rgba(46, 42, 54, 0.45);
-  --toast-bg: #2e2a36;
-  --toast-text: #ffffff;
-  --toast-error-bg: #9b2c20;
-
+/* Theme-independent tokens (the same in light and dark) */
+:root {
   /* category buttons and bars (pastel fills with dark ink; Wasted uses white ink) */
   --cat-g: var(--marble-g);
   --cat-b: var(--marble-b);
   --cat-r: var(--marble-r);
-  --cat-b-ring: transparent;
   --cat-ink: #1f1d2b;
   --cat-b-ink: #ffffff;
-
-  /* marbles: base color plus highlight and shade for the glossy gradient */
-  --marble-g: #8fe6bb;
-  --marble-g-hi: #e3fbef;
-  --marble-g-lo: #4fb98a;
-  --marble-b: #6e6a8e;
-  --marble-b-hi: #c9c6dd;
-  --marble-b-lo: #45415f;
-  --marble-r: #f08070;
-  --marble-r-hi: #ffe1db;
-  --marble-r-lo: #c95647;
-  --marble-sleep: #9aa6f4;
-  --marble-sleep-hi: #e6e9ff;
-  --marble-sleep-lo: #6470c9;
-  /* unlogged is matte: hi and lo equal the base so it reads flat */
-  --marble-unlogged: #ebe6e1;
-  --marble-unlogged-hi: #ebe6e1;
-  --marble-unlogged-lo: #ebe6e1;
-  --marble-na: #e2dde6;
-  --marble-na-text: #5c5566;
-  --marble-empty: #c9b9ab;
-  --marble-b-ring: rgba(46, 42, 54, 0.12);
-  --marble-b-glow: transparent;
-  --marble-gloss: rgba(255, 255, 255, 0.85);
-  --marble-stroke: rgba(46, 42, 54, 0.12);
 
   /* hour numbers: dark ink with a light halo; Wasted is white with a dark halo */
   --marble-ink: #1f1d2b;
   --marble-ink-halo: rgba(255, 255, 255, 0.6);
   --marble-b-ink: #ffffff;
   --marble-b-ink-halo: rgba(30, 25, 50, 0.55);
-  --marble-unlogged-ink: #5c5566;
-
-  /* glass jar */
-  --glass-top: rgba(255, 255, 255, 0.9);
-  --glass-bottom: rgba(255, 228, 214, 0.45);
-  --glass-stroke: #e2c9b8;
-  --glass-shine: rgba(255, 255, 255, 0.95);
-  --glass-rim: rgba(255, 255, 255, 0.98);
-  --today-bg: #fff0e0;
-  --weekend-bg: #fdf4ee;
 
   --radius-sm: 12px;
   --radius: 20px;
@@ -117,6 +57,72 @@
       1
     );
   }
+}
+
+:root,
+:root[data-theme='light'] {
+  color-scheme: light;
+
+  --bg: #fff8f3;
+  --surface: #ffffff;
+  --surface-2: #fdf0e8;
+  --border: #f0dfd3;
+  --text: #2e2a36;
+  --text-muted: #6b6378;
+  --accent: #ffb870;
+  --accent-hover: #ffa755;
+  --accent-contrast: #3b2414;
+  --accent-text: #a4500f;
+  --accent-soft: #ffe7cf;
+  --accent-soft-text: #a4500f;
+  --focus: #4f5bd5;
+  --danger: #c0392b;
+  --danger-soft: #fdeae7;
+  --shadow-1: 0 1px 2px rgba(120, 70, 40, 0.06), 0 4px 14px rgba(120, 70, 40, 0.07);
+  --shadow-2: 0 10px 30px rgba(120, 70, 40, 0.16);
+  --shadow-lift: 0 12px 24px rgba(120, 70, 40, 0.28);
+  --backdrop: rgba(46, 42, 54, 0.45);
+  --toast-bg: #2e2a36;
+  --toast-text: #ffffff;
+  --toast-error-bg: #9b2c20;
+
+  --cat-b-ring: transparent;
+
+  /* marbles: base color plus highlight and shade for the glossy gradient */
+  --marble-g: #8fe6bb;
+  --marble-g-hi: #e3fbef;
+  --marble-g-lo: #4fb98a;
+  --marble-b: #6e6a8e;
+  --marble-b-hi: #c9c6dd;
+  --marble-b-lo: #45415f;
+  --marble-r: #f08070;
+  --marble-r-hi: #ffe1db;
+  --marble-r-lo: #c95647;
+  --marble-sleep: #9aa6f4;
+  --marble-sleep-hi: #e6e9ff;
+  --marble-sleep-lo: #6470c9;
+  /* unlogged is matte: hi and lo equal the base so it reads flat */
+  --marble-unlogged: #ebe6e1;
+  --marble-unlogged-hi: #ebe6e1;
+  --marble-unlogged-lo: #ebe6e1;
+  --marble-na: #e2dde6;
+  --marble-na-text: #5c5566;
+  --marble-empty: #c9b9ab;
+  --marble-b-ring: rgba(46, 42, 54, 0.12);
+  --marble-b-glow: transparent;
+  --marble-gloss: rgba(255, 255, 255, 0.85);
+  --marble-stroke: rgba(46, 42, 54, 0.12);
+
+  --marble-unlogged-ink: #5c5566;
+
+  /* glass jar */
+  --glass-top: rgba(255, 255, 255, 0.9);
+  --glass-bottom: rgba(255, 228, 214, 0.45);
+  --glass-stroke: #e2c9b8;
+  --glass-shine: rgba(255, 255, 255, 0.95);
+  --glass-rim: rgba(255, 255, 255, 0.98);
+  --today-bg: #fff0e0;
+  --weekend-bg: #fdf4ee;
 }
 
 :root[data-theme='dark'] {
