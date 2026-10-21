@@ -6,7 +6,7 @@
   align-items: flex-end;
   justify-content: center;
   background: var(--backdrop);
-  animation: backdrop-in 0.2s ease-out;
+  animation: backdrop-in 200ms var(--ease-out);
 }
 
 .sheet {
@@ -18,7 +18,20 @@
   background: var(--surface);
   border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   box-shadow: var(--shadow-2);
-  animation: sheet-up 0.25s ease-out;
+  /* spring overshoot lifts the sheet slightly past rest; ::after fills the gap below it (motion #9) */
+  position: relative;
+  animation: sheet-up var(--dur-slow) var(--ease-spring);
+}
+
+.sheet::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  height: 25vh;
+  background: var(--surface);
+  pointer-events: none;
 }
 
 .sheet:focus {
@@ -30,7 +43,7 @@
   width: 44px;
   height: 5px;
   margin: 10px auto 2px;
-  border-radius: 3px;
+  border-radius: var(--radius-pill);
   background: var(--border);
 }
 
@@ -80,25 +93,35 @@
   padding: 8px 4px;
   font-size: 1rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--cat-ink);
   border: 3px solid var(--cat-b-ring, transparent);
   border-radius: var(--radius);
   cursor: pointer;
+  transition: transform var(--dur) var(--ease-bounce);
 }
 
+/* soft colored shadow from each category's deep tone */
 .category-g {
+  --cat-shadow: var(--marble-g-lo);
   background: var(--cat-g);
   border-color: transparent;
 }
 
 .category-b {
+  --cat-shadow: var(--marble-b-lo);
   background: var(--cat-b);
   border-color: var(--cat-b-ring);
+  color: var(--cat-b-ink);
 }
 
 .category-r {
+  --cat-shadow: var(--marble-r-lo);
   background: var(--cat-r);
   border-color: transparent;
+}
+
+.category:not(:disabled) {
+  box-shadow: 0 6px 12px color-mix(in srgb, var(--cat-shadow) 35%, transparent);
 }
 
 .category .dot {
@@ -107,19 +130,22 @@
   box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.85);
 }
 
+/* Selected: focus-colored outline, a check mark and a small pop (motion #10) */
 .category.selected {
   outline: 4px solid var(--focus);
   outline-offset: 2px;
+  animation: category-pop 280ms var(--ease-out);
 }
 
 .category.selected::after {
   content: '';
   width: 6px;
   height: 12px;
-  border: solid #ffffff;
+  border: solid currentColor;
   border-width: 0 3px 3px 0;
   transform: rotate(45deg);
   margin-top: -4px;
+  animation: category-check 280ms var(--ease-spring) 60ms backwards;
 }
 
 .category:disabled {
@@ -152,16 +178,48 @@
   }
 }
 
+@keyframes sheet-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes category-pop {
+  0% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.06);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes category-check {
+  from {
+    transform: rotate(45deg) scale(0);
+  }
+}
+
 @keyframes backdrop-in {
   from {
     opacity: 0;
   }
 }
 
+/* Reduced motion: the sheet fades in instead of sliding; no pops */
 @media (prefers-reduced-motion: reduce) {
-  .sheet,
-  .sheet-backdrop,
-  .toast {
+  .sheet {
+    animation: sheet-fade 150ms linear;
+  }
+
+  .sheet-backdrop {
+    animation: backdrop-in 150ms linear;
+  }
+
+  .category.selected,
+  .category.selected::after {
     animation: none;
   }
 }

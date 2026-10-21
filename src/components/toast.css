@@ -30,7 +30,7 @@
   color: var(--toast-text);
   box-shadow: var(--shadow-2);
   font-size: 0.92rem;
-  animation: toast-in 0.2s ease-out;
+  animation: toast-in 360ms var(--ease-spring);
 }
 
 .toast-error {
@@ -55,22 +55,29 @@
   overflow-wrap: anywhere;
 }
 
-/* Inverted pill built from the toast's own colour pair, so it contrasts in light, dark and error toasts */
+/* Accent pill with dark ink (about 9:1 contrast) */
 .toast-action {
   flex: none;
   min-height: 32px;
-  padding: 0 12px;
+  padding: 0 14px;
   border: 0;
-  border-radius: 999px;
-  background: var(--toast-text);
-  color: var(--toast-bg);
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: var(--accent-contrast);
   font: inherit;
   font-weight: 700;
   cursor: pointer;
+  transition: transform var(--dur) var(--ease-bounce);
 }
 
 .toast-action:hover {
-  opacity: 0.88;
+  background: var(--accent-hover);
+}
+
+.toast-action:active {
+  transform: scale(0.94);
+  transition-duration: var(--dur-fast);
+  transition-timing-function: var(--ease-out);
 }
 
 .toast-action:focus-visible {
@@ -97,6 +104,26 @@
 @keyframes toast-in {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(16px) scale(0.96);
+  }
+}
+
+@keyframes toast-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toast {
+    animation: toast-fade 150ms linear;
+  }
+
+  .toast-action {
+    transition: none;
+  }
+
+  .toast-action:active {
+    transform: none;
   }
 }

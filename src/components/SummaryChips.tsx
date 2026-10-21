@@ -29,7 +29,7 @@ export default function SummaryChips({ marbles, onEditSleep, dateLabel }: Summar
                 aria-label={`Edit sleep${dateLabel ? ` for ${dateLabel}` : ''} (${text})`}
                 onClick={onEditSleep}
               >
-                <span className={`dot dot-${k}`} aria-hidden="true" />
+                <span key={text} className={`dot dot-${k}`} aria-hidden="true" />
                 {text}
                 <span className="chip-edit" aria-hidden="true">
                   ✎
@@ -39,7 +39,7 @@ export default function SummaryChips({ marbles, onEditSleep, dateLabel }: Summar
           );
         }
         return (
-          <li key={k} className="chip">
+          <li key={`${k}-${text}`} className="chip">
             <span className={`dot dot-${k}`} aria-hidden="true" />
             {text}
           </li>

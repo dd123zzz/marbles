@@ -6,8 +6,12 @@
   z-index: 20;
   padding-bottom: env(safe-area-inset-bottom, 0px);
   background: var(--surface);
-  border-top: 1px solid var(--border);
-  box-shadow: 0 -2px 12px rgba(60, 40, 20, 0.06);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  box-shadow: 0 -4px 18px rgba(120, 70, 40, 0.08);
+}
+
+:root[data-theme='dark'] .tabbar {
+  box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.35);
 }
 
 .tabbar ul {
@@ -40,29 +44,25 @@
 }
 
 .tabbar a[aria-current='page'] {
-  color: var(--accent-soft-text);
+  color: var(--accent-text);
   font-weight: 800;
 }
 
-/* Active tab: filled pill behind the icon, an indicator bar and bold text, not only color */
-.tabbar a[aria-current='page']::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  width: 28px;
-  height: 3px;
-  border-radius: 0 0 3px 3px;
-  background: var(--accent);
-}
-
+/* Active tab: accent-soft pill behind the icon plus bold text, so it is never color-only */
 .tab-icon {
   display: inline-flex;
   padding: 3px 16px;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
 }
 
 .tabbar a[aria-current='page'] .tab-icon {
   background: var(--accent-soft);
+  /* CSS restarts this each time the tab becomes current (motion #12) */
+  animation: tab-pill-bounce 320ms var(--ease-spring);
+}
+
+.tabbar a[aria-current='page'] .tab-icon svg {
+  animation: tab-icon-bounce 320ms var(--ease-spring);
 }
 
 .tabbar a[aria-current='page'] svg {
@@ -71,4 +71,23 @@
 
 .tabbar a:focus-visible {
   outline-offset: -4px;
+}
+
+@keyframes tab-pill-bounce {
+  from {
+    transform: scale(0.7);
+  }
+}
+
+@keyframes tab-icon-bounce {
+  from {
+    transform: translateY(-3px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tabbar a[aria-current='page'] .tab-icon,
+  .tabbar a[aria-current='page'] .tab-icon svg {
+    animation: none;
+  }
 }

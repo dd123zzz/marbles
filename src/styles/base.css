@@ -113,9 +113,12 @@ textarea {
   border: 1.5px solid var(--border);
   background: var(--surface);
   color: var(--text);
-  font-weight: 600;
+  font-weight: 700;
   text-decoration: none;
   cursor: pointer;
+  transition:
+    transform var(--dur) var(--ease-bounce),
+    background-color var(--dur-fast) var(--ease-out);
 }
 
 .btn:hover:not(:disabled) {
@@ -131,6 +134,7 @@ textarea {
   background: var(--accent);
   border-color: var(--accent);
   color: var(--accent-contrast);
+  box-shadow: var(--shadow-1);
 }
 
 .btn-primary:hover:not(:disabled) {
@@ -161,10 +165,22 @@ textarea {
   font-size: 1.6rem;
   line-height: 1;
   cursor: pointer;
+  transition:
+    transform var(--dur) var(--ease-bounce),
+    background-color var(--dur-fast) var(--ease-out);
 }
 
 .icon-btn:hover {
   background: var(--surface-2);
+}
+
+/* Press: quick squish in, springy release (motion #8) */
+.btn:active:not(:disabled),
+.icon-btn:active:not([aria-disabled='true']),
+.category:active:not(:disabled) {
+  transform: scale(0.96);
+  transition-duration: var(--dur-fast);
+  transition-timing-function: var(--ease-out);
 }
 
 .icon-btn[aria-disabled='true'] {
@@ -265,6 +281,7 @@ legend {
   box-shadow: var(--shadow-1);
   outline: 2px solid var(--text);
   outline-offset: -2px;
+  animation: segmented-thumb var(--dur) var(--ease-bounce);
 }
 
 .segmented input:checked + span::before {
@@ -342,13 +359,34 @@ legend {
 .chip {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 3px 10px;
-  border-radius: 999px;
+  gap: 7px;
+  min-height: 34px;
+  padding: 0 13px;
+  border-radius: var(--radius-pill);
   background: var(--surface-2);
-  border: 1px solid var(--border);
-  font-size: 0.8rem;
-  font-weight: 600;
+  border: 1px solid transparent;
+  color: var(--text);
+  font-size: 0.875rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  /* remounts on value change (see SummaryChips key), which replays the pop (motion #7) */
+  animation: chip-pop 300ms var(--ease-out);
+  transition: transform var(--dur) var(--ease-bounce);
+}
+
+/* The Sleep chip is a button: it can't remount (focus), so only its dot pops on change */
+button.chip {
+  animation: none;
+}
+
+button.chip .dot {
+  animation: chip-pop 300ms var(--ease-out);
+}
+
+.chip:active {
+  transform: scale(0.94);
+  transition-duration: var(--dur-fast);
+  transition-timing-function: var(--ease-out);
 }
 
 .link-row {
@@ -361,7 +399,45 @@ legend {
   font-weight: 600;
 }
 
+@keyframes chip-pop {
+  0% {
+    transform: scale(0.85);
+  }
+  40% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes segmented-thumb {
+  from {
+    transform: scale(0.92);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .btn,
+  .icon-btn,
+  .category,
+  .chip {
+    transition: none;
+  }
+
+  .btn:active:not(:disabled),
+  .icon-btn:active:not([aria-disabled='true']),
+  .category:active:not(:disabled),
+  .chip:active {
+    transform: none;
+  }
+
+  .chip,
+  button.chip .dot,
+  .segmented input:checked + span {
+    animation: none;
+  }
+
   *,
   *::before,
   *::after {
