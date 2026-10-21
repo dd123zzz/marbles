@@ -4,6 +4,11 @@ import { CELL_SIZE } from './jarLayout';
 import { halfLabel, isGlossy } from './marbleUtils';
 
 const HALF_GAP = 1.5;
+const HOUR_INK_CLASS: Partial<Record<MarbleColor | 'split', string>> = {
+  b: ' marble-hour-b',
+  unlogged: ' marble-hour-unlogged',
+  empty: ' marble-hour-empty',
+};
 function paintProps(color: MarbleColor, gradId: string): { className: string; fill?: string } {
   const className = `marble marble-${color}`;
   // empty and n/a are styled in jar.css
@@ -70,11 +75,13 @@ export default function MarbleShape({
 }: MarbleShapeProps) {
   const half = CELL_SIZE / 2;
 
-  const hourText = (color: MarbleColor) =>
+  // Ink per marble: Wasted is white, Unlogged is muted, the rest dark. A split marble always
+  // uses the default dark ink with a light halo, whatever its halves are.
+  const hourText = (color: MarbleColor | 'split') =>
     showHour &&
     color !== 'na' && (
       <text
-        className={`marble-hour${color === 'empty' ? ' marble-hour-empty' : ''}`}
+        className={`marble-hour${HOUR_INK_CLASS[color] ?? ''}`}
         textAnchor="middle"
         dominantBaseline="central"
         aria-hidden="true"
@@ -192,7 +199,7 @@ export default function MarbleShape({
     );
   });
 
-  // two-tone marble: the number is centered on the seam and relies on its outline for contrast
+  // two-tone marble: the number is centered on the seam and relies on its halo for contrast
   return animated(
     <>
       {onSelect ? (
@@ -202,7 +209,7 @@ export default function MarbleShape({
       ) : (
         halves
       )}
-      {hourText(marble.left === 'empty' && marble.right === 'empty' ? 'empty' : 'g')}
+      {hourText(marble.left === 'empty' && marble.right === 'empty' ? 'empty' : 'split')}
     </>,
   );
 }

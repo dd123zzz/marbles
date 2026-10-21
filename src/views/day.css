@@ -65,6 +65,8 @@
 
 .jar-slot.jar-armed {
   filter: drop-shadow(0 0 6px var(--armed)) drop-shadow(0 0 18px var(--armed));
+  /* #6 armed swell */
+  transform: scale(1.02);
 }
 
 .jar-armed-g {
@@ -81,42 +83,60 @@
 
 @media (prefers-reduced-motion: no-preference) {
   .jar-slot {
-    transition: filter 0.15s;
+    transition:
+      filter 0.15s,
+      transform var(--dur) var(--ease-bounce);
   }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .jar-slot.jar-armed {
+    transform: none;
+  }
+}
+
+/* pastel pill with a soft accent-tinted shadow */
 .log-btn {
   width: 100%;
   min-height: 56px;
+  border-radius: var(--radius-pill);
   font-size: 1.05rem;
-  box-shadow: var(--shadow-2);
+  font-weight: 700;
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--accent) 40%, transparent);
 }
 
+/* One line per entry: dot, time range, category word, note (truncated), chevron. */
 .entries {
   list-style: none;
   padding: 0;
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+}
+
+.entries > li + li {
+  border-top: 1px solid var(--border);
 }
 
 .entry {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   width: 100%;
-  min-height: var(--tap);
-  padding: 8px 12px;
+  min-height: 48px;
+  padding: 8px 6px;
+  color: var(--text);
+  font: inherit;
+  font-size: 0.9rem;
   text-align: left;
-  background: var(--surface-2);
-  border: 1px solid var(--border);
+  background: transparent;
+  border: 0;
   border-radius: var(--radius-sm);
   cursor: pointer;
 }
 
 .entry:hover {
-  border-color: var(--text-muted);
+  background: var(--surface-2);
 }
 
 .entry .dot {
@@ -127,12 +147,17 @@
 .entry-text {
   flex: 1;
   min-width: 0;
-  overflow-wrap: anywhere;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .entry-chevron {
+  flex: none;
   color: var(--text-muted);
   font-size: 1.3rem;
+  line-height: 1;
 }
 
 .empty {

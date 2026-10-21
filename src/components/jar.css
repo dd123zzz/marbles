@@ -36,11 +36,11 @@
 }
 
 .marble {
-  stroke: rgba(0, 0, 0, 0.14);
-  stroke-width: 0.75;
+  stroke: var(--marble-stroke);
+  stroke-width: 1;
 }
 
-/* Wasted marbles are near black: a light edge keeps them visible, and a glow in dark mode */
+/* Wasted is the darkest marble: a ring (visible in dark mode) keeps it off the surface, plus a glow */
 .marble-b {
   stroke: var(--marble-b-ring);
   stroke-width: 1.4;
@@ -101,18 +101,29 @@
   filter: brightness(1.08);
 }
 
-/* Hour numbers: white with a dark halo reads on every marble color in both themes */
+/* Hour numbers: dark ink with a light halo. Wasted is white with a dark halo; Unlogged has no halo.
+   Split marbles always use the default dark ink, whatever their halves are. */
 .marble-hour {
   font-size: 13px;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
-  fill: #fff;
-  stroke: rgba(0, 0, 0, 0.62);
+  fill: var(--marble-ink);
+  stroke: var(--marble-ink-halo);
   stroke-width: 2.4px;
   stroke-linejoin: round;
   paint-order: stroke fill;
   pointer-events: none;
   user-select: none;
+}
+
+.marble-hour-b {
+  fill: var(--marble-b-ink);
+  stroke: var(--marble-b-ink-halo);
+}
+
+.marble-hour-unlogged {
+  fill: var(--marble-unlogged-ink);
+  stroke: none;
 }
 
 /* Future marbles are just a dashed outline on the card, so use the theme text color */
@@ -128,12 +139,14 @@
   transform-origin: center;
 }
 
+/* squash from the bottom edge, so the marble stays planted on the one below */
 .marble-drop {
-  animation: marble-drop 650ms linear var(--marble-delay, 0ms) backwards;
+  transform-origin: 50% 100%;
+  animation: marble-drop 700ms linear var(--marble-delay, 0ms) backwards;
 }
 
 .marble-pop {
-  animation: marble-pop 320ms ease-out var(--marble-delay, 0ms) backwards;
+  animation: marble-pop 380ms var(--ease-spring) var(--marble-delay, 0ms) backwards;
 }
 
 @keyframes marble-drop {
@@ -145,24 +158,26 @@
   12% {
     opacity: 1;
   }
+  /* impact: squash */
   55% {
-    transform: translateY(0);
+    transform: translateY(0) scale(1.14, 0.84);
     animation-timing-function: cubic-bezier(0.2, 0.7, 0.4, 1);
   }
+  /* rebound: stretch while rising */
   72% {
-    transform: translateY(-7px);
+    transform: translateY(-7px) scale(0.96, 1.04);
     animation-timing-function: cubic-bezier(0.6, 0, 0.8, 0.4);
   }
   86% {
-    transform: translateY(0);
+    transform: translateY(0) scale(1.03, 0.97);
     animation-timing-function: cubic-bezier(0.2, 0.7, 0.4, 1);
   }
   94% {
-    transform: translateY(-1.5px);
+    transform: translateY(-1.5px) scale(1);
     animation-timing-function: cubic-bezier(0.6, 0, 0.8, 0.4);
   }
   100% {
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
     opacity: 1;
   }
 }
@@ -170,9 +185,15 @@
 @keyframes marble-pop {
   0% {
     transform: scale(1);
+    animation-timing-function: var(--ease-out);
   }
-  45% {
-    transform: scale(1.12);
+  40% {
+    transform: scale(1.18);
+    animation-timing-function: var(--ease-out);
+  }
+  72% {
+    transform: scale(0.96);
+    animation-timing-function: var(--ease-out);
   }
   100% {
     transform: scale(1);

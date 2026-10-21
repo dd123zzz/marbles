@@ -3,6 +3,7 @@ import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { computeMarbles } from '../lib/jar';
 import { emptySlots } from '../lib/entries';
+import type { Marble } from '../types';
 import Jar from './Jar.tsx';
 import MiniJar from './MiniJar.tsx';
 
@@ -84,6 +85,31 @@ describe('hour numbers', () => {
   it('shows no numbers in a mini jar', () => {
     const { container } = render(<MiniJar date="2026-10-14" marbles={marbles} />);
     expect(container.querySelectorAll('.marble-hour')).toHaveLength(0);
+  });
+
+  it('picks the hour ink per marble: Wasted and Unlogged differ, split marbles stay dark', () => {
+    const set = (hour: number, left: Marble['left'], right: Marble['right']) => ({
+      hour,
+      left,
+      right,
+      full: left === right,
+    });
+    const mixed = marbles.map((m) => {
+      if (m.hour === 0) return { ...m, ...set(0, 'b', 'b') };
+      if (m.hour === 1) return { ...m, ...set(1, 'unlogged', 'unlogged') };
+      if (m.hour === 2) return { ...m, ...set(2, 'g', 'g') };
+      if (m.hour === 3) return { ...m, ...set(3, 'b', 'r') };
+      return m;
+    });
+    const { container } = render(<Jar marbles={mixed} />);
+    const cls = (hour: number) =>
+      [...container.querySelectorAll('text.marble-hour')]
+        .find((t) => t.textContent === `${hour}`)
+        ?.getAttribute('class');
+    expect(cls(0)).toBe('marble-hour marble-hour-b');
+    expect(cls(1)).toBe('marble-hour marble-hour-unlogged');
+    expect(cls(2)).toBe('marble-hour');
+    expect(cls(3)).toBe('marble-hour');
   });
 
   it('shows n/a instead of a number on a nonexistent DST hour', () => {
