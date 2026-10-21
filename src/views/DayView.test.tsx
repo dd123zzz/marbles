@@ -323,10 +323,12 @@ describe('DayView', () => {
     it('lists the entry with its range from either day', async () => {
       const { repo } = fakeRepo(crossingDays());
       renderDay(repo, '/day/2026-10-14');
-      expect(await screen.findByText('Tue 23:00 – 01:00 · Wasted · late')).toBeTruthy();
+      const entryText = (text: string) => (_: string, el: Element | null) =>
+        !!el && el.classList.contains('entry-text') && el.textContent === text;
+      expect(await screen.findByText(entryText('Tue 23:00 – 01:00 · Wasted · late'))).toBeTruthy();
       cleanup();
       renderDay(repo, '/day/2026-10-13');
-      expect(await screen.findByText('23:00 – Wed 01:00 · Wasted · late')).toBeTruthy();
+      expect(await screen.findByText(entryText('23:00 – Wed 01:00 · Wasted · late'))).toBeTruthy();
     });
 
     it('edits and deletes the whole entry from the later day', async () => {

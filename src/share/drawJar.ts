@@ -12,10 +12,17 @@ import { CATEGORY_LABEL, MARBLE_COLORS, summarize, type Summary } from '../lib/j
 import { parseDateKey } from '../lib/time';
 import type { DateKey, Marble, MarbleColor } from '../types';
 
-export const IMAGE_BG = '#faf7f2';
-const INK = '#1c1917';
-const MUTED = '#78716c';
-const ACCENT = '#b45309';
+// Sorbet light palette as hex constants (canvas can't read the CSS variables in tokens.css)
+export const IMAGE_BG = '#fff8f3';
+const INK = '#2e2a36';
+const MUTED = '#6b6378';
+const ACCENT = '#a4500f';
+const EMPTY_STROKE = '#c9b9ab';
+const GLASS_STROKE = '#e2c9b8';
+const MARBLE_INK = '#1f1d2b';
+const MARBLE_INK_HALO = 'rgba(255, 255, 255, 0.6)';
+const MARBLE_B_INK = '#ffffff';
+const MARBLE_B_INK_HALO = 'rgba(30, 25, 50, 0.55)';
 const FONT = '-apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif';
 /** Output width in px; every layout is designed in logical units and scaled to this. */
 export const IMAGE_PX_WIDTH = 1080;
@@ -92,7 +99,7 @@ function paintShape(
     ctx.save();
     ctx.setLineDash([3, 3]);
     ctx.lineWidth = 1.5;
-    ctx.strokeStyle = '#b8ad9d';
+    ctx.strokeStyle = EMPTY_STROKE;
     ctx.stroke();
     ctx.restore();
     return;
@@ -118,7 +125,7 @@ function drawMarble(
   if (m.left !== 'empty' && m.left !== 'na') {
     ctx.beginPath();
     ctx.ellipse(cx - r * 0.4, cy - r * 0.45, r * 0.28, r * 0.17, -0.61, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.55)';
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
     ctx.fill();
   }
   if (showNumber) {
@@ -127,8 +134,10 @@ function drawMarble(
     ctx.textBaseline = 'middle';
     ctx.lineJoin = 'round';
     ctx.lineWidth = 2.2;
-    ctx.strokeStyle = 'rgba(17, 24, 39, 0.85)';
-    ctx.fillStyle = '#ffffff';
+    // dark ink with a light halo; Wasted is white ink with a dark halo
+    const wasted = m.full && m.left === 'b';
+    ctx.strokeStyle = wasted ? MARBLE_B_INK_HALO : MARBLE_INK_HALO;
+    ctx.fillStyle = wasted ? MARBLE_B_INK : MARBLE_INK;
     ctx.strokeText(String(m.hour), cx, cy + 0.5);
     ctx.fillText(String(m.hour), cx, cy + 0.5);
   }
@@ -150,7 +159,7 @@ export function drawJar(
 
   const glass = ctx.createLinearGradient(0, 0, 0, JAR_HEIGHT);
   glass.addColorStop(0, 'rgba(255, 255, 255, 0.9)');
-  glass.addColorStop(1, 'rgba(214, 232, 240, 0.7)');
+  glass.addColorStop(1, 'rgba(255, 228, 214, 0.45)');
   ctx.fillStyle = glass;
   ctx.fill(new Path2D(JAR_BODY_PATH));
 
@@ -161,7 +170,7 @@ export function drawJar(
 
   ctx.lineJoin = 'round';
   ctx.lineWidth = 2.5;
-  ctx.strokeStyle = '#a9b9c2';
+  ctx.strokeStyle = GLASS_STROKE;
   ctx.stroke(new Path2D(JAR_OUTLINE_PATH));
   roundedRect(ctx, JAR_RIM.x, JAR_RIM.y, JAR_RIM.width, JAR_RIM.height, JAR_RIM.rx);
   ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';

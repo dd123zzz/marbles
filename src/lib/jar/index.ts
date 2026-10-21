@@ -13,13 +13,13 @@ export const CATEGORY_LABEL: Record<MarbleColor, string> = {
 };
 
 export const MARBLE_COLORS: Record<MarbleColor, string> = {
-  g: '#16a34a',
-  b: '#111827',
-  r: '#dc2626',
-  sleep: '#4f46e5',
-  unlogged: '#9ca3af',
+  g: '#8fe6bb',
+  b: '#6e6a8e',
+  r: '#f08070',
+  sleep: '#9aa6f4',
+  unlogged: '#ebe6e1',
   empty: 'transparent',
-  na: '#e5e7eb',
+  na: '#e2dde6',
 };
 
 export interface ComputeMarblesInput {

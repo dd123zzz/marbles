@@ -372,8 +372,15 @@ function Day({ param }: { param: string | undefined }) {
                 >
                   <span className={`dot dot-${e.category}`} aria-hidden="true" />
                   <span className="entry-text">
-                    {formatEntryRange(e, date)} · {CATEGORY_LABEL[e.category]}
-                    {e.note ? ` · ${e.note}` : ''}
+                    <span className="entry-time">{formatEntryRange(e, date)}</span>
+                    <span className="entry-sep">{' · '}</span>
+                    <span className="entry-cat">{CATEGORY_LABEL[e.category]}</span>
+                    {e.note ? (
+                      <>
+                        <span className="entry-sep">{' · '}</span>
+                        <span className="entry-note">{e.note}</span>
+                      </>
+                    ) : null}
                   </span>
                   <span className="entry-chevron" aria-hidden="true">
                     ›

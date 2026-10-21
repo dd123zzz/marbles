@@ -145,10 +145,33 @@
 }
 
 .entry-text {
+  display: flex;
   flex: 1;
+  align-items: baseline;
+  gap: 0.3em;
   min-width: 0;
-  font-variant-numeric: tabular-nums;
   white-space: nowrap;
+}
+
+.entry-time {
+  flex: none;
+  font-variant-numeric: tabular-nums;
+}
+
+.entry-sep {
+  flex: none;
+  color: var(--text-muted);
+}
+
+.entry-cat {
+  flex: none;
+  font-weight: 700;
+}
+
+.entry-note {
+  flex: 0 1 auto;
+  min-width: 0;
+  color: var(--text-muted);
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -165,18 +188,17 @@
   margin: 0;
 }
 
+/* The Sleep chip is a button; its look comes from .chip in base.css (no border or background here) */
 .chip-btn {
-  min-height: 36px;
-  padding: 3px 12px;
   color: var(--text);
   cursor: pointer;
   font: inherit;
-  font-size: 0.8rem;
-  font-weight: 600;
+  font-size: 0.875rem;
+  font-weight: 700;
 }
 
 .chip-btn:hover {
-  border-color: var(--text-muted);
+  background: var(--accent-soft);
 }
 
 .chip-edit {
