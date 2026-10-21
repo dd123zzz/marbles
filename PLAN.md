@@ -422,6 +422,43 @@ Estimated cost is about 350–450 credits.
 
 ---
 
+## Stage 5: Catch-up Drops, One Line per Entry, Pastel Redesign
+
+**Status:** planned 2026-10-20, not started. User decisions are in [HANDOFF.md](./HANDOFF.md) Decisions. The detailed plans are [docs/stage5/ENGINEERING.md](./docs/stage5/ENGINEERING.md) and [docs/stage5/DESIGN.md](./docs/stage5/DESIGN.md).
+
+| # | Feature | Summary |
+|---|---|---|
+| 5.1 | Catch-up drops | A drop logs 1 hour starting at the first unlogged slot after today's latest logged or morning-sleep slot. It logs 30 minutes if only that fits before now. Repeat drops advance hour by hour, even with a different category. Evening sleep that has started counts as unlogged. With no gap, it falls back to the Stage 4 last-hour overwrite with Undo. New pure function `nextDropWindow({ slots, sleep, now })` in `src/lib/time`. The Log time sheet is unchanged. |
+| 5.2 | One line per entry | New optional day field `breaks`: a 48-char `[.|]` string marking entry starts inside same-category runs, left out when empty and sanitized on read and write. Each log or drop is its own Entries line, with its own edit, delete, and note. Days logged before Stage 5 show merged runs. The jar and stats are unchanged. Rules and rules tests change in the same wave. |
+| 5.3 | Pastel redesign | The whole app is restyled in the chosen direction (Sorbet is recommended; Cloud and Gelato are the alternatives) with a light theme and a pastel-on-dusk dark theme. Categories keep their hues as pastels, with a fixed lightness order Unlogged > Wanted > Sleep ≈ Unwanted > Wasted. Fun comes from bouncy transform and opacity micro-animations, each with a reduced-motion fallback. Markup stays the same except hour ink in `MarbleShape.tsx`. |
+| 5.4 | Deferred | iOS parity for 5.1 and 5.2 (MarblesCore, MarblesData, golden fixtures). **The iOS workflow is expected to go red** from the first `src/lib` change until that port lands. It does not gate the Pages deploy. |
+
+**Order and waves (disjoint path ownership; the orchestrator verifies after each):**
+1. **Engineering wave 1, parallel:**
+   - drop window (Sonnet): `src/lib/time/dropWindow*`, `src/lib/time/index.ts`
+   - entry boundaries (Sonnet): `src/types.ts` (signed off), `src/lib/entries/**`, `src/lib/export/**`
+   - rules (Haiku): `firestore.rules`, `tests/rules/**`
+2. **Engineering wave 2** (Sonnet): `DayView.tsx` lines ~145–180 and `DayView.test.tsx`.
+3. Engineering code review, fixer, and demo smoke test: drop twice, check for two lines, Undo, check the tray hint after catching up.
+4. **Design wave A** (Haiku): token swap.
+5. **Design wave B, parallel:**
+   - B1 (Sonnet): jar, tray, and Entries styling
+   - B2 (Sonnet): sheets, toasts, tab bar, chips
+   - B3 (Haiku): calendar, stats, forms, icons
+6. Design review, fixer, and browser smoke test at 390px in light, dark, and reduced motion.
+
+The design build starts only after engineering merges, so the two tracks never edit `DayView.tsx` at the same time.
+
+**Estimate:** engineering about 565 credits (including checks), design about 410, so about 975 for the build. The planning phase itself (leads and mockups) is about 250.
+
+**Doc updates at build time:**
+- SPEC F2 and F3: the drop text, one line per entry, and export rows per entry.
+- SPEC section 2 and the AGENTS conventions: the new Sleep color, if approved.
+- PLAN data model and rules sketch: add `breaks`.
+- PLAN 4.1: add a pointer to 5.1.
+
+---
+
 ## Risks & Mitigations
 
 | Risk | Impact | Mitigation |
