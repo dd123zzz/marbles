@@ -427,7 +427,7 @@ Estimated cost is about 350–450 credits.
 
 ## Stage 5: Catch-up Drops, One Line per Entry, Pastel Redesign
 
-**Status:** planned 2026-10-20, not started. User decisions are in [HANDOFF.md](./HANDOFF.md) Decisions. The detailed plans are [docs/stage5/ENGINEERING.md](./docs/stage5/ENGINEERING.md) and [docs/stage5/DESIGN.md](./docs/stage5/DESIGN.md).
+**Status:** built and verified locally on 2026-10-20 (not pushed). iOS parity (5.4) is deferred. User decisions are in [HANDOFF.md](./HANDOFF.md) Decisions. The detailed plans are [docs/stage5/ENGINEERING.md](./docs/stage5/ENGINEERING.md) and [docs/stage5/DESIGN.md](./docs/stage5/DESIGN.md).
 
 | # | Feature | Summary |
 |---|---|---|
