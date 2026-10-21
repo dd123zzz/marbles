@@ -225,6 +225,14 @@ Nothing is removed.
 
 ## 7. Open questions for the user
 
+**Answered (user, 2026-10-20):**
+- **Direction: Sorbet.**
+- Sleep moves to Sorbet periwinkle `#9aa6f4`; update SPEC section 2 and the AGENTS conventions at build time.
+- Tray wobble every 8s, today only, stopping while dragging.
+- All three mockups were built.
+- **Split-marble hour numbers** use dark ink with a light halo on every split marble, regardless of the halves. This replaces the "ink of the darker half" rule in sections 1 and 5.
+
+
 1. **Sleep color.** Move Sleep from `#4f46e5` to pastel periwinkle (`#9aa6f4` in Sorbet)? *Default: yes.* SPEC section 2 and the AGENTS conventions would be updated to match.
 2. **Idle tray wobble frequency.** *Default: a short wobble every 8s, today only, stopping while dragging.* The alternative is wobbling only once on load and after a successful drop.
 3. **Mockup direction count.** Build all three (Sorbet, Cloud, Gelato), or only Sorbet and Cloud to save about 40 credits? *Default: all three.*
