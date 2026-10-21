@@ -21,7 +21,7 @@ A mobile-first web app where every hour of your day becomes a colored marble in 
 | **Wanted** | 🟢 Green | User-logged: time spent on something I wanted to do |
 | **Wasted** | ⚫ Black | User-logged: wasted time |
 | **Unwanted** | 🔴 Red | User-logged: something I did not want to do |
-| **Sleep** | 🔵 Indigo (#4f46e5) | Auto-filled: the user's sleep window, unless an entry overrides it |
+| **Sleep** | 🔵 Periwinkle (#9aa6f4; was indigo #4f46e5 before Stage 5) | Auto-filled: the user's sleep window, unless an entry overrides it |
 | **Unlogged** | ⚪ Gray | Auto-filled: past time that has no entry and isn't sleep |
 | *(future)* | Empty | Time later today that hasn't happened yet stays empty |
 
@@ -115,6 +115,6 @@ Marbles stack chronologically: 00:00 at the bottom of the jar, 23:00 at the top.
 | Push reminders | In-app and `.ics` only; real push is out of scope | The free plan has no server-side sender. Removed by the user in Stage 4. |
 
 ## 8. Open Questions
-1. **Resolved:** The sleep color is indigo `#4f46e5`. Sleep is excluded from "awake %" stats.
+1. **Resolved:** The sleep color is periwinkle `#9aa6f4` (Stage 5 Sorbet redesign; it was indigo `#4f46e5`). All marble colors are pastel versions of their hues; Wasted is muted slate, still the darkest. Sleep is excluded from "awake %" stats.
 2. **Resolved:** The repo is public, `dd123zzz/marbles`, served at `/marbles/` (https://dd123zzz.github.io/marbles/).
 3. Whether a custom domain is wanted later. It would allow redirect-based sign-in and nicer URLs.
