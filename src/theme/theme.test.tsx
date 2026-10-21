@@ -18,8 +18,8 @@ beforeEach(() => {
   localStorage.clear();
   document.documentElement.removeAttribute('data-theme');
   document.head.innerHTML = `
-    <meta name="theme-color" content="#faf7f2" media="(prefers-color-scheme: light)" data-scheme="light" />
-    <meta name="theme-color" content="#1c1a17" media="(prefers-color-scheme: dark)" data-scheme="dark" />`;
+    <meta name="theme-color" content="#fff8f3" media="(prefers-color-scheme: light)" data-scheme="light" />
+    <meta name="theme-color" content="#1d1a2b" media="(prefers-color-scheme: dark)" data-scheme="dark" />`;
   window.matchMedia = vi.fn(() => ({
     get matches() {
       return dark;
@@ -48,11 +48,11 @@ describe('applyTheme', () => {
     expect(localStorage.getItem(THEME_STORAGE_KEY)).toBe('dark');
     expect(readStoredTheme()).toBe('dark');
     const metas = document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]');
-    expect([...metas].every((m) => m.content === '#1c1a17' && m.media === 'all')).toBe(true);
+    expect([...metas].every((m) => m.content === '#1d1a2b' && m.media === 'all')).toBe(true);
 
     applyTheme('system');
     expect(metas[0].media).toBe('(prefers-color-scheme: light)');
-    expect(metas[1].content).toBe('#1c1a17');
+    expect(metas[1].content).toBe('#1d1a2b');
     applyTheme('light');
     expect(theme()).toBe('light');
   });

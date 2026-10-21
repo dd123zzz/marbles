@@ -2,7 +2,7 @@ import type { ThemePref } from '../types';
 
 export const THEME_STORAGE_KEY = 'marbles-theme';
 const DARK_QUERY = '(prefers-color-scheme: dark)';
-const THEME_COLOR = { light: '#faf7f2', dark: '#1c1a17' } as const;
+const THEME_COLOR = { light: '#fff8f3', dark: '#1d1a2b' } as const;
 
 export type ResolvedTheme = 'light' | 'dark';
 

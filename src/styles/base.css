@@ -206,7 +206,7 @@ textarea {
 .text-input {
   min-height: var(--tap);
   padding: 8px 12px;
-  border: 1.5px solid var(--border);
+  border: 1.5px solid var(--border-strong);
   border-radius: var(--radius-sm);
   background: var(--surface);
   font-weight: 400;

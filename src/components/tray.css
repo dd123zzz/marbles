@@ -76,11 +76,11 @@
   animation: tray-wobble 8s ease-in-out infinite;
 }
 
-.tray-item:nth-child(2) .tray-marble {
+.tray:not(.is-disabled) .tray-item:nth-child(2) .tray-marble:not(.is-lifted) {
   animation-delay: 300ms;
 }
 
-.tray-item:nth-child(3) .tray-marble {
+.tray:not(.is-disabled) .tray-item:nth-child(3) .tray-marble:not(.is-lifted) {
   animation-delay: 600ms;
 }
 
