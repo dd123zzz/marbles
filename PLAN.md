@@ -31,6 +31,8 @@ users/{uid}                      # settings document
 users/{uid}/days/{YYYY-MM-DD}    # local calendar date; one document per day
   slots: string(48)              # [gbr.] one char per 30 minutes; '.' = not logged
   notes: { [startSlot]: string } # note for the entry starting at that slot
+  breaks?: string(48)            # Stage 5: [.|]; '|' = an entry starts here inside a same-category run
+                                 #   ('|' at 0 = don't join yesterday's last entry); omitted when empty
   sleep: { start, end }          # copy of sleep window when the day was first written
   tz: "America/Los_Angeles"      # time zone, for reference only
   reflection?: string            # Stage 2
@@ -38,7 +40,7 @@ users/{uid}/days/{YYYY-MM-DD}    # local calendar date; one document per day
   v: 1
 ```
 
-- **Entry**: a run of consecutive same-category slots. Editing or deleting an entry rewrites those characters in `slots` and its key in `notes`.
+- **Entry**: a run of consecutive same-category slots, split at `breaks` marks (Stage 5). Each log or drop is its own entry. Days without `breaks` read as merged runs. Editing or deleting an entry rewrites those characters in `slots`, its marks in `breaks`, and its key in `notes`.
 - **Gray and sleep fill** are computed when the jar is drawn, never stored. The order of precedence is: logged slot, then sleep window (using this day's saved copy, or the current setting if the day has no document), then gray if the slot is in the past, then empty.
 - **Month view**: a single query for document IDs within the month's date range, costing 31 reads or fewer.
 - **Midnight crossing**: one batched write that updates both day documents.
@@ -52,8 +54,9 @@ match /users/{uid} {
     allow read, delete: if request.auth.uid == uid;
     allow create, update: if request.auth.uid == uid
       && d.matches('^\\d{4}-\\d{2}-\\d{2}$')
-      && request.resource.data.keys().hasOnly(['slots','notes','sleep','tz','reflection','updatedAt','v'])
+      && request.resource.data.keys().hasOnly(['slots','notes','sleep','tz','reflection','breaks','updatedAt','v'])
       && request.resource.data.slots.matches('^[gbr.]{48}$')
+      && (!('breaks' in request.resource.data) || request.resource.data.breaks.matches('^[.|]{48}$'))
       && request.resource.data.notes.size() <= 48;
   }
 }

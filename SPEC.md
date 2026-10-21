@@ -49,10 +49,11 @@ Marbles stack chronologically: 00:00 at the bottom of the jar, 23:00 at the top.
 - **Midnight:** an entry that crosses midnight is split across both days automatically.
 - **Overlaps:** logging over already-logged slots asks the user to confirm, then overwrites them (the last write wins). Sleep and unlogged slots are overwritten silently.
 - **Target:** the default "log last hour" flow takes 2 taps or fewer.
-- **Drag-to-drop (Stage 4):** on today's jar, dragging a category marble from the tray into the jar logs the last hour, rounded to the nearest 30 minutes (e.g., at 14:44 it logs 13:30–14:30). No sheet opens. Logged slots in that hour are overwritten with no confirm, and notes in it are dropped. Sleep and unlogged slots are filled. An Undo toast restores the previous slots and notes. A repeat drop with a different category changes the same block. The Log sheet keeps its overwrite confirm.
+- **Drag-to-drop (Stage 4, catch-up in Stage 5):** on today's jar, dragging a category marble from the tray into the jar logs **1 hour starting at the first unlogged slot after today's latest logged or morning-sleep slot**, never past now rounded to the nearest 30 minutes. It logs 30 minutes if only that fits. Example: logged until 11:00, at 14:44 a drop logs 11:00–12:00, the next 12:00–13:00, and so on. Evening sleep that has already started counts as unlogged. Repeat drops advance, even with a different category. Once caught up, a drop logs the last hour, rounded to the nearest 30 minutes (e.g., at 14:44 it logs 13:30–14:30). Logged slots there are overwritten with no confirm and their notes are dropped; a different category changes that block. The look-back covers today only. No sheet opens. An Undo toast restores the previous slots, notes, and entry boundaries. The Log sheet keeps its default start and its overwrite confirm.
 
 ### F3. Edit, delete & backfill
 - Tap a marble to see its entry (time range, category, note), then edit or delete it.
+- **One line per entry (Stage 5):** each log or drop is its own entry in the Entries list and in export rows, even when it sits next to an entry of the same category. Days logged before Stage 5 show merged runs. The jar does not show entry boundaries.
 - A date navigator (previous/next day and a date picker) lets you view and log any past day.
 - Logging future time is blocked for today and later.
 
