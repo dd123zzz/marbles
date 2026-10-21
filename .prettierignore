@@ -4,3 +4,6 @@ node_modules
 *.md
 ios/Fixtures/golden
 .build
+
+# throwaway design mockups (generated)
+design/

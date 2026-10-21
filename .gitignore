@@ -9,3 +9,7 @@ firebase-debug.log
 firestore-debug.log
 ui-debug.log
 .DS_Store
+
+# mockup single-frame screenshots (keep only the *-both overviews)
+design/mockups/screens/*
+!design/mockups/screens/*-both.png
