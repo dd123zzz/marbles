@@ -248,15 +248,120 @@ describe('nextDropWindow (TZ America/Los_Angeles)', () => {
       });
     });
 
-    it('non-wrapping sleep is entirely morning-style covered', () => {
-      // sleep 13:00–15:00 (slots 26..29) covered; now 16:10, nothing logged -> G = 30.
+    it('daytime non-wrapping sleep never anchors (13:00–15:00 at 16:10 -> gap from 00:00)', () => {
       expect(
         nextDropWindow({
           slots: undefined,
           sleep: { start: '13:00', end: '15:00' },
           now: june(16, 10),
         }),
-      ).toEqual({ kind: 'gap', targets: refs(T, 30, 31) });
+      ).toEqual({ kind: 'gap', targets: refs(T, 0, 1) });
+    });
+
+    describe('non-wrapping sleep windows', () => {
+      it('13:00–20:00 at 10:10, empty day -> gap 00:00–01:00', () => {
+        expect(
+          nextDropWindow({
+            slots: undefined,
+            sleep: { start: '13:00', end: '20:00' },
+            now: june(10, 10),
+          }),
+        ).toEqual({ kind: 'gap', targets: refs(T, 0, 1) });
+      });
+
+      it('21:00–23:00 at 22:30, empty day -> gap 00:00–01:00', () => {
+        expect(
+          nextDropWindow({
+            slots: undefined,
+            sleep: { start: '21:00', end: '23:00' },
+            now: june(22, 30),
+          }),
+        ).toEqual({ kind: 'gap', targets: refs(T, 0, 1) });
+      });
+
+      it('01:00–08:00 at 10:10, empty day -> gap 08:00–09:00 (morning sleep has ended)', () => {
+        expect(
+          nextDropWindow({
+            slots: undefined,
+            sleep: { start: '01:00', end: '08:00' },
+            now: june(10, 10),
+          }),
+        ).toEqual({ kind: 'gap', targets: refs(T, 16, 17) });
+      });
+
+      it('01:00–08:00 at 03:10 stays lastHour 02:00–03:00 (sleep started, nothing after it)', () => {
+        expect(
+          nextDropWindow({
+            slots: undefined,
+            sleep: { start: '01:00', end: '08:00' },
+            now: june(3, 10),
+          }),
+        ).toEqual({ kind: 'lastHour', targets: refs(T, 4, 5) });
+      });
+
+      it('a not-yet-started morning sleep does not hide logged slots before it', () => {
+        // sleep 09:00–11:00, now 08:10 (E=16), g 06:00–07:00: logged slot 13 anchors.
+        expect(
+          nextDropWindow({
+            slots: mask(['g', '06:00', '07:00']),
+            sleep: { start: '09:00', end: '11:00' },
+            now: june(8, 10),
+          }),
+        ).toEqual({ kind: 'gap', targets: refs(T, 14, 15) });
+      });
+
+      it('a morning sleep that starts exactly at E has not started (09:10, sleep 09:00–11:00)', () => {
+        // E=18, slot 18 is not below E, so sleep does not anchor; g 07:00–08:00 anchors at 15.
+        expect(
+          nextDropWindow({
+            slots: mask(['g', '07:00', '08:00']),
+            sleep: { start: '09:00', end: '11:00' },
+            now: june(9, 10),
+          }),
+        ).toEqual({ kind: 'gap', targets: refs(T, 16, 17) });
+      });
+
+      it('a logged slot inside a not-yet-started morning sleep still anchors', () => {
+        // E=18 at 09:10; g 09:30–10:00 is logged (slots 19) and anchors despite being ahead of E.
+        expect(
+          nextDropWindow({
+            slots: mask(['g', '09:30', '10:00']),
+            sleep: { start: '09:00', end: '11:00' },
+            now: june(9, 10),
+          }),
+        ).toEqual({ kind: 'lastHour', targets: refs(T, 16, 17) });
+      });
+
+      it('started morning sleep (09:00–11:00 at 10:10) anchors only its started slots', () => {
+        // E=20: slots 18,19 have started and are covered; nothing left below E -> lastHour.
+        expect(
+          nextDropWindow({
+            slots: undefined,
+            sleep: { start: '09:00', end: '11:00' },
+            now: june(10, 10),
+          }),
+        ).toEqual({ kind: 'lastHour', targets: refs(T, 18, 19) });
+      });
+
+      it('morning sleep ending exactly at 12:00 still anchors once it has ended', () => {
+        expect(
+          nextDropWindow({
+            slots: undefined,
+            sleep: { start: '08:00', end: '12:00' },
+            now: june(13, 10),
+          }),
+        ).toEqual({ kind: 'gap', targets: refs(T, 24, 25) });
+      });
+
+      it('a window ending after 12:00 is daytime and never anchors', () => {
+        expect(
+          nextDropWindow({
+            slots: undefined,
+            sleep: { start: '08:00', end: '12:30' },
+            now: june(13, 10),
+          }),
+        ).toEqual({ kind: 'gap', targets: refs(T, 0, 1) });
+      });
     });
 
     it('no sleep window (start === end) covers nothing', () => {

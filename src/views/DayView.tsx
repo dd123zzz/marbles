@@ -144,7 +144,7 @@ function Day({ param }: { param: string | undefined }) {
     }
   };
 
-  const showTray = !!uid && date === today && !loading;
+  const showTray = !!uid && date === today && !loading && !settingsLoading;
   const settingsSleep = { start: settings.sleepStart, end: settings.sleepEnd };
   const trayLabel = windowLabel(
     nextDropWindow({
@@ -162,7 +162,8 @@ function Day({ param }: { param: string | undefined }) {
   const undo = async (info: DropUndo) => {
     if (!uid) return;
     try {
-      const dates = info.slots.map((s) => s.date).sort();
+      // a drop ending at 24:00 also marks the next day's slot 0, so the range covers breaks too
+      const dates = [...info.slots, ...info.breaks].map((s) => s.date).sort();
       const first = dates[0];
       const last = dates[dates.length - 1];
       const v = view.current;

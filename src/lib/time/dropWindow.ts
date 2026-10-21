@@ -5,18 +5,24 @@ import { lastHourWindow } from './lastHour';
 import { hhmmToSlot, nonexistentSlots } from './slots';
 
 const WINDOW_SLOTS = 2;
+const NOON_SLOT = 24;
 
 export interface DropWindow {
   targets: SlotRef[];
   kind: 'gap' | 'lastHour';
 }
 
-/** True if the slot is in the part of the sleep window that ends this morning. */
-function isMorningSleep(slot: number, sleep: SleepWindow): boolean {
+/**
+ * True if the slot is morning sleep that has already started (`slot < E`) and so can
+ * anchor a drop window. A wrapping window's morning part is `[0, end)`. A non-wrapping
+ * window is morning sleep only if it ends by 12:00; daytime and evening sleep never anchor.
+ */
+function isMorningSleep(slot: number, sleep: SleepWindow, started: number): boolean {
+  if (slot >= started) return false;
   const s = hhmmToSlot(sleep.start);
   const e = hhmmToSlot(sleep.end);
   if (s === e) return false;
-  if (s < e) return slot >= s && slot < e;
+  if (s < e) return e <= NOON_SLOT && slot >= s && slot < e;
   return slot < e;
 }
 
@@ -41,7 +47,7 @@ export function nextDropWindow(args: {
   for (let i = SLOTS_PER_DAY - 1; i >= 0; i--) {
     if (missing.has(i)) continue;
     const logged = slots !== undefined && slots[i] !== undefined && slots[i] !== '.';
-    if (logged || isMorningSleep(i, sleep)) {
+    if (logged || isMorningSleep(i, sleep, end)) {
       anchor = i;
       break;
     }

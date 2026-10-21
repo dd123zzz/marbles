@@ -84,7 +84,8 @@ function fakeRepo(
         dayListeners.delete(emit);
       };
     },
-    getDays: async () => ({}),
+    getDays: async (_uid, start, end) =>
+      Object.fromEntries(Object.entries(store).filter(([k]) => k >= start && k <= end)),
     writeDays,
     deleteAllData: async () => ({ deletedDays: 0 }),
   };
@@ -549,6 +550,17 @@ describe('DayView drag-to-drop tray', () => {
     expect(screen.queryByRole('group', { name: /Marbles to log/ })).toBeNull();
   });
 
+  it('hides the tray until settings have loaded', async () => {
+    const { repo, loadSettings, settingsRequested } = fakeRepo({}, { holdSettings: true });
+    renderDay(repo);
+    await screen.findByLabelText('Jar for Wed Oct 14');
+    await vi.waitFor(() => expect(settingsRequested()).toBe(true));
+    expect(screen.queryByRole('group', { name: /Marbles to log/ })).toBeNull();
+    expect(screen.queryByText(/Drag into the jar to log/)).toBeNull();
+    act(() => loadSettings());
+    expect(await screen.findByText('Drag into the jar to log 07:00–08:00')).toBeTruthy();
+  });
+
   it('puts the summary chips under the jar, on every day', async () => {
     const { repo } = fakeRepo();
     for (const path of ['/', '/day/2026-10-13']) {
@@ -708,6 +720,31 @@ describe('DayView drag-to-drop tray', () => {
     await dragOut('Wanted');
     expect(Object.keys(writeDays.mock.calls[0][1])).toEqual(['2026-10-13']);
     expect(screen.getByText('Logged yesterday 23:00–24:00 as Wanted')).toBeTruthy();
+  });
+
+  it("Undo restores today's slot-0 mark after navigating away from the dropped days", async () => {
+    vi.setSystemTime(new Date(2026, 9, 14, 0, 10));
+    const doc: DayDoc = { ...base, slots: 'g' + '.'.repeat(47), notes: {} };
+    const { repo, writeDays } = fakeRepo({ '2026-10-14': doc }, { applyWrites: true });
+    renderDay(repo, '/day/2026-10-14');
+    await writable();
+    await dragOut('Wanted');
+    const dropped = writeDays.mock.calls[0][1];
+    expect(dropped['2026-10-13'].slots.slice(46)).toBe('gg');
+    // the drop ends at 24:00, so it marks today's slot 0 as the start of its own entry
+    expect(dropped['2026-10-14'].breaks?.[0]).toBe('|');
+
+    // two days back: the view's range (Oct 11–13) no longer includes today
+    for (const label of ['Previous day', 'Previous day']) {
+      fireEvent.click(await screen.findByRole('link', { name: label }));
+    }
+    await screen.findByLabelText('Jar for Mon Oct 12');
+    fireEvent.click(screen.getByRole('button', { name: 'Undo' }));
+    await vi.waitFor(() => expect(writeDays).toHaveBeenCalledTimes(2));
+    const restored = writeDays.mock.calls[1][1];
+    expect(restored['2026-10-13'].slots.slice(46)).toBe('..');
+    expect(restored['2026-10-14'].breaks).toBeUndefined();
+    expect(restored['2026-10-14'].slots).toBe(doc.slots);
   });
 
   describe('catch-up drops', () => {
