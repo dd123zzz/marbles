@@ -137,11 +137,11 @@ afterEach(() => {
 });
 
 describe('DayView', () => {
-  it('logs the previous hour as Wanted in two taps', async () => {
+  it('logs the previous hour as Productive in two taps', async () => {
     const { repo, writeDays } = fakeRepo();
     renderDay(repo);
     await openLogSheet();
-    const wanted = await screen.findByRole('button', { name: 'Wanted' });
+    const wanted = await screen.findByRole('button', { name: 'Productive' });
     await vi.waitFor(() => expect((wanted as HTMLButtonElement).disabled).toBe(false));
     fireEvent.click(wanted);
 
@@ -150,6 +150,22 @@ describe('DayView', () => {
     expect(uid).toBe('u1');
     expect(Object.keys(docs)).toEqual(['2026-10-14']);
     expect(docs['2026-10-14'].slots.slice(24, 30)).toBe('..gg..');
+    expect(screen.queryByRole('dialog')).toBeNull();
+  });
+
+  it('logs Purposeful via the sheet and lists categories in p g r b order', async () => {
+    const { repo, writeDays } = fakeRepo();
+    renderDay(repo);
+    await openLogSheet();
+    const names = (await screen.findAllByRole('button'))
+      .filter((b) => b.classList.contains('category'))
+      .map((b) => b.textContent);
+    expect(names).toEqual(['Purposeful', 'Productive', 'Unwanted', 'Wasted']);
+    const purposeful = screen.getByRole('button', { name: 'Purposeful' });
+    await vi.waitFor(() => expect((purposeful as HTMLButtonElement).disabled).toBe(false));
+    fireEvent.click(purposeful);
+
+    expect(writeDays.mock.calls[0][1]['2026-10-14'].slots.slice(24, 30)).toBe('..pp..');
     expect(screen.queryByRole('dialog')).toBeNull();
   });
 
@@ -164,7 +180,7 @@ describe('DayView', () => {
     };
     const { repo, writeDays } = fakeRepo({ '2026-10-14': doc });
     renderDay(repo);
-    fireEvent.click(await screen.findByLabelText('13:00–14:00 Wanted'));
+    fireEvent.click(await screen.findByLabelText('13:00–14:00 Productive'));
     expect(await screen.findByRole('dialog')).toBeTruthy();
     expect((screen.getByLabelText('Note (optional)') as HTMLInputElement).value).toBe('reading');
     const del = screen.getByRole('button', { name: 'Delete' });
@@ -194,17 +210,17 @@ describe('DayView', () => {
     const confirm = vi.spyOn(window, 'confirm');
     renderDay(repo);
     await openLogSheet();
-    const wanted = await screen.findByRole('button', { name: 'Wanted' });
+    const wanted = await screen.findByRole('button', { name: 'Productive' });
     await vi.waitFor(() => expect((wanted as HTMLButtonElement).disabled).toBe(false));
     fireEvent.click(wanted);
 
     expect(screen.getByText('This overwrites 2 logged half-hours.')).toBeTruthy();
     expect(writeDays).not.toHaveBeenCalled();
     fireEvent.click(screen.getByRole('button', { name: 'Cancel' }));
-    expect(screen.getByRole('button', { name: 'Wanted' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Productive' })).toBeTruthy();
     expect(writeDays).not.toHaveBeenCalled();
 
-    fireEvent.click(screen.getByRole('button', { name: 'Wanted' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Productive' }));
     fireEvent.click(screen.getByRole('button', { name: 'Overwrite' }));
     expect(writeDays).toHaveBeenCalledTimes(1);
     expect(writeDays.mock.calls[0][1]['2026-10-14'].slots.slice(26, 28)).toBe('gg');
@@ -237,7 +253,7 @@ describe('DayView', () => {
     const alert = vi.spyOn(window, 'alert').mockImplementation(() => {});
     renderDay(repo);
     await openLogSheet();
-    const wanted = await screen.findByRole('button', { name: 'Wanted' });
+    const wanted = await screen.findByRole('button', { name: 'Productive' });
     await vi.waitFor(() => expect((wanted as HTMLButtonElement).disabled).toBe(false));
     fireEvent.click(wanted);
     const toast = await screen.findByRole('alert');
@@ -259,7 +275,7 @@ describe('DayView', () => {
     const { repo, writeDays, serverArrives } = fakeRepo({}, { cacheOnly: true });
     renderDay(repo);
     await openLogSheet();
-    const wanted = (await screen.findByRole('button', { name: 'Wanted' })) as HTMLButtonElement;
+    const wanted = (await screen.findByRole('button', { name: 'Productive' })) as HTMLButtonElement;
     expect(await within(await screen.findByRole('dialog')).findByText('Syncing…')).toBeTruthy();
     expect(wanted.disabled).toBe(true);
     serverArrives();
@@ -274,7 +290,7 @@ describe('DayView', () => {
     const { repo, writeDays } = fakeRepo({}, { cacheOnly: true });
     renderDay(repo);
     await openLogSheet();
-    const wanted = (await screen.findByRole('button', { name: 'Wanted' })) as HTMLButtonElement;
+    const wanted = (await screen.findByRole('button', { name: 'Productive' })) as HTMLButtonElement;
     await vi.waitFor(() => expect(wanted.disabled).toBe(false));
     fireEvent.click(wanted);
     expect(writeDays).toHaveBeenCalledTimes(1);
@@ -285,7 +301,7 @@ describe('DayView', () => {
     const { repo, writeDays } = fakeRepo({}, { cacheOnly: true });
     renderDay(repo);
     await openLogSheet();
-    const wanted = (await screen.findByRole('button', { name: 'Wanted' })) as HTMLButtonElement;
+    const wanted = (await screen.findByRole('button', { name: 'Productive' })) as HTMLButtonElement;
     expect(wanted.disabled).toBe(true);
     await vi.waitFor(() => expect(wanted.disabled).toBe(false), { timeout: 6000 });
     fireEvent.click(wanted);
@@ -352,7 +368,7 @@ describe('DayView', () => {
       renderDay(repo, '/day/2026-10-13');
       fireEvent.click(await screen.findByLabelText('23:00–24:00 Wasted'));
       await screen.findByRole('dialog');
-      const wanted = screen.getByRole('button', { name: 'Wanted' });
+      const wanted = screen.getByRole('button', { name: 'Productive' });
       await vi.waitFor(() => expect((wanted as HTMLButtonElement).disabled).toBe(false));
       fireEvent.click(wanted);
       fireEvent.click(screen.getByRole('button', { name: 'Save' }));
@@ -579,14 +595,14 @@ describe('DayView drag-to-drop tray', () => {
     const { repo, writeDays } = fakeRepo();
     renderDay(repo);
     await writable();
-    await dragOut('Wanted');
+    await dragOut('Productive');
 
     expect(writeDays).toHaveBeenCalledTimes(1);
     const [uid, docs] = writeDays.mock.calls[0];
     expect(uid).toBe('u1');
     expect(Object.keys(docs)).toEqual(['2026-10-14']);
     expect(docs['2026-10-14'].slots.slice(12, 20)).toBe('..gg....');
-    expect(screen.getByText('Logged 07:00–08:00 as Wanted')).toBeTruthy();
+    expect(screen.getByText('Logged 07:00–08:00 as Productive')).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Undo' })).toBeTruthy();
     expect(screen.queryByRole('dialog')).toBeNull();
   });
@@ -609,12 +625,12 @@ describe('DayView drag-to-drop tray', () => {
       </MemoryRouter>,
     );
     await writable();
-    await dragOut('Wanted');
+    await dragOut('Productive');
     expect(screen.getByRole('button', { name: 'Undo' })).toBeTruthy();
     fireEvent.click(screen.getByRole('link', { name: 'Leave' }));
     await screen.findByText('Elsewhere');
     expect(screen.queryByRole('button', { name: 'Undo' })).toBeNull();
-    expect(screen.queryByText('Logged 07:00–08:00 as Wanted')).toBeNull();
+    expect(screen.queryByText('Logged 07:00–08:00 as Productive')).toBeNull();
   });
 
   it('overwrites logged time and Undo restores it', async () => {
@@ -626,12 +642,12 @@ describe('DayView drag-to-drop tray', () => {
     const { repo, writeDays } = fakeRepo({ '2026-10-14': doc }, { applyWrites: true });
     renderDay(repo);
     await writable();
-    await dragOut('Wanted');
+    await dragOut('Productive');
     expect(writeDays.mock.calls[0][1]['2026-10-14'].slots.slice(26, 30)).toBe('rgg.');
     // slot 26 stays unwanted (outside the window); 27 and 28 become wanted
 
     // the snapshot with the drop arrives, then Undo
-    await vi.waitFor(() => expect(screen.getByLabelText('13:30–14:00 Wanted')).toBeTruthy());
+    await vi.waitFor(() => expect(screen.getByLabelText('13:30–14:00 Productive')).toBeTruthy());
     fireEvent.click(screen.getByRole('button', { name: 'Undo' }));
     await vi.waitFor(() => expect(writeDays).toHaveBeenCalledTimes(2));
     const restored = writeDays.mock.calls[1][1]['2026-10-14'];
@@ -644,9 +660,9 @@ describe('DayView drag-to-drop tray', () => {
     const { repo, writeDays } = fakeRepo({ '2026-10-14': doc });
     renderDay(repo);
     await writable();
-    await dragOut('Wanted');
+    await dragOut('Productive');
     expect(writeDays).not.toHaveBeenCalled();
-    expect(screen.getByText('13:30–14:30 is already Wanted')).toBeTruthy();
+    expect(screen.getByText('13:30–14:30 is already Productive')).toBeTruthy();
     expect(screen.queryByRole('button', { name: 'Undo' })).toBeNull();
   });
 
@@ -667,7 +683,7 @@ describe('DayView drag-to-drop tray', () => {
     const { repo, writeDays } = fakeRepo();
     renderDay(repo);
     await writable();
-    const btn = await marble('Wanted');
+    const btn = await marble('Productive');
     fireEvent.pointerDown(btn, { ...PTR, clientX: 126, clientY: 326 });
     fireEvent.pointerUp(btn, { ...PTR, clientX: 127, clientY: 326 });
     expect(writeDays).not.toHaveBeenCalled();
@@ -677,15 +693,15 @@ describe('DayView drag-to-drop tray', () => {
     const { repo, writeDays, serverArrives } = fakeRepo({}, { cacheOnly: true });
     renderDay(repo);
     expect(await screen.findByText('Syncing…')).toBeTruthy();
-    const btn = await marble('Wanted');
+    const btn = await marble('Productive');
     expect(btn.getAttribute('aria-disabled')).toBe('true');
-    await dragOut('Wanted');
+    await dragOut('Productive');
     fireEvent.click(btn, { detail: 0 });
     expect(writeDays).not.toHaveBeenCalled();
 
     serverArrives();
     await vi.waitFor(() => expect(btn.getAttribute('aria-disabled')).toBeNull());
-    await dragOut('Wanted');
+    await dragOut('Productive');
     expect(writeDays).toHaveBeenCalledTimes(1);
   });
 
@@ -694,7 +710,7 @@ describe('DayView drag-to-drop tray', () => {
     writeDays.mockRejectedValueOnce(new Error('permission-denied'));
     renderDay(repo);
     await writable();
-    await dragOut('Wanted');
+    await dragOut('Productive');
     const toast = await screen.findByRole('alert');
     expect(toast.textContent).toContain('Could not save your changes: permission-denied');
   });
@@ -704,13 +720,13 @@ describe('DayView drag-to-drop tray', () => {
     const { repo, writeDays } = fakeRepo();
     renderDay(repo);
     await writable();
-    await dragOut('Wanted');
+    await dragOut('Productive');
     expect(writeDays).toHaveBeenCalledTimes(1);
     const docs = writeDays.mock.calls[0][1];
     expect(Object.keys(docs).sort()).toEqual(['2026-10-13', '2026-10-14']);
     expect(docs['2026-10-13'].slots.slice(46)).toBe('.g');
     expect(docs['2026-10-14'].slots.slice(0, 2)).toBe('g.');
-    expect(screen.getByText('Logged 23:30–00:30 as Wanted')).toBeTruthy();
+    expect(screen.getByText('Logged 23:30–00:30 as Productive')).toBeTruthy();
   });
 
   it('logs yesterday only just after midnight and says so', async () => {
@@ -719,9 +735,9 @@ describe('DayView drag-to-drop tray', () => {
     renderDay(repo);
     await writable();
     expect(await screen.findByText('Drag into the jar to log yesterday 23:00–24:00')).toBeTruthy();
-    await dragOut('Wanted');
+    await dragOut('Productive');
     expect(Object.keys(writeDays.mock.calls[0][1])).toEqual(['2026-10-13']);
-    expect(screen.getByText('Logged yesterday 23:00–24:00 as Wanted')).toBeTruthy();
+    expect(screen.getByText('Logged yesterday 23:00–24:00 as Productive')).toBeTruthy();
   });
 
   it("Undo restores today's slot-0 mark after navigating away from the dropped days", async () => {
@@ -730,7 +746,7 @@ describe('DayView drag-to-drop tray', () => {
     const { repo, writeDays } = fakeRepo({ '2026-10-14': doc }, { applyWrites: true });
     renderDay(repo, '/day/2026-10-14');
     await writable();
-    await dragOut('Wanted');
+    await dragOut('Productive');
     const dropped = writeDays.mock.calls[0][1];
     expect(dropped['2026-10-13'].slots.slice(46)).toBe('gg');
     // the drop ends at 24:00, so it marks today's slot 0 as the start of its own entry
@@ -750,13 +766,13 @@ describe('DayView drag-to-drop tray', () => {
   });
 
   describe('catch-up drops', () => {
-    // 07:00–13:00 Wanted; at 14:20 the window ends at 14:30 (slot 29)
+    // 07:00–13:00 Productive; at 14:20 the window ends at 14:30 (slot 29)
     const caughtThrough13: DayDoc = {
       ...base,
       slots: '.'.repeat(14) + 'g'.repeat(12) + '.'.repeat(22),
       notes: {},
     };
-    // 07:00–14:30 Wanted: nothing left to catch up
+    // 07:00–14:30 Productive: nothing left to catch up
     const caughtUp: DayDoc = {
       ...base,
       slots: '.'.repeat(14) + 'g'.repeat(15) + '.'.repeat(19),
@@ -780,25 +796,25 @@ describe('DayView drag-to-drop tray', () => {
       const { repo, writeDays } = fakeRepo({}, { applyWrites: true });
       renderDay(repo);
       await writable();
-      await dragOut('Wanted');
+      await dragOut('Productive');
       await vi.waitFor(() => expect(entryLines()).toHaveLength(1));
       await vi.waitFor(() =>
         expect(screen.getByText('Drag into the jar to log 08:00–09:00')).toBeTruthy(),
       );
-      await dragOut('Wanted');
+      await dragOut('Productive');
       await vi.waitFor(() => expect(entryLines()).toHaveLength(2));
       expect(writeDays).toHaveBeenCalledTimes(2);
       expect(writeDays.mock.calls[1][1]['2026-10-14'].slots.slice(14, 18)).toBe('gggg');
       const [first, second] = entryLines();
-      expect(first).toContain('07:00–08:00 · Wanted');
-      expect(second).toContain('08:00–09:00 · Wanted');
+      expect(first).toContain('07:00–08:00 · Productive');
+      expect(second).toContain('08:00–09:00 · Productive');
     });
 
     it('advances to the next gap when the second drop has a different category', async () => {
       const { repo, writeDays } = fakeRepo({}, { applyWrites: true });
       renderDay(repo);
       await writable();
-      await dragOut('Wanted');
+      await dragOut('Productive');
       await vi.waitFor(() => expect(entryLines()).toHaveLength(1));
       await dragOut('Wasted');
       await vi.waitFor(() => expect(writeDays).toHaveBeenCalledTimes(2));
@@ -814,7 +830,7 @@ describe('DayView drag-to-drop tray', () => {
       );
       renderDay(repo);
       await writable();
-      await dragOut('Wanted');
+      await dragOut('Productive');
       const dropped = writeDays.mock.calls[0][1]['2026-10-14'];
       expect(dropped.slots.slice(24, 30)).toBe('gggg..');
       expect(dropped.breaks?.[26]).toBe('|');
@@ -828,10 +844,10 @@ describe('DayView drag-to-drop tray', () => {
       await vi.waitFor(() => expect(entryLines()).toHaveLength(1));
       expect(await screen.findByText('Drag into the jar to log 13:00–14:00')).toBeTruthy();
 
-      await dragOut('Wanted');
+      await dragOut('Productive');
       expect(writeDays).toHaveBeenCalledTimes(3);
       expect(writeDays.mock.calls[2][1]['2026-10-14'].slots).toBe(dropped.slots);
-      expect(screen.getByText('Logged 13:00–14:00 as Wanted')).toBeTruthy();
+      expect(screen.getByText('Logged 13:00–14:00 as Productive')).toBeTruthy();
     });
 
     it('falls back to the last hour when caught up, and says "already" for the same category', async () => {
@@ -839,9 +855,9 @@ describe('DayView drag-to-drop tray', () => {
       renderDay(repo);
       await writable();
       expect(await screen.findByText('Drag into the jar to log 13:30–14:30')).toBeTruthy();
-      await dragOut('Wanted');
+      await dragOut('Productive');
       expect(writeDays).not.toHaveBeenCalled();
-      expect(screen.getByText('13:30–14:30 is already Wanted')).toBeTruthy();
+      expect(screen.getByText('13:30–14:30 is already Productive')).toBeTruthy();
     });
 
     it('recolors the last hour when caught up and the category differs', async () => {
@@ -945,7 +961,7 @@ describe('DayView Loose jar', () => {
     renderDay(repo);
     await screen.findByTestId('physics-jar');
     await writable();
-    await dragOut('Wanted');
+    await dragOut('Productive');
 
     expect(writeDays).toHaveBeenCalledTimes(1);
     // the first gap, 07:00–08:00, is one hour
@@ -955,7 +971,7 @@ describe('DayView Loose jar', () => {
       expect(Number.isFinite(vx) && Number.isFinite(vy)).toBe(true);
     }
     expect(animate).not.toHaveBeenCalled();
-    expect(screen.getByText('Logged 07:00–08:00 as Wanted')).toBeTruthy();
+    expect(screen.getByText('Logged 07:00–08:00 as Productive')).toBeTruthy();
   });
 
   it('drops a keyboard log at the neck', async () => {
@@ -976,7 +992,7 @@ describe('DayView Loose jar', () => {
     const { repo } = fakeRepo();
     renderDay(repo);
     await writable();
-    await dragOut('Wanted');
+    await dragOut('Productive');
     expect(physics.dropAt).not.toHaveBeenCalled();
     expect(animate).toHaveBeenCalled();
   });
@@ -988,7 +1004,7 @@ describe('DayView Loose jar', () => {
     renderDay(repo);
     await screen.findByTestId('physics-jar');
     await writable();
-    await dragOut('Wanted');
+    await dragOut('Productive');
     expect(writeDays).toHaveBeenCalledTimes(1);
     expect(physics.dropAt).not.toHaveBeenCalled();
     expect(animate).toHaveBeenCalled();
@@ -1001,7 +1017,7 @@ describe('DayView Loose jar', () => {
     renderDay(repo);
     await screen.findByTestId('physics-jar');
     await writable();
-    await dragOut('Wanted');
+    await dragOut('Productive');
     // 23:30 yesterday → 00:30 today: only hour 0 is in today's jar
     expect(physics.dropAt.mock.calls.map((c) => c[0])).toEqual([0]);
   });

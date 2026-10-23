@@ -34,6 +34,10 @@ describe('unloggedHours', () => {
     expect(unloggedHours(DATE, doc(withSlots(14, 19)), DEFAULT_SETTINGS, at(9, 10))).toBe(0);
   });
 
+  it('does not count Purposeful slots as unlogged', () => {
+    expect(unloggedHours(DATE, doc(withSlots(14, 18, 'p')), DEFAULT_SETTINGS, at(9, 10))).toBe(0.5);
+  });
+
   it("uses the day's sleep snapshot over current settings", () => {
     const d = doc(empty, { start: '01:00', end: '09:00' });
     // awake 00:00–01:00 (2 slots) before sleep; asleep till 09:00

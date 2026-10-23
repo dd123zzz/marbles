@@ -103,13 +103,17 @@ describe.each([
 
   it('keeps the normal jar for a past day with a logged slot', async () => {
     renderAt(repo(), path);
-    const logged = await screen.findByRole('img', { name: /^Tue Oct 13: G 1h/ });
+    const logged = await screen.findByRole('img', {
+      name: /^Tue Oct 13: Purposeful 0h · Productive 1h/,
+    });
     expect(marbleCount(logged)).toBeGreaterThanOrEqual(24);
   });
 
   it('keeps the normal jar for today and future days', async () => {
     renderAt(repo(), path);
-    const today = await screen.findByRole('img', { name: /^Wed Oct 14: G 0h/ });
+    const today = await screen.findByRole('img', {
+      name: /^Wed Oct 14: Purposeful 0h · Productive 0h/,
+    });
     expect(marbleCount(today)).toBeGreaterThanOrEqual(24);
     const future = jar(/^Thu Oct 15: /);
     expect(marbleCount(future)).toBeGreaterThanOrEqual(24);

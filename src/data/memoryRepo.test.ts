@@ -78,6 +78,14 @@ describe('memoryRepo', () => {
     expect(seen).toEqual(['g'.repeat(48)]);
   });
 
+  it('round-trips a Purposeful day doc', async () => {
+    const repo = createMemoryRepo();
+    const slots = '.'.repeat(20) + 'pppp' + '.'.repeat(24);
+    await repo.writeDays('u', { '2026-03-02': day(slots) });
+    const out = await createMemoryRepo().getDays('u', '2026-03-02', '2026-03-02');
+    expect(out['2026-03-02'].slots).toBe(slots);
+  });
+
   it('getDays reads an inclusive range once', async () => {
     const repo = createMemoryRepo();
     await repo.writeDays('u', { '2026-03-01': day(), '2026-03-05': day(), '2026-03-09': day() });

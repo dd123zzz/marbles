@@ -5,7 +5,7 @@ import { useDays, useSettings } from '../data/RepoProvider.tsx';
 import { useNow } from '../hooks/useNow';
 import { fullDate, monthDay, monthTitle } from '../lib/dateLabels';
 import SegmentedControl from '../components/SegmentedControl.tsx';
-import { CATEGORY_LABEL } from '../lib/jar';
+import { CATEGORIES, CATEGORY_LABEL } from '../lib/jar';
 import { computeStats, roundPct } from '../lib/stats';
 import { addDays, isValidDateKey, monthRange, parseDateKey, weekRange } from '../lib/time';
 import type { DateKey, MarbleColor, WeekStart } from '../types';
@@ -17,15 +17,16 @@ type Basis = 'awake' | 'day';
 const PERIODS: Period[] = ['day', 'week', 'month'];
 const PERIOD_LABEL: Record<Period, string> = { day: 'Day', week: 'Week', month: 'Month' };
 
-type RowKey = 'g' | 'b' | 'r' | 'sleep' | 'unlogged' | 'notYet';
+type RowKey = 'p' | 'g' | 'r' | 'b' | 'sleep' | 'unlogged' | 'notYet';
 const ROWS: Record<Basis, RowKey[]> = {
-  awake: ['g', 'b', 'r', 'unlogged'],
-  day: ['g', 'b', 'r', 'sleep', 'unlogged', 'notYet'],
+  awake: ['p', 'g', 'r', 'b', 'unlogged'],
+  day: ['p', 'g', 'r', 'b', 'sleep', 'unlogged', 'notYet'],
 };
 const ROW_COLOR: Record<RowKey, MarbleColor> = {
+  p: 'p',
   g: 'g',
-  b: 'b',
   r: 'r',
+  b: 'b',
   sleep: 'sleep',
   unlogged: 'unlogged',
   notYet: 'empty',
@@ -95,7 +96,7 @@ function Stats({ period, date }: { period: Period; date: DateKey }) {
       : stats.dayPct[k as keyof typeof stats.dayPct];
   const label = (k: RowKey): string => (k === 'notYet' ? 'Not yet' : CATEGORY_LABEL[ROW_COLOR[k]]);
 
-  const hasData = stats.hours.g + stats.hours.b + stats.hours.r > 0;
+  const hasData = CATEGORIES.some((c) => stats.hours[c] > 0);
 
   return (
     <div className="stack">

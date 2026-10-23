@@ -110,6 +110,7 @@ describe('forms', () => {
       category: 'g',
     });
     expect(buildEntry({ ...f, note: ' walk ' }, 'r').note).toBe('walk');
+    expect(buildEntry(f, 'p').category).toBe('p');
   });
   it('round-trips an entry through the edit form', () => {
     const e: Entry = { date: '2026-10-14', startSlot: 4, length: 3, category: 'b', note: 'x' };

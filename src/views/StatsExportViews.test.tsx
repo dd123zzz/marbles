@@ -81,15 +81,19 @@ afterEach(() => {
 
 describe('StatsView', () => {
   it('shows hours and percentages and toggles the basis', async () => {
-    const slots = '.'.repeat(20) + 'gggg' + '.'.repeat(24);
+    const slots = '.'.repeat(20) + 'gggg' + 'pp' + '.'.repeat(22);
     renderAt(fakeRepo({ '2020-06-10': day(slots) }), '/stats/day/2020-06-10');
-    const row = await screen.findByRole('row', { name: /Wanted/ });
+    const row = await screen.findByRole('row', { name: /Productive/ });
     expect(row.textContent).toContain('2h');
     expect(row.textContent).toContain('12.5%'); // 2 of 16 awake hours
+    const purposeful = screen.getByRole('row', { name: /Purposeful/ });
+    expect(purposeful.textContent).toContain('1h');
+    expect(purposeful.textContent).toContain('6.3%'); // 1 of 16 awake hours
     expect(screen.queryByRole('row', { name: /Sleep/ })).toBeNull();
     fireEvent.click(screen.getByLabelText('Of 24 hours'));
-    const wanted = screen.getByRole('row', { name: /Wanted/ });
+    const wanted = screen.getByRole('row', { name: /Productive/ });
     expect(wanted.textContent).toContain('8.3%');
+    expect(screen.getByRole('row', { name: /Purposeful/ }).textContent).toContain('4.2%');
     expect(screen.getByRole('row', { name: /Sleep/ }).textContent).toContain('8h');
   });
 

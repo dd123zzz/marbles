@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import BottomSheet from '../components/BottomSheet.tsx';
 import { useToast } from '../components/Toast.tsx';
-import { CATEGORY_LABEL } from '../lib/jar';
+import { CATEGORIES, CATEGORY_LABEL } from '../lib/jar';
 import { deleteEntry } from '../lib/entries';
 import { isValidDateKey, toDateKey } from '../lib/time';
 import { useDays, useRepo } from '../data/RepoProvider.tsx';
@@ -31,7 +31,6 @@ interface LogSheetProps {
   onClose: () => void;
 }
 
-const CATEGORIES: Category[] = ['g', 'b', 'r'];
 const START_OPTIONS = startOptions();
 const DURATION_OPTIONS = durationOptions();
 
