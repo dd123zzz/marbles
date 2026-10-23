@@ -57,7 +57,7 @@ Product: [SPEC.md](./SPEC.md). Staged plan: [PLAN.md](./PLAN.md). Running log an
 
 ## Architecture rules
 - `src/lib/{time,jar,entries}` are **pure and framework-free** (no React, no Firebase) and **fully unit-tested**. Any time, DST, midnight, or slot logic goes here with tests first.
-- **Data model:** one doc per user per day, `users/{uid}/days/{YYYY-MM-DD}`, with a 48-char `slots` string `[gbr.]`, an optional 48-char `breaks` string marking entry boundaries, and notes keyed by run-start slot. Gray (unlogged) and sleep are **computed, never stored**. Details are in PLAN.md "Data model".
+- **Data model:** one doc per user per day, `users/{uid}/days/{YYYY-MM-DD}`, with a 48-char `slots` string `[pgbr.]`, an optional 48-char `breaks` string marking entry boundaries, and notes keyed by run-start slot. Gray (unlogged) and sleep are **computed, never stored**. Details are in PLAN.md "Data model".
 - **Marble precedence:** DST n/a > logged > future (empty) > sleep > unlogged.
 - **Data access goes through the `Repo` interface** (`src/data/repo.ts`), with Firestore and memory implementations. Views use `useDays` and `useSettings`, not Firestore directly.
 - **Writes:**
