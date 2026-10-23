@@ -150,6 +150,18 @@ describe('users/{uid}/days/{date}', () => {
     );
   });
 
+  it('accepts Purposeful (p) slots', async () => {
+    await assertSucceeds(setDoc(ref(alice()), day({ slots: 'p'.repeat(48) })));
+    await assertSucceeds(
+      setDoc(ref(alice(), ALICE, '2026-03-15'), day({ slots: 'pgbr'.repeat(12) })),
+    );
+  });
+
+  it('accepts a p run with a breaks mask splitting the run', async () => {
+    const breaks = '.'.repeat(4) + '|' + '.'.repeat(43);
+    await assertSucceeds(setDoc(ref(alice()), day({ slots: 'p'.repeat(48), breaks })));
+  });
+
   it('denies another user read and write', async () => {
     await seed(['users', ALICE, 'days', DATE], { ...day(), updatedAt: new Date() });
     await assertFails(getDoc(ref(bob())));
@@ -166,6 +178,9 @@ describe('users/{uid}/days/{date}', () => {
     ['slots length 47', { slots: '.'.repeat(47) }],
     ['slots length 49', { slots: '.'.repeat(49) }],
     ['slots invalid char', { slots: 'x'.repeat(48) }],
+    ['slots uppercase P', { slots: 'P'.repeat(48) }],
+    ['slots length 47 with p', { slots: 'p'.repeat(47) }],
+    ['slots length 49 with p', { slots: 'p'.repeat(49) }],
     ['slots not a string', { slots: 42 }],
     ['extra field', { extra: 1 }],
     [

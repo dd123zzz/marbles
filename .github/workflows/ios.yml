@@ -1,26 +1,8 @@
 name: iOS
 
+# Frozen by the user (2026-10-22): manual runs only until iOS work resumes.
 on:
-  push:
-    paths:
-      - 'ios/**'
-      - '.github/workflows/ios.yml'
-      - 'scripts/golden/**'
-      - 'src/lib/**'
-      - 'src/types.ts'
-      - 'src/components/jarLayout.ts'
-      - 'src/views/*Logic.ts'
-      - 'package.json'
-  pull_request:
-    paths:
-      - 'ios/**'
-      - '.github/workflows/ios.yml'
-      - 'scripts/golden/**'
-      - 'src/lib/**'
-      - 'src/types.ts'
-      - 'src/components/jarLayout.ts'
-      - 'src/views/*Logic.ts'
-      - 'package.json'
+  workflow_dispatch:
 
 concurrency:
   group: ios-${{ github.ref }}
