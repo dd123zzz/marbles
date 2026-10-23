@@ -1,10 +1,12 @@
+import { useMemo } from 'react';
 import { Link, Navigate, useParams } from 'react-router-dom';
 import { useAuth } from '../auth/AuthProvider.tsx';
-import MiniJar from '../components/MiniJar.tsx';
+import WeekTimeline, { WeekTimelineSkeleton } from '../components/WeekTimeline.tsx';
 import { useDays, useSettings } from '../data/RepoProvider.tsx';
 import { useNow } from '../hooks/useNow';
-import { monthDay, weekdayShort } from '../lib/dateLabels';
+import { monthDay } from '../lib/dateLabels';
 import { computeMarbles, isEmptyPastDay } from '../lib/jar';
+import { weekTimeline } from '../lib/jar/timeline';
 import { addDays, isValidDateKey, parseDateKey, toDateKey, weekRange } from '../lib/time';
 import { weekTitle } from '../share/drawJar';
 import ShareButton from '../share/ShareButton.tsx';
@@ -21,7 +23,7 @@ function Week({ date }: { date: string }) {
   const uid = user?.uid;
   const now = useNow();
   const { settings } = useSettings(uid);
-  const keys = weekRange(date, settings.weekStart);
+  const keys = useMemo(() => weekRange(date, settings.weekStart), [date, settings.weekStart]);
   const { days, loading, error } = useDays(uid, keys[0], keys[6]);
   const today = toDateKey(now);
   const weekDays = keys.map((k) => {
@@ -33,6 +35,18 @@ function Week({ date }: { date: string }) {
       nothingLogged: isEmptyPastDay(k, today, doc?.slots),
     };
   });
+
+  const { sleepStart, sleepEnd } = settings;
+  const tl = useMemo(
+    () =>
+      weekTimeline({
+        dates: keys,
+        days,
+        settingsSleep: { start: sleepStart, end: sleepEnd },
+        now,
+      }),
+    [keys, days, sleepStart, sleepEnd, now],
+  );
 
   return (
     <div className="stack">
@@ -55,9 +69,6 @@ function Week({ date }: { date: string }) {
           <Link className="btn" to={`/week/${today}`}>
             This week
           </Link>
-          <Link className="btn" to={`/month/${date.slice(0, 7)}`}>
-            Month
-          </Link>
           {!loading && (
             <ShareButton
               spec={{ kind: 'week', title: weekTitle(keys[0]), days: weekDays }}
@@ -74,26 +85,15 @@ function Week({ date }: { date: string }) {
         </p>
       )}
       {loading ? (
-        <p className="loading">Loading…</p>
+        <WeekTimelineSkeleton />
       ) : (
-        <ul className="week-grid">
-          {weekDays.map(({ date: k, marbles, nothingLogged }) => {
-            const dow = parseDateKey(k).getDay();
-            const cls = ['day-cell', k === today && 'today', (dow === 0 || dow === 6) && 'weekend']
-              .filter(Boolean)
-              .join(' ');
-            return (
-              <li key={k}>
-                <Link to={`/day/${k}`} className={cls}>
-                  <MiniJar date={k} marbles={marbles} size={44} nothingLogged={nothingLogged} />
-                  <span className="day-name">{weekdayShort(k)}</span>
-                  <span>{parseDateKey(k).getDate()}</span>
-                  {k === today && <span className="today-badge">Today</span>}
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
+        <WeekTimeline
+          days={tl.days}
+          total={tl.total}
+          statsHref={`/stats/week/${keys[0]}`}
+          showNow={keys.includes(today)}
+          nowLabel={`Now ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`}
+        />
       )}
     </div>
   );

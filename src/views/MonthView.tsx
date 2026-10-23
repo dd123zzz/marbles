@@ -58,9 +58,6 @@ function Month({ year, month0 }: { year: number; month0: number }) {
           <Link className="btn" to={`/month/${today.slice(0, 7)}`}>
             This month
           </Link>
-          <Link className="btn" to={`/week/${range.start}`}>
-            Week
-          </Link>
         </div>
       </header>
       {error && (

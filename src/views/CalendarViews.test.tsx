@@ -85,10 +85,8 @@ afterEach(() => {
   vi.useRealTimers();
 });
 
-describe.each([
-  ['WeekView', '/week/2026-10-14'],
-  ['MonthView', '/month/2026-10'],
-])('%s empty jars for unlogged past days', (_name, path) => {
+describe('MonthView empty jars for unlogged past days', () => {
+  const path = '/month/2026-10';
   const repo = () =>
     fakeRepo({
       '2026-10-12': doc('.'.repeat(48)),
@@ -125,5 +123,62 @@ describe.each([
     const noDoc = await screen.findByRole('img', { name: 'Mon Oct 12: nothing logged' });
     expect(marbleCount(noDoc)).toBe(0);
     expect(noDoc.querySelector('.jar-outline')).not.toBeNull();
+  });
+});
+
+describe('WeekView timeline', () => {
+  const path = '/week/2026-10-14';
+  const repo = () =>
+    fakeRepo({
+      '2026-10-12': doc('.'.repeat(48)),
+      '2026-10-13': doc(LOGGED),
+    });
+
+  it('shows a nothing-logged column with no segments', async () => {
+    renderAt(repo(), path);
+    const link = await screen.findByRole('link', { name: 'Mon Oct 12: nothing logged' });
+    expect(link.textContent).toContain('Nothing logged');
+    expect(link.querySelectorAll('.wt-seg')).toHaveLength(0);
+  });
+
+  it('draws logged segments and links to the day', async () => {
+    renderAt(repo(), path);
+    const link = await screen.findByRole('link', { name: /^Tue Oct 13: Productive 1h/ });
+    expect(link.querySelector('.wt-seg.c-g')).not.toBeNull();
+    expect(link.getAttribute('href')).toBe('/day/2026-10-13');
+  });
+
+  it('marks today with a now line and a future run', async () => {
+    renderAt(repo(), path);
+    const link = await screen.findByRole('link', { name: /, today/ });
+    expect(link.querySelector('.wt-now')).not.toBeNull();
+    expect(link.querySelector('.wt-seg.c-empty')).not.toBeNull();
+  });
+
+  it('draws a future day as one dashed segment and keeps it tappable', async () => {
+    renderAt(repo(), path);
+    const link = await screen.findByRole('link', { name: 'Thu Oct 15: not yet' });
+    expect(link.querySelectorAll('.c-empty')).toHaveLength(1);
+    expect(link.querySelectorAll('.wt-seg')).toHaveLength(1);
+    expect(link.getAttribute('href')).toBe('/day/2026-10-15');
+  });
+
+  it('links to week stats and shows week hours in the legend', async () => {
+    renderAt(repo(), path);
+    const stats = await screen.findByRole('link', { name: /Week stats/ });
+    expect(stats.getAttribute('href')).toBe('/stats/week/2026-10-12');
+    expect(screen.getByText('Productive 1h')).toBeTruthy();
+  });
+
+  it('drops the Week/Month switch links but keeps the other header controls', async () => {
+    renderAt(repo(), path);
+    await screen.findByRole('link', { name: /Week stats/ });
+    expect(screen.queryByRole('link', { name: 'Month' })).toBeNull();
+    expect(screen.getByRole('link', { name: 'This week' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: /Share/ })).toBeTruthy();
+    cleanup();
+    renderAt(repo(), '/month/2026-10');
+    await screen.findByRole('link', { name: 'This month' });
+    expect(screen.queryByRole('link', { name: 'Week' })).toBeNull();
   });
 });
