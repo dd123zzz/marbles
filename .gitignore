@@ -13,3 +13,5 @@ ui-debug.log
 # mockup single-frame screenshots (keep only the *-both overviews)
 design/mockups/screens/*
 !design/mockups/screens/*-both.png
+design/mockups/week/screens/*
+!design/mockups/week/screens/*-both.png
