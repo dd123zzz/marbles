@@ -1,6 +1,8 @@
 # Marbles: Agent Guidelines
 
-Product: [SPEC.md](./SPEC.md). Staged plan: [PLAN.md](./PLAN.md). Running log and decisions: [HANDOFF.md](./HANDOFF.md). Setup and scripts: [README.md](./README.md). iOS client (deferred): [ios/README.md](./ios/README.md).
+Product: [SPEC.md](./SPEC.md). Staged plan: [PLAN.md](./PLAN.md). Running log and decisions: [HANDOFF.md](./HANDOFF.md). Setup and scripts: [README.md](./README.md). iOS client: [ios/README.md](./ios/README.md).
+
+**iOS is frozen (user, 2026-10-22).** Don't edit `ios/`, plan iOS parity, or run or fix the iOS workflow (it's manual-only) until the user explicitly asks for it.
 
 ## Working model (orchestrator)
 - The main agent is the **orchestrator** (PM and tech lead). It sets scope, asks the user about ambiguity, plans, delegates, verifies, and reviews. It writes **no app code**. It owns the planning docs: `AGENTS.md`, `PLAN.md`, `SPEC.md`, `HANDOFF.md`, `model_rate.md`.
@@ -66,12 +68,11 @@ Product: [SPEC.md](./SPEC.md). Staged plan: [PLAN.md](./PLAN.md). Running log an
 - **Quota (Spark plan):** one range subscription per view (month ≤ 31 reads). No per-day listeners in loops. No Cloud Functions or paid services.
 - **Auth:** popup sign-in only, never redirect.
 - **Routing:** HashRouter only. Vite `base: '/marbles/'`.
-- **Every client write must be allowed by `firestore.rules`.** When the data shape changes, update the rules **and** `tests/rules/` in the same change. The deferred iOS codec (`ios/Packages/MarblesData`) mirrors the rules and will need the same change when the port resumes.
+- **Every client write must be allowed by `firestore.rules`.** When the data shape changes, update the rules **and** `tests/rules/` in the same change. The frozen iOS codec (`ios/Packages/MarblesData`) mirrors the rules and will need catching up if the user resumes iOS.
 
 ## Conventions
 - Shared types live in `src/types.ts`. Category chars are `g`/`b`/`r` = Wanted/Wasted/Unwanted. Colors come from the Sorbet tokens in `src/styles/tokens.css`. Sleep is periwinkle `#9aa6f4` in light mode and `#a5aef7` in dark mode.
 - **Accessibility:** colors are always paired with text, marbles have `aria-label`s, and animation respects `prefers-reduced-motion`.
 - **Commits:** Conventional Commits (`feat:`, `fix:`, `docs:`, `chore:`, `style:`), ending with the trailer `Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>`.
 - **Never commit** `.env.local` or service-account keys. Firebase web config goes in GitHub repo **variables** (`vars.VITE_FIREBASE_*`). The only secret is `FIREBASE_SERVICE_ACCOUNT`.
-- **Don't push or change GitHub or Firebase settings without asking the user.** Pushing to `main` deploys to Pages, and deploys rules when they change. The iOS workflow is expected to stay red until the iOS port resumes.
-- **Ask the user** (structured question) about design choices, scope, or behavior ambiguity; don't guess.
+- **Don't push or change GitHub or Firebase settings without asking the user.** Pushing to `main` deploys to Pages, and deploys rules when they change.- **Ask the user** (structured question) about design choices, scope, or behavior ambiguity; don't guess.

@@ -93,6 +93,8 @@ Single source of order: add `CATEGORIES: readonly Category[] = ['p','g','r','b']
 
 ## 5. Sky-blue candidates (computed; WCAG 2.x luminance, CIEDE2000, Machado 2009 full-severity CVD)
 
+> **Superseded (user, 2026-10-22):** Purposeful `p` takes the existing mint (`#8fe6bb` / `#86dfb2`), and Productive `g` takes candidate **A** (`#7cc4ef` / `#86cbf2`). See PLAN.md Stage 6. iOS is frozen, so section 9 and the iOS CI notes are no longer planned work.
+
 Light jar bg `--bg #fff8f3`, dark `--bg #1d1a2b`. ΔE columns are normal / deuteranopia / protanopia / tritanopia. Under 10 is close, under 5 is risky.
 
 | | Light / dark base | `-hi` / `-lo` (light) | L* | Y (light) | vs bg light / dark | ink `#1f1d2b` light / dark | ΔE vs Sleep | ΔE vs Productive |
