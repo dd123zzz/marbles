@@ -91,6 +91,10 @@ nav.segmented .segment[aria-current='page']::before {
   .stats-bar-row:nth-child(6) .stats-bar {
     animation-delay: 200ms;
   }
+
+  .stats-bar-row:nth-child(7) .stats-bar {
+    animation-delay: 240ms;
+  }
 }
 
 @keyframes stats-bar-grow {
