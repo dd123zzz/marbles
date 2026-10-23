@@ -138,18 +138,23 @@ export default function WeekTimeline({
 /** Seven flat columns shown while the week loads. */
 export function WeekTimelineSkeleton() {
   return (
-    <section className="card wt" aria-hidden="true">
-      <div className="wt-body">
-        <div className="wt-gutter" />
-        <ol className="wt-cols">
-          {Array.from({ length: 7 }, (_, i) => (
-            <li key={i} className="wt-col wt-skel">
-              <span className="wt-head" />
-              <span className="wt-chart" />
-            </li>
-          ))}
-        </ol>
-      </div>
-    </section>
+    <>
+      <p role="status" className="sr-only">
+        Loading week…
+      </p>
+      <section className="card wt" aria-hidden="true">
+        <div className="wt-body">
+          <div className="wt-gutter" />
+          <ol className="wt-cols">
+            {Array.from({ length: 7 }, (_, i) => (
+              <li key={i} className="wt-col wt-skel">
+                <span className="wt-head" />
+                <span className="wt-chart" />
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+    </>
   );
 }

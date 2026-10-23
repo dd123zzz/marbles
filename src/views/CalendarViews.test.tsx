@@ -134,6 +134,14 @@ describe('WeekView timeline', () => {
       '2026-10-13': doc(LOGGED),
     });
 
+  it('announces a loading status while the week loads', async () => {
+    const pending: Repo = { ...repo(), subscribeDays: () => () => {} };
+    renderAt(pending, path);
+    const status = await screen.findByText('Loading week…');
+    expect(status.getAttribute('role')).toBe('status');
+    expect(status.className).toContain('sr-only');
+  });
+
   it('shows a nothing-logged column with no segments', async () => {
     renderAt(repo(), path);
     const link = await screen.findByRole('link', { name: 'Mon Oct 12: nothing logged' });

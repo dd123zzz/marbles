@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { DayDoc, MarbleColor } from '../../types';
 import { weekRange } from '../time';
-import { slotColors } from './index';
 import { colorRuns, weekTimeline } from './timeline';
 
 const SLEEP = { start: '23:00', end: '07:00' };
@@ -39,20 +38,6 @@ describe('colorRuns', () => {
       { start: 2, length: 2, color: 'p' },
     ]);
   });
-  it('merges same-category entries separated by a breaks mark', () => {
-    const d = doc(make(fill(18, 24, 'g')), { breaks: make({ 21: '|' }) });
-    const colors = slotColors({
-      date: '2026-06-09',
-      slots: d.slots,
-      sleep: SLEEP,
-      now: new Date(2026, 5, 10, 12, 0),
-    });
-    expect(colorRuns(colors).find((r) => r.color === 'g')).toEqual({
-      start: 18,
-      length: 6,
-      color: 'g',
-    });
-  });
 });
 
 describe('weekTimeline', () => {
@@ -62,6 +47,16 @@ describe('weekTimeline', () => {
     now: Date,
     weekStart: 'mon' | 'sun' = 'mon',
   ) => weekTimeline({ dates: weekRange(date, weekStart), days, settingsSleep: SLEEP, now });
+
+  it('merges same-category entries separated by a breaks mark into one segment', () => {
+    const now = new Date(2026, 5, 20, 12, 0);
+    // Two adjacent Productive entries: slots 18–20 and 21–23 (entry boundary at slot 21).
+    const d = doc(make(fill(18, 24, 'g')), { breaks: make({ 21: '|' }) });
+    const mon = build('2026-06-15', { '2026-06-15': d }, now).days[0];
+    const gSegs = mon.segments.filter((s) => s.color === 'g');
+    expect(gSegs).toHaveLength(1);
+    expect(gSegs[0]).toMatchObject({ start: 18, length: 6, color: 'g' });
+  });
 
   it('spring-forward week: n/a segment on Mar 8, 23h, excluded from total', () => {
     const now = new Date(2026, 2, 10, 12, 0);
