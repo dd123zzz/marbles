@@ -460,6 +460,27 @@ The design build starts only after engineering merges, so the two tracks never e
 - PLAN data model and rules sketch: add `breaks`.
 - PLAN 4.1: add a pointer to 5.1.
 
+## Stage 6: Purposeful Marble
+
+**Status:** planned 2026-10-22; waiting on the user's answers to the four open questions in ENGINEERING section 8 (the color pick among others). User decisions are in [HANDOFF.md](./HANDOFF.md) Decisions. Detailed plan: [docs/stage6/ENGINEERING.md](./docs/stage6/ENGINEERING.md).
+
+| # | Feature | Summary |
+|---|---|---|
+| 6.1 | Purposeful category | A 4th user-logged category, **Purposeful** (time chosen deliberately), slot char `p`. Slots become `[pgbr.]`. One shared order, `CATEGORIES = ['p','g','r','b']`, plus `isCategory()` in `src/lib/jar` replace every hard-coded list. Sky-blue tokens `--marble-p` (light and dark, `-hi`/`-lo`) with dark ink. A 4-marble tray, 4 Log sheet buttons, a chip, a Stats row with both percentages, a 4-across share PNG stats row, and the export value `purposeful`. |
+| 6.2 | Wanted renamed Productive | Labels, aria-labels and export values only (`wanted` becomes `productive`, a breaking change for export scripts). The data char stays `g`; no migration. |
+| 6.3 | Safe rollout | Old cached PWAs show `p` as gray but keep it on write (`setSlots` rewrites only the edited range), so there's no `v` bump. Rules allowing `p` must be live before any client writes `p`. Because `deploy` and `deploy-rules` run in parallel in CI, the rules-only commit is pushed **first** and the rules are never reverted afterwards. |
+| 6.4 | Deferred | iOS port (ENGINEERING section 9). The iOS workflow goes red from Wave 1 (the golden fixtures contain "Wanted"). |
+
+**Waves (disjoint path ownership; the orchestrator verifies after each):**
+0. **Rules** (Sonnet, alone, pushed first with the user's OK): `firestore.rules`, `tests/rules/**`.
+1. **Types and libs** (Sonnet, alone; the orchestrator signs off the `src/types.ts` diff first): `src/types.ts`, `src/lib/**`.
+2. **In parallel:** 2A components, styles, share and all CSS (`src/components/**`, `src/styles/**`, `src/share/**`, `src/views/*.css`, `src/auth/SignInView.tsx`); 2B views, reminders and data (`src/views/*.tsx`, `src/views/*.ts`, `src/reminders/**`, `src/data/**`).
+3. Code review, fixer, and a demo smoke test at 390px and 360px in light and dark: log Purposeful from the sheet, drag it from the tray, check the Stats rows, the CSV values and the share PNG.
+
+**Estimate:** about 205 credits for the build, including review and smoke.
+
+**Doc updates at build time:** SPEC section 2 (a Purposeful row, the Productive rename), F2/F4 (4 categories), P1 (word labels), section 5 ("beyond the 3" becomes 4); PLAN data model and rules sketch `[pgbr.]`; AGENTS conventions (category chars).
+
 ---
 
 ## Risks & Mitigations
