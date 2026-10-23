@@ -64,9 +64,9 @@ Marbles stack chronologically: 00:00 at the bottom of the jar, 23:00 at the top.
 - Summary chips show hours per category by name (e.g., `Purposeful 2h · Productive 4h · Unwanted 1h · Wasted 2.5h · Sleep 8h · Unlogged 3.5h`).
 
 ### F5. Calendar views
-- **Week view:** 7 mini jars with day labels. The week start (Mon or Sun) is a user setting.
-- **Month view:** a grid of mini jars.
-- Tapping any mini jar opens that day's jar.
+- Week and Month are reached from the tab bar; their headers have no switch between them.
+- **Week view:** a timeline of 7 day columns × 48 half-hour rows (00:00 at the top), colored by the same rendering rule as the jar, with note dots, a now line on today, legend chips with week hours per category plus Sleep and Unlogged, and a "Week stats" link. A past day with nothing logged is blank with "Nothing logged". Tapping a column opens that day. The week start (Mon or Sun) is a user setting. The week share image still shows 7 mini jars.
+- **Month view:** a grid of mini jars. Tapping one opens that day's jar.
 - Mini jars use the same rendering rule as the day jar, drawn as static images. Past days with nothing logged show an empty jar.
 
 ### F6. Settings

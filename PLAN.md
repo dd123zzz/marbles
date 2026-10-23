@@ -485,7 +485,7 @@ The design build starts only after engineering merges, so the two tracks never e
 
 ## Stage 7: Week Timeline
 
-**Status:** planned 2026-10-22; builds after Stage 6 is pushed. User decisions are in [HANDOFF.md](./HANDOFF.md) Decisions. Detailed plans: [docs/stage7/DESIGN.md](./docs/stage7/DESIGN.md) (direction A) and [docs/stage7/ENGINEERING.md](./docs/stage7/ENGINEERING.md). Mockup: `design/mockups/week/screens/timeline-both.png`.
+**Status:** built 2026-10-22 (`93e760e` lib, `c652bc3` UI, `7acce61` review fixes); push pending (user). User decisions are in [HANDOFF.md](./HANDOFF.md) Decisions. Detailed plans: [docs/stage7/DESIGN.md](./docs/stage7/DESIGN.md) (direction A) and [docs/stage7/ENGINEERING.md](./docs/stage7/ENGINEERING.md). Mockup: `design/mockups/week/screens/timeline-both.png`.
 
 | # | Feature | Summary |
 |---|---|---|
