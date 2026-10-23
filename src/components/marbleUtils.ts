@@ -3,7 +3,7 @@ import { slotToHHmm } from '../lib/time';
 import type { Marble, MarbleColor } from '../types';
 
 /** Colors that are drawn as glossy glass marbles; the rest are matte or outlined. */
-export const GLOSSY = ['g', 'b', 'r', 'sleep'] as const;
+export const GLOSSY = ['p', 'g', 'b', 'r', 'sleep'] as const;
 export const GRADIENT_COLORS = [...GLOSSY, 'unlogged'] as const;
 
 export function isGlossy(c: MarbleColor): boolean {

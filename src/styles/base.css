@@ -310,6 +310,12 @@ legend {
   background: radial-gradient(circle at 35% 30%, var(--hi), var(--base) 55%, var(--lo));
 }
 
+.dot-p {
+  --base: var(--marble-p);
+  --hi: var(--marble-p-hi);
+  --lo: var(--marble-p-lo);
+}
+
 .dot-g {
   --base: var(--marble-g);
   --hi: var(--marble-g-hi);

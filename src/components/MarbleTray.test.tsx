@@ -49,7 +49,7 @@ function setup(props: { writable?: boolean; result?: DropResult | void; jar?: DO
       getDropTargetRect={props.jar ? () => props.jar! : undefined}
     />,
   );
-  const wanted = screen.getByRole('button', { name: 'Log 13:30–14:30 as Wanted' });
+  const wanted = screen.getByRole('button', { name: 'Log 13:30–14:30 as Productive' });
   return { onDrop, onArmedChange, wanted };
 }
 
@@ -61,11 +61,14 @@ const up = (el: Element, dx: number, dy = 0) =>
   fireEvent.pointerUp(el, { ...PTR, clientX: HOME.clientX + dx, clientY: HOME.clientY + dy });
 
 describe('MarbleTray', () => {
-  it('renders three labelled marbles and the live hint', () => {
+  it('renders four labelled marbles in display order and the live hint', () => {
     setup();
-    for (const name of ['Wanted', 'Wasted', 'Unwanted']) {
+    const names = ['Purposeful', 'Productive', 'Unwanted', 'Wasted'];
+    for (const name of names) {
       expect(screen.getByRole('button', { name: `Log 13:30–14:30 as ${name}` })).toBeTruthy();
     }
+    const labels = screen.getAllByRole('button').map((b) => b.getAttribute('aria-label'));
+    expect(labels).toEqual(names.map((n) => `Log 13:30–14:30 as ${n}`));
     expect(screen.getByText('Drag into the jar to log 13:30–14:30')).toBeTruthy();
   });
 

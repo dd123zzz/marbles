@@ -21,7 +21,7 @@ function marblesAt(h: number, min: number, slots = emptySlots()): Marble[] {
   return computeMarbles({ date: DATE, slots, sleep, now: new Date(2026, 9, 14, h, min) });
 }
 
-// 13:00–13:30 wanted, 13:30–14:00 wasted
+// 13:00–13:30 productive, 13:30–14:00 wasted
 const logged = emptySlots().slice(0, 26) + 'gb' + emptySlots().slice(28);
 const at1420 = marblesAt(14, 20, logged);
 
@@ -158,14 +158,16 @@ describe('PhysicsJar selection', () => {
     expect(onSelect).toHaveBeenLastCalledWith(6, at1420[3]);
     fireEvent.click(screen.getByRole('button', { name: '13:30–14:00 Wasted' }));
     expect(onSelect).toHaveBeenLastCalledWith(27, at1420[13]);
-    fireEvent.keyDown(screen.getByRole('button', { name: '13:00–13:30 Wanted' }), { key: 'Enter' });
+    fireEvent.keyDown(screen.getByRole('button', { name: '13:00–13:30 Productive' }), {
+      key: 'Enter',
+    });
     expect(onSelect).toHaveBeenLastCalledWith(26, at1420[13]);
   });
 
   it('exposes a half marble as a group of two buttons and keeps tab order by hour', () => {
     render(<PhysicsJar marbles={at1420} date={DATE} onSelect={() => {}} />);
     expect(
-      screen.getByRole('group', { name: '13:00–13:30 Wanted, 13:30–14:00 Wasted' }),
+      screen.getByRole('group', { name: '13:00–13:30 Productive, 13:30–14:00 Wasted' }),
     ).toBeTruthy();
     const labels = screen.getAllByRole('button').map((b) => b.getAttribute('aria-label'));
     expect(labels.slice(0, 3)).toEqual([
@@ -173,8 +175,8 @@ describe('PhysicsJar selection', () => {
       '01:00–02:00 Sleep',
       '02:00–03:00 Sleep',
     ]);
-    expect(labels.indexOf('13:30–14:00 Wasted')).toBe(labels.indexOf('13:00–13:30 Wanted') + 1);
-    expect(labels.indexOf('13:00–13:30 Wanted')).toBeLessThan(
+    expect(labels.indexOf('13:30–14:00 Wasted')).toBe(labels.indexOf('13:00–13:30 Productive') + 1);
+    expect(labels.indexOf('13:00–13:30 Productive')).toBeLessThan(
       labels.indexOf('14:00–14:30 Unlogged'),
     );
   });

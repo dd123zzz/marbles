@@ -8,7 +8,7 @@ import {
   marblePosition,
 } from '../components/jarLayout';
 import { monthDay, weekdayShort } from '../lib/dateLabels';
-import { CATEGORY_LABEL, MARBLE_COLORS, summarize, type Summary } from '../lib/jar';
+import { CATEGORIES, CATEGORY_LABEL, MARBLE_COLORS, summarize, type Summary } from '../lib/jar';
 import { parseDateKey } from '../lib/time';
 import type { DateKey, Marble, MarbleColor } from '../types';
 
@@ -208,10 +208,10 @@ function stat(
   y: number,
 ): void {
   ctx.beginPath();
-  ctx.arc(cx - 34, y - 4, 4.5, 0, Math.PI * 2);
+  ctx.arc(cx - 32, y - 4, 4.5, 0, Math.PI * 2);
   ctx.fillStyle = MARBLE_COLORS[key];
   ctx.fill();
-  text(ctx, CATEGORY_LABEL[key], cx - 26, y, { size: 12, color: MUTED, weight: 600 });
+  text(ctx, CATEGORY_LABEL[key], cx - 24, y, { size: 11, color: MUTED, weight: 600 });
   text(ctx, formatHours(sum[key]), cx, y + 26, { size: 22, weight: 700, align: 'center' });
 }
 
@@ -232,9 +232,7 @@ export function drawDayImage(
 
   const sum = summarize(input.marbles);
   const inner = size.width - 48;
-  (['g', 'b', 'r'] as const).forEach((k, i) =>
-    stat(ctx, k, sum, 24 + (inner / 3) * (i + 0.5) + 12, 574),
-  );
+  CATEGORIES.forEach((k, i) => stat(ctx, k, sum, 24 + (inner / 4) * (i + 0.5), 574));
   (['sleep', 'unlogged'] as const).forEach((k, i) =>
     stat(ctx, k, sum, 24 + inner * (i === 0 ? 0.3 : 0.7) + 12, 642),
   );
@@ -275,9 +273,7 @@ export function drawWeekImage(
   const inner = size.width - 48;
   const statsY = 100 + 2 * rowH + 20;
   text(ctx, 'Week total', 24, statsY, { size: 12, weight: 700, color: MUTED });
-  (['g', 'b', 'r'] as const).forEach((k, i) =>
-    stat(ctx, k, total, 24 + (inner / 3) * (i + 0.5) + 12, statsY + 34),
-  );
+  CATEGORIES.forEach((k, i) => stat(ctx, k, total, 24 + (inner / 4) * (i + 0.5), statsY + 34));
   (['sleep', 'unlogged'] as const).forEach((k, i) =>
     stat(ctx, k, total, 24 + inner * (i === 0 ? 0.3 : 0.7) + 12, statsY + 102),
   );

@@ -11,7 +11,7 @@ afterEach(cleanup);
 
 const now = new Date(2026, 9, 14, 14, 20);
 const sleep = { start: '23:00', end: '07:00' };
-// 13:00–13:30 wanted, 13:30–14:00 wasted
+// 13:00–13:30 productive, 13:30–14:00 wasted
 const slots = emptySlots().slice(0, 26) + 'gb' + emptySlots().slice(28);
 const marbles = computeMarbles({ date: '2026-10-14', slots, sleep, now });
 
@@ -24,14 +24,14 @@ describe('Jar', () => {
     for (const b of buttons) expect(b.getAttribute('aria-label')).toBeTruthy();
     expect(screen.getByLabelText('03:00–04:00 Sleep')).toBeTruthy();
     expect(
-      screen.getByRole('group', { name: '13:00–13:30 Wanted, 13:30–14:00 Wasted' }),
+      screen.getByRole('group', { name: '13:00–13:30 Productive, 13:30–14:00 Wasted' }),
     ).toBeTruthy();
   });
 
   it('exposes both halves of a half marble as separate focusable targets', () => {
     const onSelect = vi.fn();
     render(<Jar marbles={marbles} onSelect={onSelect} />);
-    const left = screen.getByRole('button', { name: '13:00–13:30 Wanted' });
+    const left = screen.getByRole('button', { name: '13:00–13:30 Productive' });
     const right = screen.getByRole('button', { name: '13:30–14:00 Wasted' });
     expect(left.getAttribute('tabindex')).toBe('0');
     expect(right.getAttribute('tabindex')).toBe('0');
@@ -61,7 +61,7 @@ describe('Jar', () => {
     render(<Jar marbles={marbles} onSelect={onSelect} />);
     fireEvent.click(screen.getByRole('button', { name: '13:30–14:00 Wasted' }));
     expect(onSelect).toHaveBeenLastCalledWith(27, marbles[13]);
-    fireEvent.click(screen.getByRole('button', { name: '13:00–13:30 Wanted' }));
+    fireEvent.click(screen.getByRole('button', { name: '13:00–13:30 Productive' }));
     expect(onSelect).toHaveBeenLastCalledWith(26, marbles[13]);
   });
 
@@ -202,7 +202,7 @@ describe('MiniJar', () => {
   it('labels the day with its summary', () => {
     render(<MiniJar date="2026-10-14" marbles={marbles} />);
     expect(screen.getByRole('img').getAttribute('aria-label')).toMatch(
-      /^Wed Oct 14: G 0\.5h · B 0\.5h/,
+      /^Wed Oct 14: Purposeful 0h · Productive 0\.5h · Unwanted 0h · Wasted 0\.5h/,
     );
   });
 });

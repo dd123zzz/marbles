@@ -69,6 +69,10 @@
   transform: scale(1.02);
 }
 
+.jar-armed-p {
+  --armed: var(--marble-p);
+}
+
 .jar-armed-g {
   --armed: var(--marble-g);
 }

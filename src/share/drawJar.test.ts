@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { MARBLE_RADIUS } from '../components/jarLayout';
-import { computeMarbles } from '../lib/jar';
+import { computeMarbles, MARBLE_COLORS } from '../lib/jar';
 import type { Marble, MarbleColor } from '../types';
 import {
   drawDayImage,
@@ -93,11 +93,46 @@ describe('drawDayImage', () => {
     expect(texts).toContain('Marbles');
     expect(texts).toContain('Sun, Oct 18, 2026');
     expect(texts).toEqual(
-      expect.arrayContaining(['Wanted', 'Wasted', 'Unwanted', 'Sleep', 'Unlogged']),
+      expect.arrayContaining([
+        'Purposeful',
+        'Productive',
+        'Unwanted',
+        'Wasted',
+        'Sleep',
+        'Unlogged',
+      ]),
     );
     // logged 00:00–08:00 wins over the sleep window, so only 23:00–24:00 shows as sleep
     expect(texts).toContain('8h');
     expect(texts).toContain('1h');
+  });
+
+  it('lays the four category stats out in display order', () => {
+    const { ctx, calls } = mockCtx();
+    drawDayImage(ctx, { date: '2026-10-18', marbles: marbles() });
+    const texts = of(calls, 'fillText').map((c) => c.args[0]);
+    const order = ['Purposeful', 'Productive', 'Unwanted', 'Wasted'].map((l) => texts.indexOf(l));
+    expect(order.every((i) => i >= 0)).toBe(true);
+    expect([...order].sort((a, b) => a - b)).toEqual(order);
+    const xs = of(calls, 'fillText')
+      .filter((c) =>
+        ['Purposeful', 'Productive', 'Unwanted', 'Wasted'].includes(c.args[0] as string),
+      )
+      .map((c) => c.args[1] as number);
+    expect(xs).toEqual([...xs].sort((a, b) => a - b));
+  });
+
+  it('paints Purposeful marbles mint and Productive marbles sky blue', () => {
+    const mint = MARBLE_COLORS.p;
+    const sky = MARBLE_COLORS.g;
+    const { ctx, fills } = mockCtx();
+    drawDayImage(ctx, { date: '2026-10-18', marbles: marbles(Array(24).fill(['p', 'p'])) });
+    // 24 marbles plus the legend dot
+    expect(fills.filter((f) => f === mint)).toHaveLength(25);
+    const plain = mockCtx();
+    drawDayImage(plain.ctx, { date: '2026-10-18', marbles: marbles() });
+    expect(plain.fills.filter((f) => f === mint)).toHaveLength(1);
+    expect(plain.fills.filter((f) => f === sky)).toHaveLength(25);
   });
 
   it('fills with the light background at 3x scale regardless of theme', () => {

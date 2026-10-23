@@ -101,6 +101,12 @@
 }
 
 /* soft colored shadow from each category's deep tone */
+.category-p {
+  --cat-shadow: var(--marble-p-lo);
+  background: var(--cat-p);
+  border-color: transparent;
+}
+
 .category-g {
   --cat-shadow: var(--marble-g-lo);
   background: var(--cat-g);

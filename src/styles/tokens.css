@@ -3,6 +3,7 @@
 /* Theme-independent tokens (the same in light and dark) */
 :root {
   /* category buttons and bars (pastel fills with dark ink; Wasted uses white ink) */
+  --cat-p: var(--marble-p);
   --cat-g: var(--marble-g);
   --cat-b: var(--marble-b);
   --cat-r: var(--marble-r);
@@ -90,9 +91,12 @@
   --cat-b-ring: transparent;
 
   /* marbles: base color plus highlight and shade for the glossy gradient */
-  --marble-g: #8fe6bb;
-  --marble-g-hi: #e3fbef;
-  --marble-g-lo: #4fb98a;
+  --marble-p: #8fe6bb;
+  --marble-p-hi: #e3fbef;
+  --marble-p-lo: #4fb98a;
+  --marble-g: #7cc4ef;
+  --marble-g-hi: #e2f4fd;
+  --marble-g-lo: #3f93c4;
   --marble-b: #6e6a8e;
   --marble-b-hi: #928eb4;
   --marble-b-lo: #45415f;
@@ -155,9 +159,12 @@
 
   --cat-b-ring: rgba(244, 238, 251, 0.55);
 
-  --marble-g: #86dfb2;
-  --marble-g-hi: #e0f8ec;
-  --marble-g-lo: #3f9f74;
+  --marble-p: #86dfb2;
+  --marble-p-hi: #e0f8ec;
+  --marble-p-lo: #3f9f74;
+  --marble-g: #86cbf2;
+  --marble-g-hi: #e0f2fc;
+  --marble-g-lo: #4499c9;
   --marble-b: #716c99;
   --marble-b-hi: #8f8ab4;
   --marble-b-lo: #46415f;

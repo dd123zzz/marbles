@@ -1,7 +1,7 @@
-import { CATEGORY_LABEL, summarize } from '../lib/jar';
+import { CATEGORIES, CATEGORY_LABEL, summarize } from '../lib/jar';
 import type { Marble } from '../types';
 
-const KEYS = ['g', 'b', 'r', 'sleep', 'unlogged'] as const;
+const KEYS = [...CATEGORIES, 'sleep', 'unlogged'] as const;
 
 const hours = (n: number): string => `${Number.isInteger(n) ? n : n.toFixed(1)}h`;
 

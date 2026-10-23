@@ -1,11 +1,9 @@
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
-import { CATEGORY_LABEL } from '../lib/jar';
+import { CATEGORIES, CATEGORY_LABEL } from '../lib/jar';
 import type { Category } from '../types';
 import { useMarbleDrag, type DropInfo, type DropResult } from './useMarbleDrag';
 import './tray.css';
-
-const CATEGORIES: Category[] = ['g', 'b', 'r'];
 
 export interface MarbleTrayProps {
   /** the window a drop logs, e.g. "13:30–14:30" or "yesterday 23:00–24:00" */

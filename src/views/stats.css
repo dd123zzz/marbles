@@ -109,6 +109,10 @@ nav.segmented .segment[aria-current='page']::before {
   }
 }
 
+.stats-bar-p {
+  --base: var(--marble-p);
+}
+
 .stats-bar-g {
   --base: var(--marble-g);
 }

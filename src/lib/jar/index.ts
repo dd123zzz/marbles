@@ -93,9 +93,7 @@ const hours = (n: number): string => `${Number.isInteger(n) ? n : n.toFixed(1)}h
 
 export function formatSummary(sum: Summary): string {
   return [
-    `G ${hours(sum.g)}`,
-    `B ${hours(sum.b)}`,
-    `R ${hours(sum.r)}`,
+    ...CATEGORIES.map((c) => `${CATEGORY_LABEL[c]} ${hours(sum[c])}`),
     `Sleep ${hours(sum.sleep)}`,
     `Unlogged ${hours(sum.unlogged)}`,
   ].join(' · ');

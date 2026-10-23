@@ -1,9 +1,10 @@
+import { isCategory } from '../lib/jar';
 import type { Marble, MarbleColor } from '../types';
 import type { MarbleAnim } from './MarbleShape.tsx';
 
 export const DROP_STAGGER_MS = 40;
 
-const isLogged = (c: MarbleColor) => c === 'g' || c === 'b' || c === 'r';
+const isLogged = (c: MarbleColor) => isCategory(c);
 const wasUnlogged = (c: MarbleColor) => c === 'unlogged' || c === 'sleep' || c === 'empty';
 
 /**

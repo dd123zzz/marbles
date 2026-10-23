@@ -49,6 +49,7 @@ export default function SignInView() {
   return (
     <main className="signin">
       <div className="signin-brand" aria-hidden="true">
+        <span className="dot dot-p" />
         <span className="dot dot-g" />
         <span className="dot dot-sleep" />
         <span className="dot dot-r" />

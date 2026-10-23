@@ -312,19 +312,21 @@ describe('summarize / formatSummary', () => {
     expect(s.g + s.b + s.r + s.sleep + s.unlogged).toBe(24);
   });
 
-  it('formats all five', () => {
-    expect(formatSummary({ p: 0, g: 6, b: 2.5, r: 1, sleep: 8, unlogged: 3.5 })).toBe(
-      'G 6h · B 2.5h · R 1h · Sleep 8h · Unlogged 3.5h',
+  it('formats all six with full labels in display order', () => {
+    expect(formatSummary({ p: 1, g: 6, b: 2.5, r: 1, sleep: 8, unlogged: 3.5 })).toBe(
+      'Purposeful 1h · Productive 6h · Unwanted 1h · Wasted 2.5h · Sleep 8h · Unlogged 3.5h',
     );
     expect(formatSummary({ p: 0, g: 0, b: 0, r: 0, sleep: 0, unlogged: 0 })).toBe(
-      'G 0h · B 0h · R 0h · Sleep 0h · Unlogged 0h',
+      'Purposeful 0h · Productive 0h · Unwanted 0h · Wasted 0h · Sleep 0h · Unlogged 0h',
     );
   });
 
   it('end-to-end example from the spec', () => {
     const slots = make({ ...fill(26, 38, 'g'), ...fill(38, 43, 'b'), ...fill(43, 45, 'r') });
     const m = computeMarbles({ date: DAY, slots, sleep: SLEEP, now: evening });
-    expect(formatSummary(summarize(m))).toBe('G 6h · B 2.5h · R 1h · Sleep 8h · Unlogged 6.5h');
+    expect(formatSummary(summarize(m))).toBe(
+      'Purposeful 0h · Productive 6h · Unwanted 1h · Wasted 2.5h · Sleep 8h · Unlogged 6.5h',
+    );
   });
 });
 
