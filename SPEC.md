@@ -18,7 +18,8 @@ A mobile-first web app where every hour of your day becomes a colored marble in 
 
 | Category | Color | Source |
 |---|---|---|
-| **Wanted** | 🟢 Green | User-logged: time spent on something I wanted to do |
+| **Purposeful** | 🟢 Mint (#8fe6bb) | User-logged: time I chose deliberately, rather than drifting into it (Stage 6) |
+| **Productive** | 🔵 Sky blue (#7cc4ef) | User-logged: time spent on something I wanted to do (named Wanted, in green, before Stage 6) |
 | **Wasted** | ⚫ Black | User-logged: wasted time |
 | **Unwanted** | 🔴 Red | User-logged: something I did not want to do |
 | **Sleep** | 🔵 Periwinkle (#9aa6f4; was indigo #4f46e5 before Stage 5) | Auto-filled: the user's sleep window, unless an entry overrides it |
@@ -42,7 +43,7 @@ Marbles stack chronologically: 00:00 at the bottom of the jar, 23:00 at the top.
 
 ### F2. Log a time block
 - **Fields:**
-  - **Category:** Green, Black, or Red. Required. Shown as three big buttons.
+  - **Category:** Purposeful, Productive, Unwanted, or Wasted (in that order). Required. Shown as four big buttons.
   - **Start time:** defaults to the previous full hour (e.g., at 14:20 the default is 13:00). Uses a 30-minute step.
   - **Duration:** defaults to 1 hour. Uses a 30-minute step, minimum 30 minutes, maximum 24 hours.
   - **Note:** optional free text, up to 200 characters.
@@ -59,8 +60,8 @@ Marbles stack chronologically: 00:00 at the bottom of the jar, 23:00 at the top.
 
 ### F4. Day jar view (home)
 - Shows today's jar with 24 positions, filled using the rendering rule above.
-- Layout, top to bottom: a tray of three category marbles (Wanted, Wasted, Unwanted) above today's jar, used for drag-to-drop (F2); the jar; then summary chips under the jar. The tray shows on today only.
-- Summary chips show hours per category (e.g., `G 6h · B 2.5h · R 1h · Sleep 8h · Unlogged 3.5h`).
+- Layout, top to bottom: a tray of four category marbles (Purposeful, Productive, Unwanted, Wasted) above today's jar, used for drag-to-drop (F2); the jar; then summary chips under the jar. The tray shows on today only.
+- Summary chips show hours per category by name (e.g., `Purposeful 2h · Productive 4h · Unwanted 1h · Wasted 2.5h · Sleep 8h · Unlogged 3.5h`).
 
 ### F5. Calendar views
 - **Week view:** 7 mini jars with day labels. The week start (Mon or Sun) is a user setting.
@@ -79,7 +80,7 @@ Marbles stack chronologically: 00:00 at the bottom of the jar, 23:00 at the top.
 
 | ID | Feature | Notes |
 |---|---|---|
-| P1 | **Stats** | Hours and percentage per category for the day, week, and month. Two percentage views: "of awake time" (G/B/R/Unlogged) and "of 24 hours". |
+| P1 | **Stats** | Hours and percentage per category for the day, week, and month. Two percentage views: "of awake time" (the four logged categories plus Unlogged) and "of 24 hours". |
 | P2 | **Dark mode** | Follows the system setting, with a manual toggle. Black marbles get an outline or glow so they stay visible. |
 | P3 | **End-of-day reflection** | One free-text note per day (up to 1,000 characters), shown under the day jar. |
 | P4 | **CSV/JSON export** | Exports all data or a date range. Generated in the browser. |
@@ -90,7 +91,7 @@ Marbles stack chronologically: 00:00 at the bottom of the jar, 23:00 at the top.
 
 ## 5. Out of Scope (for now)
 - Social features, multiple users per jar, teams.
-- Custom categories beyond the 3 user-logged colors.
+- Custom categories beyond the 4 user-logged categories.
 - Native mobile apps.
 - Year heatmap, streaks, daily goals, and tag presets (backlog candidates).
 

@@ -71,7 +71,7 @@ Product: [SPEC.md](./SPEC.md). Staged plan: [PLAN.md](./PLAN.md). Running log an
 - **Every client write must be allowed by `firestore.rules`.** When the data shape changes, update the rules **and** `tests/rules/` in the same change. The frozen iOS codec (`ios/Packages/MarblesData`) mirrors the rules and will need catching up if the user resumes iOS.
 
 ## Conventions
-- Shared types live in `src/types.ts`. Category chars are `g`/`b`/`r` = Wanted/Wasted/Unwanted. Colors come from the Sorbet tokens in `src/styles/tokens.css`. Sleep is periwinkle `#9aa6f4` in light mode and `#a5aef7` in dark mode.
+- Shared types live in `src/types.ts`. Category chars are `p`/`g`/`r`/`b` = Purposeful/Productive/Unwanted/Wasted, in that display order (`CATEGORIES` in `src/lib/jar`). `g` was named Wanted before Stage 6. Colors come from the Sorbet tokens in `src/styles/tokens.css`. Sleep is periwinkle `#9aa6f4` in light mode and `#a5aef7` in dark mode.
 - **Accessibility:** colors are always paired with text, marbles have `aria-label`s, and animation respects `prefers-reduced-motion`.
 - **Commits:** Conventional Commits (`feat:`, `fix:`, `docs:`, `chore:`, `style:`), ending with the trailer `Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>`.
 - **Never commit** `.env.local` or service-account keys. Firebase web config goes in GitHub repo **variables** (`vars.VITE_FIREBASE_*`). The only secret is `FIREBASE_SERVICE_ACCOUNT`.

@@ -29,7 +29,7 @@ users/{uid}                      # settings document
   v: 1                           # schema version
 
 users/{uid}/days/{YYYY-MM-DD}    # local calendar date; one document per day
-  slots: string(48)              # [gbr.] one char per 30 minutes; '.' = not logged
+  slots: string(48)              # [pgbr.] one char per 30 minutes; '.' = not logged
   notes: { [startSlot]: string } # note for the entry starting at that slot
   breaks?: string(48)            # Stage 5: [.|]; '|' = an entry starts here inside a same-category run
                                  #   ('|' at 0 = don't join yesterday's last entry); omitted when empty
@@ -55,7 +55,7 @@ match /users/{uid} {
     allow create, update: if request.auth.uid == uid
       && d.matches('^\\d{4}-\\d{2}-\\d{2}$')
       && request.resource.data.keys().hasOnly(['slots','notes','sleep','tz','reflection','breaks','updatedAt','v'])
-      && request.resource.data.slots.matches('^[gbr.]{48}$')
+      && request.resource.data.slots.matches('^[pgbr.]{48}$')
       && (!('breaks' in request.resource.data) || request.resource.data.breaks.matches('^[.|]{48}$'))
       && request.resource.data.notes.size() <= 48;
   }
