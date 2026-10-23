@@ -1,11 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import type { Marble, MarbleColor } from '../../types';
 import {
+  CATEGORIES,
   CATEGORY_LABEL,
   MARBLE_COLORS,
   computeMarbles,
   formatSummary,
   hasLoggedSlots,
+  isCategory,
   isEmptyPastDay,
   summarize,
 } from './index';
@@ -26,6 +28,27 @@ const evening = new Date(2026, 5, 10, 23, 59);
 const nextDay = new Date(2026, 5, 11, 12, 0);
 
 describe('computeMarbles', () => {
+  it('colors a p slot purposeful with its own label', () => {
+    const m = computeMarbles({
+      date: DAY,
+      slots: make({ ...fill(26, 28, 'p'), 30: 'p', 31: 'g' }),
+      sleep: SLEEP,
+      now: nextDay,
+    });
+    expect(m[13]).toMatchObject({
+      left: 'p',
+      right: 'p',
+      full: true,
+      label: '13:00–14:00 Purposeful',
+    });
+    expect(m[15]).toMatchObject({
+      left: 'p',
+      right: 'g',
+      full: false,
+      label: '15:00–15:30 Purposeful, 15:30–16:00 Productive',
+    });
+  });
+
   it('returns 24 marbles indexed by hour', () => {
     const m = computeMarbles({ date: DAY, slots: undefined, sleep: SLEEP, now: nextDay });
     expect(m).toHaveLength(24);
@@ -44,7 +67,7 @@ describe('computeMarbles', () => {
       left: 'g',
       right: 'g',
       full: true,
-      label: '13:00–14:00 Wanted',
+      label: '13:00–14:00 Productive',
     });
   });
 
@@ -55,7 +78,7 @@ describe('computeMarbles', () => {
       left: 'g',
       right: 'unlogged',
       full: false,
-      label: '13:00–13:30 Wanted, 13:30–14:00 Unlogged',
+      label: '13:00–13:30 Productive, 13:30–14:00 Unlogged',
     });
   });
 
@@ -248,15 +271,29 @@ describe('summarize / formatSummary', () => {
     const sum = summarize([
       marble('g', 'g'),
       marble('g', 'b'),
+      marble('p', 'p'),
+      marble('p', 'g'),
       marble('r', 'sleep'),
       marble('unlogged', 'empty'),
       marble('na', 'na'),
     ]);
-    expect(sum).toEqual({ g: 1.5, b: 0.5, r: 0.5, sleep: 0.5, unlogged: 0.5 });
+    expect(sum).toEqual({ p: 1.5, g: 2, b: 0.5, r: 0.5, sleep: 0.5, unlogged: 0.5 });
   });
 
   it('empty input is all zero', () => {
-    expect(summarize([])).toEqual({ g: 0, b: 0, r: 0, sleep: 0, unlogged: 0 });
+    expect(summarize([])).toEqual({ p: 0, g: 0, b: 0, r: 0, sleep: 0, unlogged: 0 });
+  });
+
+  it('counts p separately from g', () => {
+    const m = computeMarbles({
+      date: DAY,
+      slots: make({ ...fill(26, 28, 'p'), ...fill(28, 31, 'g') }),
+      sleep: SLEEP,
+      now: nextDay,
+    });
+    const s = summarize(m);
+    expect(s.p).toBe(1);
+    expect(s.g).toBe(1.5);
   });
 
   it('a full day adds up to 24h', () => {
@@ -276,10 +313,10 @@ describe('summarize / formatSummary', () => {
   });
 
   it('formats all five', () => {
-    expect(formatSummary({ g: 6, b: 2.5, r: 1, sleep: 8, unlogged: 3.5 })).toBe(
+    expect(formatSummary({ p: 0, g: 6, b: 2.5, r: 1, sleep: 8, unlogged: 3.5 })).toBe(
       'G 6h · B 2.5h · R 1h · Sleep 8h · Unlogged 3.5h',
     );
-    expect(formatSummary({ g: 0, b: 0, r: 0, sleep: 0, unlogged: 0 })).toBe(
+    expect(formatSummary({ p: 0, g: 0, b: 0, r: 0, sleep: 0, unlogged: 0 })).toBe(
       'G 0h · B 0h · R 0h · Sleep 0h · Unlogged 0h',
     );
   });
@@ -294,7 +331,8 @@ describe('summarize / formatSummary', () => {
 describe('constants', () => {
   it('colors', () => {
     expect(MARBLE_COLORS).toEqual({
-      g: '#8fe6bb',
+      p: '#8fe6bb',
+      g: '#7cc4ef',
       b: '#6e6a8e',
       r: '#f08070',
       sleep: '#9aa6f4',
@@ -304,13 +342,25 @@ describe('constants', () => {
     });
   });
   it('labels', () => {
-    expect(CATEGORY_LABEL.g).toBe('Wanted');
+    expect(CATEGORY_LABEL.p).toBe('Purposeful');
+    expect(CATEGORY_LABEL.g).toBe('Productive');
     expect(CATEGORY_LABEL.b).toBe('Wasted');
     expect(CATEGORY_LABEL.r).toBe('Unwanted');
     expect(CATEGORY_LABEL.sleep).toBe('Sleep');
     expect(CATEGORY_LABEL.unlogged).toBe('Unlogged');
     expect(CATEGORY_LABEL.empty).toBe('Not yet');
     expect(CATEGORY_LABEL.na).toContain('Not applicable');
+  });
+});
+
+describe('CATEGORIES / isCategory', () => {
+  it('lists the categories in display order', () => {
+    expect(CATEGORIES).toEqual(['p', 'g', 'r', 'b']);
+  });
+
+  it('accepts only the four category chars', () => {
+    for (const c of CATEGORIES) expect(isCategory(c)).toBe(true);
+    for (const c of ['.', 'x', 'P', '', 'gb', 'sleep']) expect(isCategory(c)).toBe(false);
   });
 });
 
@@ -321,9 +371,10 @@ describe('hasLoggedSlots', () => {
     expect(hasLoggedSlots('.'.repeat(48))).toBe(false);
   });
 
-  it('is true for any g, b or r slot', () => {
-    for (const c of ['g', 'b', 'r']) expect(hasLoggedSlots(make({ 47: c }))).toBe(true);
+  it('is true for any p, g, b or r slot', () => {
+    for (const c of ['p', 'g', 'b', 'r']) expect(hasLoggedSlots(make({ 47: c }))).toBe(true);
     expect(hasLoggedSlots(make({ 0: 'g' }))).toBe(true);
+    expect(hasLoggedSlots(make({ 0: 'p' }))).toBe(true);
   });
 });
 

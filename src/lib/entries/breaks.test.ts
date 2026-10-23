@@ -61,7 +61,7 @@ const e = (
 const refs = (date: DateKey, ...slots: number[]): SlotRef[] =>
   slots.map((slot) => ({ date, slot }));
 const merge = (days: Days, changed: Days): Days => ({ ...days, ...changed });
-const drop = (days: Days, targets: SlotRef[], category: 'g' | 'b' | 'r', now = NOW) =>
+const drop = (days: Days, targets: SlotRef[], category: Entry['category'], now = NOW) =>
   planDrop({ days, targets, category, sleep: SLEEP, tz: TZ, now });
 /** Applies an entry and returns the merged days map, like the app does after a write. */
 const put = (days: Days, entry: Entry, replace?: Entry): Days =>
@@ -453,6 +453,47 @@ describe('midnight joins respect the next-day mark', () => {
   it('a mark does not join a different-category tail either way', () => {
     const days = { [D1]: tail, [D2]: doc(run(0, 2, 'g'), {}, marks(0)) };
     expect(logicalEntriesForDay(days, D2)).toEqual([e(D2, 0, 2, 'g')]);
+  });
+});
+
+describe('purposeful entries', () => {
+  it('a break inside a p run splits it into two p entries', () => {
+    const d = doc(run(26, 32, 'p'), { '26': 'a', '30': 'c' }, marks(30));
+    expect(entriesFromDay(D1, d)).toEqual([e(D1, 26, 4, 'p', 'a'), e(D1, 30, 2, 'p', 'c')]);
+    expect(entriesOf(d.slots, d.breaks)).toEqual([
+      { start: 26, length: 4, category: 'p' },
+      { start: 30, length: 2, category: 'p' },
+    ]);
+    expect(normalizeBreaks(d.slots, d.breaks)).toBe(marks(30));
+  });
+
+  it('a p entry next to a g entry needs no break mark', () => {
+    const out = applyEntry({ [D1]: doc(run(26, 28, 'p')) }, e(D1, 28, 2, 'g'), OPTS)[D1]!;
+    expect(out.slots).toBe(str({ ...run(26, 28, 'p'), ...run(28, 30, 'g') }));
+    expect(out.breaks).toBeUndefined();
+  });
+
+  it('drop then undo restores p slots, notes and breaks', () => {
+    const days = { [D1]: doc(run(26, 32, 'p'), { '26': 'a', '30': 'c' }, marks(30)) };
+    const plan = drop(days, refs(D1, 28, 29), 'g');
+    expect(plan.changed[D1]!.slots).toBe(
+      str({ ...run(26, 28, 'p'), ...run(28, 30, 'g'), ...run(30, 32, 'p') }),
+    );
+    expect(plan.undo.slots).toEqual([
+      { date: D1, slot: 28, prev: 'p' },
+      { date: D1, slot: 29, prev: 'p' },
+    ]);
+    const undone = undoDrop(merge(days, plan.changed), plan.undo);
+    expect(undone[D1]).toEqual(days[D1]);
+  });
+
+  it('dropping p over g and undoing restores g', () => {
+    const days = { [D1]: doc(run(26, 30, 'g')) };
+    const plan = drop(days, refs(D1, 27, 28), 'p');
+    expect(plan.changed[D1]!.slots).toBe(
+      str({ ...run(26, 27, 'g'), ...run(27, 29, 'p'), 29: 'g' }),
+    );
+    expect(undoDrop(merge(days, plan.changed), plan.undo)[D1]).toEqual(days[D1]);
   });
 });
 

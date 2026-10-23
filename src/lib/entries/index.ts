@@ -8,6 +8,7 @@ import {
   isValidDateKey,
   splitAcrossDays,
 } from '../time';
+import { isCategory } from '../jar';
 
 export const MAX_NOTE_LENGTH = 200;
 const NOTE_SEPARATOR = ' · ';
@@ -293,7 +294,7 @@ export function validateEntry(e: Entry, now: Date): string | null {
   if (!Number.isInteger(e.length) || e.length < 1 || e.length > SLOTS_PER_DAY) {
     return 'Duration must be between 30 minutes and 24 hours.';
   }
-  if (e.category !== 'g' && e.category !== 'b' && e.category !== 'r') return 'Invalid category.';
+  if (!isCategory(e.category)) return 'Invalid category.';
   if (e.note !== undefined && e.note.length > MAX_NOTE_LENGTH) {
     return `Note must be ${MAX_NOTE_LENGTH} characters or fewer.`;
   }

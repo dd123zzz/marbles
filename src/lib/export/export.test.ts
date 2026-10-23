@@ -24,9 +24,19 @@ describe('toCsv', () => {
     const lines = toCsv({ '2026-10-15': d }, R).slice(1).trimEnd().split('\r\n');
     expect(lines).toEqual([
       'date,start,end,duration_minutes,category,note',
-      '2026-10-15,2026-10-15T22:30:00-07:00,2026-10-15T23:30:00-07:00,60,wanted,late work',
+      '2026-10-15,2026-10-15T22:30:00-07:00,2026-10-15T23:30:00-07:00,60,productive,late work',
       '2026-10-15,2026-10-15T23:30:00-07:00,2026-10-16T00:00:00-07:00,30,wasted,',
     ]);
+  });
+
+  it('exports p as purposeful', () => {
+    const d = doc({ 20: 'p', 21: 'p', 30: 'g' });
+    const rows = exportRows({ '2026-06-01': d }, R);
+    expect(rows.map((r) => [r.category, r.duration_minutes])).toEqual([
+      ['purposeful', 60],
+      ['productive', 30],
+    ]);
+    expect(toCsv({ '2026-06-01': d }, R)).toContain(',purposeful,');
   });
 
   it('writes a midnight-crossing entry as two rows', () => {
@@ -66,7 +76,7 @@ describe('toCsv', () => {
     expect(csvField('say "hi"')).toBe('"say ""hi"""');
     expect(csvField('line1\nline2')).toBe('"line1\nline2"');
     const csv = toCsv({ '2026-06-01': doc({ 20: 'g' }, { '20': 'a, "b"\nc' }) }, R);
-    expect(csv).toContain(',wanted,"a, ""b""\nc"\r\n');
+    expect(csv).toContain(',productive,"a, ""b""\nc"\r\n');
   });
 
   it('orders by date and filters to the range', () => {
@@ -102,7 +112,7 @@ describe('toCsv', () => {
 
   it('orders rows within a day by start time', () => {
     const rows = exportRows({ '2026-06-01': doc({ 30: 'g', 2: 'b', 10: 'r' }) }, R);
-    expect(rows.map((r) => r.category)).toEqual(['wasted', 'unwanted', 'wanted']);
+    expect(rows.map((r) => r.category)).toEqual(['wasted', 'unwanted', 'productive']);
   });
 });
 
@@ -134,7 +144,7 @@ describe('toJson', () => {
         start: '2026-06-01T10:00:00-07:00',
         end: '2026-06-01T10:30:00-07:00',
         duration_minutes: 30,
-        category: 'wanted',
+        category: 'productive',
         note: 'hi',
       },
     ]);

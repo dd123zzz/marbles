@@ -25,13 +25,41 @@ describe('computeStats', () => {
       now: later,
     });
     // sleep: 23:00-07:00 = 8h; g 2h, b 1h, r 0.5h; unlogged 24-8-3.5 = 12.5h
-    expect(s.hours).toEqual({ g: 2, b: 1, r: 0.5, sleep: 8, unlogged: 12.5, notYet: 0, na: 0 });
+    expect(s.hours).toEqual({
+      p: 0,
+      g: 2,
+      b: 1,
+      r: 0.5,
+      sleep: 8,
+      unlogged: 12.5,
+      notYet: 0,
+      na: 0,
+    });
     expect(s.awakePct.g).toBeCloseTo((2 / 16) * 100);
     const awakeSum = Object.values(s.awakePct).reduce((a, b) => a + b, 0);
     expect(awakeSum).toBeCloseTo(100);
     const daySum = Object.values(s.dayPct).reduce((a, b) => a + b, 0);
     expect(daySum).toBeCloseTo(100);
     expect(s.dayPct.sleep).toBeCloseTo((8 / 24) * 100);
+  });
+
+  it('counts p as its own row and in the awake denominator', () => {
+    const slots = slotsWith({ ...range(16, 20, 'p'), ...range(20, 22, 'g') });
+    const s = computeStats({
+      dates: ['2026-06-10'],
+      days: { '2026-06-10': doc(slots) },
+      settingsSleep: SLEEP,
+      now: later,
+    });
+    // awake = 16h (sleep 8h): p 2h, g 1h, unlogged 13h
+    expect(s.hours).toMatchObject({ p: 2, g: 1, unlogged: 13 });
+    expect(s.awakePct.p).toBeCloseTo((2 / 16) * 100);
+    expect(s.awakePct.g).toBeCloseTo((1 / 16) * 100);
+    expect(s.dayPct.p).toBeCloseTo((2 / 24) * 100);
+    const awakeSum = Object.values(s.awakePct).reduce((a, b) => a + b, 0);
+    expect(awakeSum).toBeCloseTo(100);
+    const daySum = Object.values(s.dayPct).reduce((a, b) => a + b, 0);
+    expect(daySum).toBeCloseTo(100);
   });
 
   it('uses the doc sleep snapshot, falling back to settings', () => {
@@ -63,7 +91,7 @@ describe('computeStats', () => {
 
   it('guards divide-by-zero', () => {
     const s = computeStats({ dates: [], days: {}, settingsSleep: SLEEP, now: later });
-    expect(s.awakePct).toEqual({ g: 0, b: 0, r: 0, unlogged: 0 });
+    expect(s.awakePct).toEqual({ p: 0, g: 0, b: 0, r: 0, unlogged: 0 });
     expect(Object.values(s.dayPct).every((v) => v === 0)).toBe(true);
 
     const allSleep = computeStats({
@@ -74,6 +102,7 @@ describe('computeStats', () => {
     });
     expect(allSleep.hours.sleep).toBe(24);
     expect(allSleep.awakePct.g).toBe(0);
+    expect(allSleep.awakePct.p).toBe(0);
   });
 
   it('excludes nonexistent DST hours from the 24-hour denominator', () => {

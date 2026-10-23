@@ -58,7 +58,7 @@ export function weekTitle(firstDay: DateKey): string {
 export const formatHours = (n: number): string => `${Number.isInteger(n) ? n : n.toFixed(1)}h`;
 
 function sumSummaries(list: Summary[]): Summary {
-  const total: Summary = { g: 0, b: 0, r: 0, sleep: 0, unlogged: 0 };
+  const total: Summary = { p: 0, g: 0, b: 0, r: 0, sleep: 0, unlogged: 0 };
   for (const s of list)
     for (const k of Object.keys(total) as Array<keyof Summary>) total[k] += s[k];
   return total;

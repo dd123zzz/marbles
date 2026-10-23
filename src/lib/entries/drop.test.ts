@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import type { DateKey, DayDoc, SlotRef } from '../../types';
+import type { DateKey, DayDoc, Entry, SlotRef } from '../../types';
 import { lastHourWindow } from '../time';
 import { applyEntry, emptySlots, planDrop, undoDrop } from './index';
 
@@ -22,7 +22,7 @@ const range = (from: number, to: number, c: string): Record<number, string> =>
 const refs = (date: DateKey, ...slots: number[]): SlotRef[] =>
   slots.map((slot) => ({ date, slot }));
 const merge = (days: Days, changed: Days): Days => ({ ...days, ...changed });
-const drop = (days: Days, targets: SlotRef[], category: 'g' | 'b' | 'r', now = NOW) =>
+const drop = (days: Days, targets: SlotRef[], category: Entry['category'], now = NOW) =>
   planDrop({ days, targets, category, sleep: SLEEP, tz: TZ, now });
 
 describe('planDrop', () => {
@@ -36,6 +36,15 @@ describe('planDrop', () => {
     expect(doc.tz).toBe(TZ);
     expect(doc.notes).toEqual({});
     expect(doc.v).toBe(1);
+  });
+
+  it('drops p onto a window and undo restores it', () => {
+    const days = { [T]: mk(range(26, 30, 'p'), { '26': 'keep' }) };
+    const plan = drop(days, refs(T, 27, 28), 'b');
+    expect(plan.changed[T]!.slots).toBe(mk({ 26: 'p', 27: 'b', 28: 'b', 29: 'p' }).slots);
+    expect(undoDrop(merge(days, plan.changed), plan.undo)[T]).toEqual(days[T]);
+    const p = drop({}, refs(T, 27, 28), 'p');
+    expect(p.changed[T]!.slots).toBe(mk({ 27: 'p', 28: 'p' }).slots);
   });
 
   it('does not mutate the input', () => {

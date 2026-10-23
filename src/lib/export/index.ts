@@ -12,7 +12,7 @@ export interface ExportRow {
   start: string;
   end: string;
   duration_minutes: number;
-  category: 'wanted' | 'wasted' | 'unwanted';
+  category: 'purposeful' | 'productive' | 'unwanted' | 'wasted';
   note: string;
 }
 
@@ -39,7 +39,8 @@ export interface ExportJson extends ExportMeta {
 }
 
 const CATEGORY_NAME: Record<Category, ExportRow['category']> = {
-  g: 'wanted',
+  p: 'purposeful',
+  g: 'productive',
   b: 'wasted',
   r: 'unwanted',
 };

@@ -143,6 +143,11 @@ describe('applyEntry (create)', () => {
       v: 1,
     });
   });
+  it('writes a p run and reads it back as a purposeful entry', () => {
+    const out = applyEntry({}, e(D1, 26, 3, 'p', 'deep work'), OPTS);
+    expect(out[D1]!.slots).toBe(slotsOf(run(26, 29, 'p')));
+    expect(entriesFromDay(D1, out[D1])).toEqual([e(D1, 26, 3, 'p', 'deep work')]);
+  });
   it('the sleep snapshot is a copy, not the caller object', () => {
     const sleep = { ...SLEEP };
     const out = applyEntry({}, e(D1, 0, 1), { sleep, tz: TZ });
@@ -403,6 +408,7 @@ describe('validateEntry', () => {
   const now = new Date(2026, 5, 10, 14, 20);
   it('accepts a valid past entry', () => {
     expect(validateEntry(e(D1, 26, 2, 'g', 'ok'), now)).toBeNull();
+    expect(validateEntry(e(D1, 26, 2, 'p', 'ok'), now)).toBeNull();
   });
   it('accepts an entry that has begun but not finished its last slot', () => {
     expect(validateEntry(e(D1, 26, 3), now)).toBeNull();

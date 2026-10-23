@@ -1,4 +1,4 @@
-export type Category = 'g' | 'b' | 'r';
+export type Category = 'p' | 'g' | 'b' | 'r';
 export type SlotChar = Category | '.';
 /** Local calendar date, YYYY-MM-DD */
 export type DateKey = string;
@@ -11,7 +11,7 @@ export interface SleepWindow {
 }
 
 export interface DayDoc {
-  /** 48 chars of [gbr.], one per 30 minutes from 00:00 */
+  /** 48 chars of [pgbr.], one per 30 minutes from 00:00 */
   slots: string;
   /** note for the entry starting at that slot index (key is the slot index as a string) */
   notes: Record<string, string>;
@@ -64,7 +64,7 @@ export interface Marble {
   right: MarbleColor;
   /** true when left === right */
   full: boolean;
-  /** accessible label, e.g. "13:00–14:00 Wanted" */
+  /** accessible label, e.g. "13:00–14:00 Productive" */
   label: string;
 }
 

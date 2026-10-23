@@ -2,6 +2,7 @@ import type { DateKey, DayDoc, SleepWindow } from '../../types';
 import { computeMarbles } from '../jar';
 
 export interface StatsHours {
+  p: number;
   g: number;
   b: number;
   r: number;
@@ -13,10 +14,18 @@ export interface StatsHours {
 
 export interface Stats {
   hours: StatsHours;
-  /** Share of awake time (g + b + r + unlogged; sleep excluded), 0..100 */
-  awakePct: { g: number; b: number; r: number; unlogged: number };
+  /** Share of awake time (p + g + b + r + unlogged; sleep excluded), 0..100 */
+  awakePct: { p: number; g: number; b: number; r: number; unlogged: number };
   /** Share of all 24-hour days in range minus DST-nonexistent hours, 0..100 */
-  dayPct: { g: number; b: number; r: number; sleep: number; unlogged: number; notYet: number };
+  dayPct: {
+    p: number;
+    g: number;
+    b: number;
+    r: number;
+    sleep: number;
+    unlogged: number;
+    notYet: number;
+  };
 }
 
 export interface ComputeStatsInput {
@@ -30,7 +39,7 @@ const pct = (part: number, whole: number): number => (whole > 0 ? (part / whole)
 
 /** Percentages are exact here; round with roundPct for display only. */
 export function computeStats({ dates, days, settingsSleep, now }: ComputeStatsInput): Stats {
-  const hours: StatsHours = { g: 0, b: 0, r: 0, sleep: 0, unlogged: 0, notYet: 0, na: 0 };
+  const hours: StatsHours = { p: 0, g: 0, b: 0, r: 0, sleep: 0, unlogged: 0, notYet: 0, na: 0 };
   for (const date of dates) {
     const doc = days[date];
     const marbles = computeMarbles({
@@ -47,17 +56,19 @@ export function computeStats({ dates, days, settingsSleep, now }: ComputeStatsIn
     }
   }
 
-  const awake = hours.g + hours.b + hours.r + hours.unlogged;
+  const awake = hours.p + hours.g + hours.b + hours.r + hours.unlogged;
   const total = dates.length * 24 - hours.na;
   return {
     hours,
     awakePct: {
+      p: pct(hours.p, awake),
       g: pct(hours.g, awake),
       b: pct(hours.b, awake),
       r: pct(hours.r, awake),
       unlogged: pct(hours.unlogged, awake),
     },
     dayPct: {
+      p: pct(hours.p, total),
       g: pct(hours.g, total),
       b: pct(hours.b, total),
       r: pct(hours.r, total),

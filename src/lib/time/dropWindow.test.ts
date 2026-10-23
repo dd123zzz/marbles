@@ -50,6 +50,12 @@ describe('nextDropWindow (TZ America/Los_Angeles)', () => {
       ).toEqual({ kind: 'gap', targets: refs(T, 26, 27) });
     });
 
+    it('14:44, p ..13:00 -> gap 13:00–14:00 (a p slot anchors the window like any logged slot)', () => {
+      expect(
+        nextDropWindow({ slots: mask(['p', '07:00', '13:00']), sleep: NIGHT, now: june(14, 44) }),
+      ).toEqual({ kind: 'gap', targets: refs(T, 26, 27) });
+    });
+
     it('14:44, g ..14:00 -> gap 14:00–14:30 (one slot, capped at E=29)', () => {
       expect(
         nextDropWindow({ slots: mask(['g', '07:00', '14:00']), sleep: NIGHT, now: june(14, 44) }),

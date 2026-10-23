@@ -2,8 +2,16 @@ import type { Category, DateKey, Marble, MarbleColor, SleepWindow } from '../../
 import { SLOTS_PER_DAY } from '../../types';
 import { isFutureSlot, isInSleepWindow, nonexistentSlots, slotToHHmm } from '../time';
 
+/** User-loggable categories in display order. */
+export const CATEGORIES: readonly Category[] = ['p', 'g', 'r', 'b'];
+
+export function isCategory(ch: string): ch is Category {
+  return ch === 'p' || ch === 'g' || ch === 'b' || ch === 'r';
+}
+
 export const CATEGORY_LABEL: Record<MarbleColor, string> = {
-  g: 'Wanted',
+  p: 'Purposeful',
+  g: 'Productive',
   b: 'Wasted',
   r: 'Unwanted',
   sleep: 'Sleep',
@@ -13,7 +21,8 @@ export const CATEGORY_LABEL: Record<MarbleColor, string> = {
 };
 
 export const MARBLE_COLORS: Record<MarbleColor, string> = {
-  g: '#8fe6bb',
+  p: '#8fe6bb',
+  g: '#7cc4ef',
   b: '#6e6a8e',
   r: '#f08070',
   sleep: '#9aa6f4',
@@ -37,7 +46,7 @@ export function computeMarbles(input: ComputeMarblesInput): Marble[] {
   const colorOf = (slot: number): MarbleColor => {
     if (missing.has(slot)) return 'na';
     const ch = slots?.charAt(slot);
-    if (ch === 'g' || ch === 'b' || ch === 'r') return ch;
+    if (ch !== undefined && isCategory(ch)) return ch;
     if (isFutureSlot(date, slot, now)) return 'empty';
     if (isInSleepWindow(slot, sleep)) return 'sleep';
     return 'unlogged';
@@ -57,9 +66,9 @@ export function computeMarbles(input: ComputeMarblesInput): Marble[] {
   });
 }
 
-/** True when any slot is logged (g/b/r); a missing doc or all-'.' slots is not. */
+/** True when any slot is logged (p/g/b/r); a missing doc or all-'.' slots is not. */
 export function hasLoggedSlots(slots?: string): boolean {
-  return slots !== undefined && /[gbr]/.test(slots);
+  return slots !== undefined && /[pgbr]/.test(slots);
 }
 
 /** A day before `today` (both YYYY-MM-DD) with nothing logged; shown as an empty jar. */
@@ -71,7 +80,7 @@ export type Summary = Record<Category | 'sleep' | 'unlogged', number>;
 
 /** Hours per category; each half marble counts 0.5. Empty and n/a halves are not counted. */
 export function summarize(marbles: Marble[]): Summary {
-  const sum: Summary = { g: 0, b: 0, r: 0, sleep: 0, unlogged: 0 };
+  const sum: Summary = { p: 0, g: 0, b: 0, r: 0, sleep: 0, unlogged: 0 };
   for (const m of marbles) {
     for (const c of [m.left, m.right]) {
       if (c in sum) sum[c as keyof Summary] += 0.5;

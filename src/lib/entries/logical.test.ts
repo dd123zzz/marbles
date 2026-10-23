@@ -60,6 +60,13 @@ describe('logicalEntryAt / logicalEntriesForDay', () => {
     expect(logicalEntriesForDay(days, D2)).toEqual([joined]);
   });
 
+  it('joins a purposeful run across midnight', () => {
+    const days = { [D1]: doc(run(46, 48, 'p'), { '46': 'late' }), [D2]: doc(run(0, 2, 'p')) };
+    const joined = e(D1, 46, 4, 'p', 'late');
+    expect(logicalEntryAt(days, D1, 47)).toEqual(joined);
+    expect(logicalEntryAt(days, D2, 1)).toEqual(joined);
+  });
+
   it('uses the later day note when the earlier one has none', () => {
     const days = { [D1]: doc(run(46, 48, 'b')), [D2]: doc(run(0, 2, 'b'), { '0': 'x' }) };
     expect(logicalEntryAt(days, D1, 46)).toEqual(e(D1, 46, 4, 'b', 'x'));
