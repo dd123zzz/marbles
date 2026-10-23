@@ -483,6 +483,29 @@ The design build starts only after engineering merges, so the two tracks never e
 
 ---
 
+## Stage 7: Week Timeline
+
+**Status:** planned 2026-10-22; builds after Stage 6 is pushed. User decisions are in [HANDOFF.md](./HANDOFF.md) Decisions. Detailed plans: [docs/stage7/DESIGN.md](./docs/stage7/DESIGN.md) (direction A) and [docs/stage7/ENGINEERING.md](./docs/stage7/ENGINEERING.md). Mockup: `design/mockups/week/screens/timeline-both.png`.
+
+| # | Feature | Summary |
+|---|---|---|
+| 7.1 | No calendar switch | Remove the `Month` link from the Week header and the `Week` link from the Month header; the tab bar covers both. "This week" / "This month", the arrows and the week Share button stay. The Month view is otherwise unchanged. |
+| 7.2 | Week timeline | The Week view's 7 MiniJars become 7 day columns × 48 half-hour rows, **00:00 at the top**, with contiguous same-color runs as rounded segments (same precedence and colors as the jar; entry `breaks` are ignored, as in the jar). Note dots, a now line on today, today and weekend styling, legend chips with week totals in hours, a Future / Now / Note key, and a "Week stats ›" link. A past day with nothing logged is blank with a vertical "Nothing logged" label. Tapping a column opens Day. HTML and CSS (not SVG); the chart height is a `clamp()` so it fits above the tab bar at 390 × 844. |
+| 7.3 | Out of scope | Share: the existing 7-jar week image is unchanged (a Timeline share image is backlog). No `src/types.ts` or data changes, no extra reads (the one `useDays` range stays). iOS is frozen. |
+
+**Waves (sequential; the orchestrator verifies after each):**
+1. **Pure lib** (Sonnet, tests first): `src/lib/jar/{index,timeline,timeline.test,jar.test}.ts`, `src/lib/time/{slots,time.test}.ts`. `slotColors`/`summarizeColors` (with `computeMarbles` refactored onto them, no behavior change), `dayFraction`, `colorRuns`, `weekTimeline`. Tests cover DST weeks, midnight-crossing entries, logged-over-sleep, a partly future today, an empty past day, and Sunday vs. Monday week starts.
+2. **UI and header** (Sonnet): `src/components/WeekTimeline.tsx`, `src/components/weekTimeline.css`, `src/views/{WeekView,MonthView}.tsx`, `src/views/calendar.css`, `src/views/CalendarViews.test.tsx`. Tokens only.
+3. Code review, fixer, and a demo smoke test at 390 × 844 and 360 × 740 in light, dark and reduced motion (fit, now line, empty day, tap and keyboard to Day, Share still gives the 7-jar PNG, Month header shows only "This month").
+
+**Estimate:** about 190 credits for the build, including review and smoke.
+
+**Defaults unless the user overrides:** short screens shrink rows to 6px, then scroll slightly; reflections get no dot (mentioned in the column's screen-reader label only); future days stay tappable.
+
+**Doc updates at build time:** SPEC F5 (Week timeline; Week and Month reached from the tab bar).
+
+---
+
 ## Risks & Mitigations
 
 | Risk | Impact | Mitigation |
