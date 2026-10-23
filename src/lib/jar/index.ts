@@ -38,23 +38,28 @@ export interface ComputeMarblesInput {
   now: Date;
 }
 
-/** 24 marbles, index = hour (hour 0 first). Each is split into two 30-minute halves. */
-export function computeMarbles(input: ComputeMarblesInput): Marble[] {
+/** 48 slot colors; precedence: DST n/a > logged > future (empty) > sleep > unlogged. */
+export function slotColors(input: ComputeMarblesInput): MarbleColor[] {
   const { date, slots, sleep, now } = input;
   const missing = nonexistentSlots(date);
 
-  const colorOf = (slot: number): MarbleColor => {
+  return Array.from({ length: SLOTS_PER_DAY }, (_, slot): MarbleColor => {
     if (missing.has(slot)) return 'na';
     const ch = slots?.charAt(slot);
     if (ch !== undefined && isCategory(ch)) return ch;
     if (isFutureSlot(date, slot, now)) return 'empty';
     if (isInSleepWindow(slot, sleep)) return 'sleep';
     return 'unlogged';
-  };
+  });
+}
+
+/** 24 marbles, index = hour (hour 0 first). Each is split into two 30-minute halves. */
+export function computeMarbles(input: ComputeMarblesInput): Marble[] {
+  const colors = slotColors(input);
 
   return Array.from({ length: SLOTS_PER_DAY / 2 }, (_, hour) => {
-    const left = colorOf(hour * 2);
-    const right = colorOf(hour * 2 + 1);
+    const left = colors[hour * 2];
+    const right = colors[hour * 2 + 1];
     const start = slotToHHmm(hour * 2);
     const mid = slotToHHmm(hour * 2 + 1);
     const end = slotToHHmm(hour * 2 + 2);
@@ -78,18 +83,22 @@ export function isEmptyPastDay(date: DateKey, today: DateKey, slots?: string): b
 
 export type Summary = Record<Category | 'sleep' | 'unlogged', number>;
 
-/** Hours per category; each half marble counts 0.5. Empty and n/a halves are not counted. */
-export function summarize(marbles: Marble[]): Summary {
+/** Hours per category from slot colors (0.5 each). Empty and n/a are not counted. */
+export function summarizeColors(colors: readonly MarbleColor[]): Summary {
   const sum: Summary = { p: 0, g: 0, b: 0, r: 0, sleep: 0, unlogged: 0 };
-  for (const m of marbles) {
-    for (const c of [m.left, m.right]) {
-      if (c in sum) sum[c as keyof Summary] += 0.5;
-    }
+  for (const c of colors) {
+    if (c in sum) sum[c as keyof Summary] += 0.5;
   }
   return sum;
 }
 
-const hours = (n: number): string => `${Number.isInteger(n) ? n : n.toFixed(1)}h`;
+/** Hours per category; each half marble counts 0.5. Empty and n/a halves are not counted. */
+export function summarize(marbles: Marble[]): Summary {
+  return summarizeColors(marbles.flatMap((m) => [m.left, m.right]));
+}
+
+/** "8h" or "8.5h". */
+export const hours = (n: number): string => `${Number.isInteger(n) ? n : n.toFixed(1)}h`;
 
 export function formatSummary(sum: Summary): string {
   return [

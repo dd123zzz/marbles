@@ -4,6 +4,7 @@ import {
   addDays,
   compareDateKeys,
   currentSlotInfo,
+  dayFraction,
   defaultStart,
   formatSlotRange,
   hhmmToSlot,
@@ -28,6 +29,21 @@ const entry = (date: string, startSlot: number, length: number): Entry => ({
   startSlot,
   length,
   category: 'g',
+});
+
+describe('dayFraction', () => {
+  it('is the wall-clock fraction for today', () => {
+    expect(dayFraction('2026-06-10', new Date(2026, 5, 10, 0, 0))).toBe(0);
+    expect(dayFraction('2026-06-10', new Date(2026, 5, 10, 15, 0))).toBe(0.625);
+    expect(dayFraction('2026-06-10', new Date(2026, 5, 10, 23, 59))).toBeCloseTo(0.9993, 4);
+  });
+  it('is null for another day', () => {
+    expect(dayFraction('2026-06-09', new Date(2026, 5, 10, 12, 0))).toBeNull();
+    expect(dayFraction('2026-06-11', new Date(2026, 5, 10, 12, 0))).toBeNull();
+  });
+  it('uses the wall clock on a spring-forward day', () => {
+    expect(dayFraction('2026-03-08', new Date(2026, 2, 8, 3, 30))).toBe(210 / 1440);
+  });
 });
 
 describe('test environment', () => {

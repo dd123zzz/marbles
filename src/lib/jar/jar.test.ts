@@ -9,7 +9,9 @@ import {
   hasLoggedSlots,
   isCategory,
   isEmptyPastDay,
+  slotColors,
   summarize,
+  summarizeColors,
 } from './index';
 
 const SLEEP = { start: '23:00', end: '07:00' };
@@ -391,5 +393,66 @@ describe('isEmptyPastDay', () => {
   it('is false for today and future days', () => {
     expect(isEmptyPastDay('2026-10-14', '2026-10-14', blank)).toBe(false);
     expect(isEmptyPastDay('2026-10-15', '2026-10-14', undefined)).toBe(false);
+  });
+});
+
+describe('slotColors', () => {
+  const now = new Date(2026, 5, 10, 15, 0); // slot 30 has begun; 31 is the first future slot
+
+  it('precedence: logged > future > sleep > unlogged', () => {
+    const c = slotColors({
+      date: '2026-06-10',
+      slots: make({ 10: 'p', 40: 'g' }),
+      sleep: SLEEP,
+      now,
+    });
+    expect(c).toHaveLength(48);
+    expect(c[0]).toBe('sleep');
+    expect(c[10]).toBe('p');
+    expect(c[20]).toBe('unlogged');
+    expect(c[29]).toBe('unlogged');
+    expect(c[30]).toBe('unlogged');
+    expect(c[31]).toBe('empty');
+    expect(c[40]).toBe('g'); // logged beats future
+    expect(c[47]).toBe('empty'); // future beats sleep (23:30)
+  });
+
+  it('n/a beats logged on the spring-forward day', () => {
+    const c = slotColors({
+      date: '2026-03-08',
+      slots: make(fill(0, 48, 'p')),
+      sleep: SLEEP,
+      now: new Date(2026, 2, 9, 12, 0),
+    });
+    expect(c[4]).toBe('na');
+    expect(c[5]).toBe('na');
+    expect(c[3]).toBe('p');
+    expect(c[6]).toBe('p');
+  });
+
+  it('agrees with computeMarbles on every half for a mixed day', () => {
+    const input = {
+      date: '2026-06-10',
+      slots: make({ ...fill(18, 24, 'p'), ...fill(24, 27, 'g'), 28: 'b', 29: 'r' }),
+      sleep: SLEEP,
+      now,
+    };
+    const colors = slotColors(input);
+    const halves = computeMarbles(input).flatMap((m) => [m.left, m.right]);
+    expect(colors).toEqual(halves);
+  });
+});
+
+describe('summarizeColors', () => {
+  it('counts 0.5h per slot and skips empty and na', () => {
+    const colors: MarbleColor[] = ['p', 'p', 'g', 'sleep', 'unlogged', 'empty', 'na', 'b', 'r'];
+    expect(summarizeColors(colors)).toEqual({
+      p: 1,
+      g: 0.5,
+      b: 0.5,
+      r: 0.5,
+      sleep: 0.5,
+      unlogged: 0.5,
+    });
   });
 });

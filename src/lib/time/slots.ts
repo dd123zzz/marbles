@@ -41,6 +41,12 @@ export function currentSlotInfo(now: Date): { date: DateKey; slot: number } {
   };
 }
 
+/** Wall-clock position of `now` within day k, in [0, 1); null unless k is now's local date. */
+export function dayFraction(k: DateKey, now: Date): number | null {
+  if (toDateKey(now) !== k) return null;
+  return (now.getHours() * 60 + now.getMinutes()) / 1440;
+}
+
 /** The previous full hour: 14:20 and 14:00 both give 13:00; 00:20 gives 23:00 the day before. */
 export function defaultStart(now: Date): { date: DateKey; startSlot: number } {
   const today = toDateKey(now);
