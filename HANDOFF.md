@@ -1,6 +1,6 @@
 # Handoff Log
 
-Running log, updated roughly every 100 AI credits spent (see [model_rate.md](./model_rate.md)). Credit figures are estimates from token volume.
+Running log, updated roughly every 75 AI credits spent (see [model_rate.md](./model_rate.md)). Credit figures are estimates from token volume.
 
 ## Decisions (beyond SPEC/PLAN)
 - Sleep color: indigo `#4f46e5`. Sleep is excluded from "awake %" stats.
